@@ -4,7 +4,9 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
+COPY ["GolfClubAdminWebSite/NuGet.Config", "."]
 COPY ["GolfClubAdminWebSite/GolfClubAdminWebSite.csproj", "GolfClubAdminWebSite/"]
+
 RUN dotnet restore "GolfClubAdminWebSite/GolfClubAdminWebSite.csproj"
 COPY . .
 WORKDIR "/src/GolfClubAdminWebSite"

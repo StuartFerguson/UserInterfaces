@@ -1,42 +1,90 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace GolfClubAdminWebSite
+﻿namespace GolfClubAdminWebSite
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using Bootstrapper;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using NLog.Extensions.Logging;
+    using Shared.General;
+    using StructureMap;
+
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        #region Constructors
+
+        public Startup(IConfiguration configuration,
+                       IHostingEnvironment env)
         {
-            Configuration = configuration;
+            IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
+                                                                      .AddJsonFile("appsettings.json", optional:true, reloadOnChange:true)
+                                                                      .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional:true).AddEnvironmentVariables();
+
+            Startup.Configuration = builder.Build();
+            Startup.HostingEnvironment = env;
         }
 
-        public IConfiguration Configuration { get; }
+        #endregion
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+        #region Properties
 
+        /// <summary>
+        /// Gets or sets the configuration.
+        /// </summary>
+        /// <value>
+        /// The configuration.
+        /// </value>
+        public static IConfigurationRoot Configuration { get; set; }
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-        }
+        /// <summary>
+        /// Gets or sets the container.
+        /// </summary>
+        /// <value>
+        /// The container.
+        /// </value>
+        public static IContainer Container { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the hosting environment.
+        /// </summary>
+        /// <value>
+        /// The hosting environment.
+        /// </value>
+        public static IHostingEnvironment HostingEnvironment { get; set; }
+
+        #endregion
+
+        #region Methods
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app,
+                              IHostingEnvironment env,
+                              ILoggerFactory loggerFactory)
         {
+            String nlogConfigFilename = "nlog.config";
+            if (string.Compare(Startup.HostingEnvironment.EnvironmentName, "Development", true) == 0)
+            {
+                nlogConfigFilename = $"nlog.{Startup.HostingEnvironment.EnvironmentName}.config";
+            }
+
+            loggerFactory.AddConsole();
+            loggerFactory.ConfigureNLog(Path.Combine(Startup.HostingEnvironment.ContentRootPath, nlogConfigFilename));
+            loggerFactory.AddNLog();
+
+            ILogger logger = loggerFactory.CreateLogger("GolfClubAdminWebsite");
+
+            Logger.Initialise(logger);
+            Logger.LogInformation("Hello from Logger.");
+
+            ConfigurationReader.Initialise(Startup.Configuration);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,16 +98,67 @@ namespace GolfClubAdminWebSite
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
-            {
-                routes.MapAreaRoute(
-                                    name: "Account",
-                                    areaName: "Account",
-                                    template: "Account/{controller=Home}/{action=Index}/{id?}");
+                       {
+                           routes.MapAreaRoute(name:"Account", areaName:"Account", template:"Account/{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+                           routes.MapRoute(name:"default", template:"{controller=Home}/{action=Index}/{id?}");
+                       });
         }
+
+        /// <summary>
+        /// Configures the services.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <returns></returns>
+        public IServiceProvider ConfigureServices(IServiceCollection services)
+        {
+            Startup.ConfigureMiddlewareServices(services);
+
+            IContainer container = Startup.GetConfiguredContainer(services, Startup.HostingEnvironment);
+
+            return container.GetInstance<IServiceProvider>();
+        }
+
+        /// <summary>
+        /// Gets the configured container.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <param name="hostingEnvironment">The hosting environment.</param>
+        /// <returns></returns>
+        public static IContainer GetConfiguredContainer(IServiceCollection services,
+                                                        IHostingEnvironment hostingEnvironment)
+        {
+            Container container = new Container();
+
+            container.Configure(config =>
+                                {
+                                    config.AddRegistry<CommonRegistry>();
+
+                                    //if (HostingEnvironment.IsDevelopment())
+                                    //{
+                                    //    config.AddRegistry<DevelopmentRegistry>();
+                                    //}
+
+                                    config.Populate(services);
+                                });
+
+            Startup.Container = container;
+
+            return container;
+        }
+
+        private static void ConfigureMiddlewareServices(IServiceCollection services)
+        {
+            services.Configure<CookiePolicyOptions>(options =>
+                                                    {
+                                                        // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                                                        options.CheckConsentNeeded = context => true;
+                                                        options.MinimumSameSitePolicy = SameSiteMode.None;
+                                                    });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+        }
+
+        #endregion
     }
 }
