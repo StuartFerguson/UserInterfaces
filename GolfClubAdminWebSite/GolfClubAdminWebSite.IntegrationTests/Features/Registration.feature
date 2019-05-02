@@ -1,6 +1,6 @@
-﻿Feature: RegsisterGolfClubAdministrator
+﻿Feature: Registration
 
-@register
+@registration
 Scenario: Register Golf Club Administrator
 	Given I am on the home page
 	And I click on the register golf club administrator button

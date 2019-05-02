@@ -2,7 +2,14 @@
 
 @{
     ViewBag.Title = "Registered";
-    Layout = "_Layout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Regisration Completed</h2>
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <a asp-controller="SignIn" asp-action="Login" asp-area="Account" class="btn btn-success"><i class="fa fa-lock"></i> Login</a>
+    </div>
+</div>

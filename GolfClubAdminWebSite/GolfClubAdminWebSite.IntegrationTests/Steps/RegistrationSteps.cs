@@ -10,11 +10,12 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
     using Shouldly;
 
     [Binding]
-    public class RegsisterGolfClubAdministratorSteps : GenericSteps
+    [Scope(Tag = "registration")]
+    public class RegistrationSteps : GenericSteps
     {
         private BrowserSession BrowserSession;
 
-        public RegsisterGolfClubAdministratorSteps(ScenarioContext scenarioContext) : base(scenarioContext)
+        public RegistrationSteps(ScenarioContext scenarioContext) : base(scenarioContext)
         {            
         }
 
@@ -52,7 +53,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
         [Given(@"I click on the register golf club administrator button")]
         public void GivenIClickOnTheRegisterGolfClubAdministratorButton()
         {
-            this.BrowserSession.ClickButton("Register as Club Administrator");
+            this.BrowserSession.ClickButton("registerButton");
         }
         
         [When(@"I use the follwing details to register")]

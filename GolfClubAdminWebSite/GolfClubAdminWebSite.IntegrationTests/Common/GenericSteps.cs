@@ -14,6 +14,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
     using Ductus.FluentDocker.Services;
     using Ductus.FluentDocker.Services.Extensions;
     using Gherkin;
+    using Microsoft.Extensions.Primitives;
     using MySql.Data.MySqlClient;
     using Newtonsoft.Json;
     using TechTalk.SpecFlow;
@@ -25,25 +26,17 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
         protected IContainerService ManagementAPIContainer;
         protected IContainerService SubscriptionServiceContainer;
         protected IContainerService EventStoreContainer;
-        protected IContainerService SecurityServiceContainer;
-        protected IContainerService MessagingServiceContainer;
         protected IContainerService GolfClubAdminUIContainer;
 
         protected INetworkService TestNetwork;
 
-        protected Int32 ManagementApiPort;
-        protected Int32 EventStorePort;
-        //protected Int32 SecurityServicePort;
-        protected Int32 MessagingServicePort;
         protected Int32 GolfClubAdminUIPort;
         protected Guid SubscriberServiceId;
         
 
         private String ManagementAPIContainerName;
         private String EventStoreContainerName;
-        private String SecurityServiceContainerName;
         private String SubscriptionServiceContainerName;
-        private String MessagingServiceContainerName;
         private String GolfClubAdminUIContainerName;
 
         private String EventStoreConnectionString;
@@ -51,7 +44,6 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
         private String AuthorityAddress;
         private String SubscriptionServiceConnectionString;
         private String ManagementAPISeedingType;
-        private String MessagingServiceAddress;
         private String ManagementAPIAddress;
 
         protected GenericSteps(ScenarioContext scenarioContext)
@@ -68,33 +60,49 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
             // Setup the container names
             this.ManagementAPIContainerName = $"rest{testGuid:N}";
             this.EventStoreContainerName = $"eventstore{testGuid:N}";
-            this.SecurityServiceContainerName = $"auth{testGuid:N}";
             this.SubscriberServiceId = testGuid;
             this.SubscriptionServiceContainerName = $"subService{testGuid:N}";
-            this.MessagingServiceContainerName = $"messaging{testGuid:N}";
             this.GolfClubAdminUIContainerName = $"golfclubadminui{testGuid:N}";
 
             this.EventStoreConnectionString = $"EventStoreSettings:ConnectionString=ConnectTo=tcp://admin:changeit@{this.EventStoreContainerName}:1113;VerboseLogging=true;";
-            this.SecurityServiceAddress = $"AppSettings:OAuth2SecurityService=http://{this.SecurityServiceContainerName}:5001";
-            this.AuthorityAddress = $"SecurityConfiguration:Authority=http://{this.SecurityServiceContainerName}:5001";
+            this.SecurityServiceAddress = $"AppSettings:OAuth2SecurityService=http://3.9.26.155:55001";
+            this.AuthorityAddress = $"SecurityConfiguration:Authority=http://3.9.26.155:55001";
             this.SubscriptionServiceConnectionString = $"\"ConnectionStrings:SubscriptionServiceConfigurationContext={Setup.GetConnectionString("SubscriptionServiceConfiguration")}\"";
             this.ManagementAPISeedingType = "SeedingType=IntegrationTest";
-            this.MessagingServiceAddress = $"ServiceAddresses:MessagingService=http://{this.MessagingServiceContainerName}:5002";
-            this.MessagingServiceAddress = $"ServiceAddresses:MessagingService=http://{this.MessagingServiceContainerName}:5002";
             this.ManagementAPIAddress = $"AppSettings:ManagementAPI=http://{this.ManagementAPIContainerName}:5000";
 
             this.SetupTestNetwork();
-            this.SetupSecurityServiceContainer(testFolder);
             this.SetupManagementAPIContainer(testFolder);
             this.SetupEventStoreContainer(testFolder);
             this.SetupSubscriptionServiceContainer(testFolder);
-            this.SetupMessagingService(testFolder);
             this.SetupGolfClubAdminUIContainer(testFolder);
 
             // Cache the ports
             this.GolfClubAdminUIPort = this.GolfClubAdminUIContainer.ToHostExposedEndpoint("5005/tcp").Port;
 
             this.SetupSubscriptionServiceConfig();
+            
+            this.UpdateClientRedirectUris("golfhandicap.adminwebsite", $"http://localhost:{this.GolfClubAdminUIPort}");
+            this.DeleteAllRegisteredUsers();
+        }
+
+        private void DeleteAllRegisteredUsers()
+        {
+            String server = "golfhandicapping.ck9ila7cw53m.eu-west-2.rds.amazonaws.com";
+            String database = "Authentication_uitest";
+            String user = "ghawsuser";
+            String password = "Sc0tland";
+            String sslM = "none";
+
+            String connectionString = $"server={server};user id={user}; password={password}; database={database}; SslMode={sslM}";
+
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            connection.Open();
+
+            SecurityServiceHelper.DeleteAllUsers(connection);
+
+            connection.Close();
         }
 
         private void SetupGolfClubAdminUIContainer(String testFolder)
@@ -102,13 +110,14 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
             this.GolfClubAdminUIContainer = new Builder()
                                           .UseContainer()
                                           .WithName(this.GolfClubAdminUIContainerName)
-                                          .WithEnvironment(this.ManagementAPIAddress)
+                                          .WithEnvironment(this.ManagementAPIAddress,
+                                                           this.SecurityServiceAddress)
                                           .UseImage("golfclubadminwebsite")
                                           .ExposePort(5005)
                                           .UseNetwork(new List<INetworkService> { this.TestNetwork, Setup.DatabaseServerNetwork }.ToArray())
                                           .Mount($"D:\\temp\\docker\\{testFolder}", "/home", MountType.ReadWrite)
                                           .Build()
-                                          .Start().WaitForPort("5005/tcp", 30000);
+                                          .Start().WaitForPort("5005/tcp", 30000);            
         }
 
         protected void StopSystem()
@@ -129,27 +138,13 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
                     this.ManagementAPIContainer.Dispose();
                 }
 
-                if (this.MessagingServiceContainer != null)
-                {
-                    this.MessagingServiceContainer.StopOnDispose = true;
-                    this.MessagingServiceContainer.RemoveOnDispose = true;
-                    this.MessagingServiceContainer.Dispose();
-                }
-
                 if (this.EventStoreContainer != null)
                 {
                     this.EventStoreContainer.StopOnDispose = true;
                     this.EventStoreContainer.RemoveOnDispose = true;
                     this.EventStoreContainer.Dispose();
                 }
-
-                if (this.SecurityServiceContainer != null)
-                {
-                    this.SecurityServiceContainer.StopOnDispose = true;
-                    this.SecurityServiceContainer.RemoveOnDispose = true;
-                    this.SecurityServiceContainer.Dispose();
-                }
-
+                
                 if (this.SubscriptionServiceContainer != null)
                 {
                     this.SubscriptionServiceContainer.StopOnDispose = true;
@@ -240,7 +235,6 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
 
             connection.Close();
         }
-
         protected async Task<HttpResponseMessage> MakeHttpPost<T>(String requestUri, T requestObject, String bearerToken = "", String mediaType = "application/json")
         {
             HttpResponseMessage result = null;
@@ -282,27 +276,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
             // Build a network
             this.TestNetwork = new Builder().UseNetwork($"testnetwork{Guid.NewGuid()}").Build();
         }
-
-        private void SetupSecurityServiceContainer(String testFolder)
-        {
-            // Security Service Container
-            this.SecurityServiceContainer = new Builder()
-                .UseContainer()
-                .WithName(this.SecurityServiceContainerName)
-                .WithEnvironment("SeedingType=IntegrationTest", "ASPNETCORE_ENVIRONMENT=IntegrationTest",
-                    $"ServiceOptions:PublicOrigin=http://{this.SecurityServiceContainerName}:5001",
-                    $"ServiceOptions:IssuerUrl=http://{this.SecurityServiceContainerName}:5001",
-                    this.MessagingServiceAddress)
-                .WithCredential("https://www.docker.com", "stuartferguson", "Sc0tland")
-                .UseImage("stuartferguson/oauth2securityserviceservice")
-                .ExposePort(5001)
-                .UseNetwork(this.TestNetwork)
-                .Mount($"D:\\temp\\docker\\{testFolder}", "/home", MountType.ReadWrite)
-                .Build()
-                .Start()
-                .WaitForPort("5001/tcp", 30000);
-        }
-
+        
         private void SetupManagementAPIContainer(String testFolder)
         {
             // Management API Container
@@ -324,27 +298,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
                 .Build()
                 .Start().WaitForPort("5000/tcp", 30000);
         }
-
-        /// <summary>
-        /// Setups the messaging service.
-        /// </summary>
-        /// <param name="testFolder">The test folder.</param>
-        private void SetupMessagingService(String testFolder)
-        {
-            this.MessagingServiceContainer = new Builder()
-                                             .UseContainer()
-                                             .WithName(this.MessagingServiceContainerName)
-                                             .WithEnvironment("ASPNETCORE_ENVIRONMENT=IntegrationTest")
-                                             .WithCredential("https://www.docker.com", "stuartferguson", "Sc0tland")
-                                             .UseImage("stuartferguson/messagingservice")
-                                             .ExposePort(5002)
-                                             .UseNetwork(this.TestNetwork)
-                                             .Mount($"D:\\temp\\docker\\{testFolder}", "/home", MountType.ReadWrite)
-                                             .Build()
-                                             .Start()
-                                             .WaitForPort("5002/tcp", 30000);
-        }
-
+        
         private void SetupEventStoreContainer(String testFolder)
         {
             // Event Store Container
@@ -378,6 +332,80 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
                 .Mount($"D:\\temp\\docker\\{testFolder}", "/home", MountType.ReadWrite)
                 .Build()
                 .Start();
+        }
+
+        private void UpdateClientRedirectUris(String clientId,
+                                              String uri)
+        {
+            String server = "golfhandicapping.ck9ila7cw53m.eu-west-2.rds.amazonaws.com";
+            String database = "Configuration_uitest";
+            String user = "ghawsuser";
+            String password = "Sc0tland";
+            String sslM = "none";
+
+            String connectionString = $"server={server};user id={user}; password={password}; database={database}; SslMode={sslM}";
+
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            connection.Open();
+
+            // Get the client identifier
+            Int32 clientIdentifier = SecurityServiceHelper.GetClientId(connection, clientId);
+
+            // Now update the client redirect uri
+            String redirectUri = $"{uri}/signin-oidc";
+            SecurityServiceHelper.UpdateClientRedirectUri(connection, clientIdentifier, redirectUri);
+
+            // Now update the client post logout redirect uri
+            String postLogoutRedirectUri = $"{uri}/signout-callback-oidc";
+            SecurityServiceHelper.UpdateClientPostLogoutRedirectUri(connection, clientIdentifier, postLogoutRedirectUri);
+
+            connection.Close();
+        }
+    }
+
+    public static class SecurityServiceHelper
+    {
+        public static Int32 GetClientId(MySqlConnection connection,
+                                       String clientId)
+        {
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = $"SELECT Id FROM Clients WHERE ClientId = '{clientId}'";
+            Object result = command.ExecuteScalar();
+
+            if (result != null)
+            {
+                return Convert.ToInt32(result);
+            }
+
+            return -1;
+        }
+
+        public static void UpdateClientRedirectUri(MySqlConnection connection,
+                                                   Int32 clientIdentifier,
+                                                   String redirectUri)
+        {
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = $"DELETE FROM ClientRedirectUris WHERE ClientId = {clientIdentifier}; " +
+                                  $"INSERT INTO ClientRedirectUris(RedirectUri, ClientId) SELECT '{redirectUri}', {clientIdentifier}";
+            command.ExecuteNonQuery();
+        }
+
+        public static void UpdateClientPostLogoutRedirectUri(MySqlConnection connection,
+                                                   Int32 clientIdentifier,
+                                                   String postLogoutRedirectUri)
+        {
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = $"DELETE FROM ClientPostLogoutRedirectUris WHERE ClientId = {clientIdentifier}; " +
+                                  $"INSERT INTO ClientPostLogoutRedirectUris(PostLogoutRedirectUri, ClientId) SELECT '{postLogoutRedirectUri}', {clientIdentifier}";
+            command.ExecuteNonQuery();
+        }
+
+        public static void DeleteAllUsers(MySqlConnection connection)
+        {
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = $"DELETE FROM AspNetUsers;";
+            command.ExecuteNonQuery();
         }
     }
 }

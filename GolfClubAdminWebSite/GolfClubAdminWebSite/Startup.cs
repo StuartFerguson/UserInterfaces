@@ -4,6 +4,9 @@
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using Bootstrapper;
+    using IdentityModel;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -11,6 +14,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.IdentityModel.Logging;
+    using Microsoft.IdentityModel.Tokens;
     using NLog.Extensions.Logging;
     using Shared.General;
     using StructureMap;
@@ -95,6 +100,7 @@
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
@@ -149,12 +155,52 @@
 
         private static void ConfigureMiddlewareServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
             services.Configure<CookiePolicyOptions>(options =>
                                                     {
                                                         // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                                                         options.CheckConsentNeeded = context => true;
                                                         options.MinimumSameSitePolicy = SameSiteMode.None;
                                                     });
+
+            
+            services.AddAuthentication(options =>
+                                       {
+                                           options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                                           options.DefaultChallengeScheme = "oidc";
+                                       }).AddCookie(options =>
+                                                    {
+                                                        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                                                        options.Cookie.Name = "golfclubadminwebsite";
+                                                    }).AddOpenIdConnect("oidc",
+                                                                        options =>
+                                                                        {
+                                                                            options.Authority = ConfigurationReader.GetValue("AppSettings", "OAuth2SecurityService");
+                                                                            options.RequireHttpsMetadata = false;
+
+                                                                            options.ClientSecret = ConfigurationReader.GetValue("AppSettings", "ClientSecret");
+                                                                            options.ClientId = ConfigurationReader.GetValue("AppSettings", "ClientId");
+
+                                                                            options.ResponseType = "code id_token";
+
+                                                                            options.Scope.Clear();
+                                                                            options.Scope.Add("openid");
+                                                                            options.Scope.Add("profile");
+                                                                            options.Scope.Add("email");
+                                                                            options.Scope.Add("offline_access");
+
+                                                                            options.ClaimActions.MapAllExcept("iss", "nbf", "exp", "aud", "nonce", "iat", "c_hash");
+
+                                                                            options.GetClaimsFromUserInfoEndpoint = true;
+                                                                            options.SaveTokens = true;
+
+                                                                            options.TokenValidationParameters = new TokenValidationParameters
+                                                                                                                {
+                                                                                                                    NameClaimType = JwtClaimTypes.Name,
+                                                                                                                    RoleClaimType = JwtClaimTypes.Role,
+                                                                                                                    ValidateIssuer = false
+                                                                                                                };
+                                                                        });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
