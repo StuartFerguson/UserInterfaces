@@ -23,18 +23,33 @@
   </ItemGroup>
 
   <ItemGroup>
-    <SpecFlowFeatureFiles Update="Features\RegsisterGolfClubAdministrator.feature">
+    <SpecFlowFeatureFiles Update="Features\Registration.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>RegsisterGolfClubAdministrator.feature.cs</LastGenOutput>
+      <LastGenOutput>Registration.feature.cs</LastGenOutput>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="Features\UserLogin.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>UserLogin.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Features\RegsisterGolfClubAdministrator.feature.cs">
+    <Compile Update="Features\Registration.feature.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>RegsisterGolfClubAdministrator.feature</DependentUpon>
+      <DependentUpon>Registration.feature</DependentUpon>
     </Compile>
+    <Compile Update="Features\UserLogin.feature.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserLogin.feature</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

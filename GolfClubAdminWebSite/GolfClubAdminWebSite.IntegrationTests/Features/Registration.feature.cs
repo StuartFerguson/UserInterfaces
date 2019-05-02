@@ -17,17 +17,17 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class RegsisterGolfClubAdministratorFeature : Xunit.IClassFixture<RegsisterGolfClubAdministratorFeature.FixtureData>, System.IDisposable
+    public partial class RegistrationFeature : Xunit.IClassFixture<RegistrationFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "RegsisterGolfClubAdministrator.feature"
+#line 1 "Registration.feature"
 #line hidden
         
-        public RegsisterGolfClubAdministratorFeature(RegsisterGolfClubAdministratorFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public RegistrationFeature(RegistrationFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -36,7 +36,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "RegsisterGolfClubAdministrator", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Registration", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -77,13 +77,13 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
         }
         
         [Xunit.FactAttribute(DisplayName="Register Golf Club Administrator")]
-        [Xunit.TraitAttribute("FeatureTitle", "RegsisterGolfClubAdministrator")]
+        [Xunit.TraitAttribute("FeatureTitle", "Registration")]
         [Xunit.TraitAttribute("Description", "Register Golf Club Administrator")]
-        [Xunit.TraitAttribute("Category", "register")]
+        [Xunit.TraitAttribute("Category", "registration")]
         public virtual void RegisterGolfClubAdministrator()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Register Golf Club Administrator", null, new string[] {
-                        "register"});
+                        "registration"});
 #line 4
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
@@ -125,12 +125,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                RegsisterGolfClubAdministratorFeature.FeatureSetup();
+                RegistrationFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                RegsisterGolfClubAdministratorFeature.FeatureTearDown();
+                RegistrationFeature.FeatureTearDown();
             }
         }
     }

@@ -13,21 +13,27 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-            <h5 class="my-0 mr-md-auto font-weight-normal">Golf Club Handicap Administration</h5>            
+            <h5 class="my-0 mr-md-auto font-weight-normal">Golf Club Handicap Administration</h5>
             @if (User.Identity.IsAuthenticated)
             {
+                <p>Logged In As @User.Identity.Name</p>
+                <a class="btn btn-outline-primary" asp-area="Account" asp-controller="SignIn" asp-action="Logout">Logout</a>
             }
             else
             {
-                <a class="btn btn-outline-primary" asp-area="Account" asp-controller="Registration" asp-action="Register">Register as Club Administrator</a>    
-            }            
+                <a id="registerButton" class="btn btn-outline-primary" asp-area="Account" asp-controller="Registration" asp-action="Register">Register as Club Administrator</a>
+                <a id="loginButton" class="btn btn-outline-primary" asp-area="Account" asp-controller="SignIn" asp-action="Login">Login</a>
+            }
+
         </div>
     </header>
     <div class="container">
