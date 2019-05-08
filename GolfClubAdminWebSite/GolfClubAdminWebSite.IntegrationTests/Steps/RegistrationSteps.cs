@@ -13,43 +13,32 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
     [Scope(Tag = "registration")]
     public class RegistrationSteps : GenericSteps
     {
-        private BrowserSession BrowserSession;
+        private readonly BrowserSession BrowserSession;
 
-        public RegistrationSteps(ScenarioContext scenarioContext) : base(scenarioContext)
-        {            
+        public RegistrationSteps(ScenarioContext scenarioContext, BrowserSession browserSession) : base(scenarioContext)
+        {
+            this.BrowserSession = browserSession;
         }
 
-        [BeforeScenario]
+        [BeforeScenario(Order = 1)]
         public async Task BeforeScenario()
         {
             await this.RunSystem(this.ScenarioContext.ScenarioInfo.Title).ConfigureAwait(false);
-
-            SessionConfiguration sessionConfiguration = new SessionConfiguration
-                                                        {
-                                                            AppHost = "localhost",
-                                                            Port = this.GolfClubAdminUIPort,
-                                                            SSL = false,
-                                                        };
-
-            sessionConfiguration.Driver = Type.GetType("Coypu.Drivers.Selenium.SeleniumWebDriver, Coypu");
-            sessionConfiguration.Browser = Coypu.Drivers.Browser.Parse("chrome");
-
-            this.BrowserSession = new BrowserSession(sessionConfiguration);
         }
 
-        [AfterScenario]
+        [AfterScenario(Order = 1)]
         public void AfterScenario()
         {
             this.StopSystem();
-            this.BrowserSession.Dispose();
         }
 
         [Given(@"I am on the home page")]
         public void GivenIAmOnTheHomePage()
         {
             this.BrowserSession.Visit($"http://localhost:{this.GolfClubAdminUIPort}");
+            this.BrowserSession.Title.ShouldBe("Welcome");
         }
-        
+
         [Given(@"I click on the register golf club administrator button")]
         public void GivenIClickOnTheRegisterGolfClubAdministratorButton()
         {
@@ -85,7 +74,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
         [Then(@"I should be presented with the Registration Success Page")]
         public void ThenIShouldBePresentedWithTheRegistrationSuccessPage()
         {
-            this.BrowserSession.Title.ShouldBe("Registered - GolfClubAdminWebSite");
+            this.BrowserSession.Title.ShouldBe("Golf Club Administrator Registered");
         }
     }
 }

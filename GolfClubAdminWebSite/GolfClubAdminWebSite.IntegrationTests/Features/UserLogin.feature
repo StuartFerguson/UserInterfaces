@@ -1,4 +1,4 @@
-﻿@registration @userlogin
+﻿@userlogin
 Feature: UserLogin
 
 Background:
