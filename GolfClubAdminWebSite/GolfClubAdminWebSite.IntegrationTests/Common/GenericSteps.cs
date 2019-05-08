@@ -9,6 +9,8 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
     using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
+    using BoDi;
+    using Coypu;
     using Ductus.FluentDocker.Builders;
     using Ductus.FluentDocker.Model.Builders;
     using Ductus.FluentDocker.Services;
@@ -53,37 +55,40 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
 
         protected async Task RunSystem(String testFolder)
         {
-            Logging.Enabled();
+                Logging.Enabled();
 
-            Guid testGuid = Guid.NewGuid();
+                Guid testGuid = Guid.NewGuid();
 
-            // Setup the container names
-            this.ManagementAPIContainerName = $"rest{testGuid:N}";
-            this.EventStoreContainerName = $"eventstore{testGuid:N}";
-            this.SubscriberServiceId = testGuid;
-            this.SubscriptionServiceContainerName = $"subService{testGuid:N}";
-            this.GolfClubAdminUIContainerName = $"golfclubadminui{testGuid:N}";
+                // Setup the container names
+                this.ManagementAPIContainerName = $"rest{testGuid:N}";
+                this.EventStoreContainerName = $"eventstore{testGuid:N}";
+                this.SubscriberServiceId = testGuid;
+                this.SubscriptionServiceContainerName = $"subService{testGuid:N}";
+                this.GolfClubAdminUIContainerName = $"golfclubadminui{testGuid:N}";
 
-            this.EventStoreConnectionString = $"EventStoreSettings:ConnectionString=ConnectTo=tcp://admin:changeit@{this.EventStoreContainerName}:1113;VerboseLogging=true;";
-            this.SecurityServiceAddress = $"AppSettings:OAuth2SecurityService=http://3.9.26.155:55001";
-            this.AuthorityAddress = $"SecurityConfiguration:Authority=http://3.9.26.155:55001";
-            this.SubscriptionServiceConnectionString = $"\"ConnectionStrings:SubscriptionServiceConfigurationContext={Setup.GetConnectionString("SubscriptionServiceConfiguration")}\"";
-            this.ManagementAPISeedingType = "SeedingType=IntegrationTest";
-            this.ManagementAPIAddress = $"AppSettings:ManagementAPI=http://{this.ManagementAPIContainerName}:5000";
+                this.EventStoreConnectionString =
+                    $"EventStoreSettings:ConnectionString=ConnectTo=tcp://admin:changeit@{this.EventStoreContainerName}:1113;VerboseLogging=true;";
+                this.SecurityServiceAddress = $"AppSettings:OAuth2SecurityService=http://3.9.26.155:55001";
+                this.AuthorityAddress = $"SecurityConfiguration:Authority=http://3.9.26.155:55001";
+                this.SubscriptionServiceConnectionString =
+                    $"\"ConnectionStrings:SubscriptionServiceConfigurationContext={Setup.GetConnectionString("SubscriptionServiceConfiguration")}\"";
+                this.ManagementAPISeedingType = "SeedingType=IntegrationTest";
+                this.ManagementAPIAddress = $"AppSettings:ManagementAPI=http://{this.ManagementAPIContainerName}:5000";
 
-            this.SetupTestNetwork();
-            this.SetupManagementAPIContainer(testFolder);
-            this.SetupEventStoreContainer(testFolder);
-            this.SetupSubscriptionServiceContainer(testFolder);
-            this.SetupGolfClubAdminUIContainer(testFolder);
+                this.SetupTestNetwork();
+                this.SetupManagementAPIContainer(testFolder);
+                this.SetupEventStoreContainer(testFolder);
+                this.SetupSubscriptionServiceContainer(testFolder);
+                this.SetupGolfClubAdminUIContainer(testFolder);
 
-            // Cache the ports
-            this.GolfClubAdminUIPort = this.GolfClubAdminUIContainer.ToHostExposedEndpoint("5005/tcp").Port;
+                // Cache the ports
+                this.GolfClubAdminUIPort = this.GolfClubAdminUIContainer.ToHostExposedEndpoint("5005/tcp").Port;
 
-            this.SetupSubscriptionServiceConfig();
-            
-            this.UpdateClientRedirectUris("golfhandicap.adminwebsite", $"http://localhost:{this.GolfClubAdminUIPort}");
-            this.DeleteAllRegisteredUsers();
+                this.SetupSubscriptionServiceConfig();
+
+                this.UpdateClientRedirectUris("golfhandicap.adminwebsite", $"http://localhost:{this.GolfClubAdminUIPort}");
+                this.DeleteAllRegisteredUsers();
+
         }
 
         private void DeleteAllRegisteredUsers()
@@ -406,6 +411,40 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = $"DELETE FROM AspNetUsers;";
             command.ExecuteNonQuery();
+        }
+    }
+
+    [Binding]
+    public class Hooks
+    {
+        private readonly IObjectContainer ObjectContainer;
+        private BrowserSession BrowserSession;
+
+        public Hooks(IObjectContainer objectContainer)
+        {
+            this.ObjectContainer = objectContainer;
+        }
+
+        [BeforeScenario(Order = 0)]
+        public async Task BeforeScenario()
+        {
+            SessionConfiguration sessionConfiguration = new SessionConfiguration
+                                                        {
+                                                            AppHost = "localhost",
+                                                            SSL = false,
+                                                        };
+
+            sessionConfiguration.Driver = Type.GetType("Coypu.Drivers.Selenium.SeleniumWebDriver, Coypu");
+            sessionConfiguration.Browser = Coypu.Drivers.Browser.Parse("chrome");
+
+            this.BrowserSession = new BrowserSession(sessionConfiguration);
+            this.ObjectContainer.RegisterInstanceAs(this.BrowserSession);
+        }
+        
+        [AfterScenario(Order = 0)]
+        public void AfterScenario()
+        {
+            this.BrowserSession.Dispose();
         }
     }
 }

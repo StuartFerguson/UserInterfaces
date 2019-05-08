@@ -1,8 +1,12 @@
 ﻿namespace GolfClubAdminWebSite.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
     using Areas.Account.Models;
+    using Areas.GolfClubAdministrator.Models;
     using Factories;
     using ManagementAPI.Service.Client;
     using ManagementAPI.Service.DataTransferObjects;
@@ -58,6 +62,69 @@
             RegisterClubAdministratorRequest registerRegisterClubAdministratorRequest = this.ModelFactory.ConvertFrom(viewModel);
 
             await this.GolfClubClient.RegisterGolfClubAdministrator(registerRegisterClubAdministratorRequest, cancellationToken);
+        }
+
+        /// <summary>
+        /// Determines whether [is golf club created] [the specified access token].
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task<Boolean> IsGolfClubCreated(String accessToken, CancellationToken cancellationToken)
+        {
+            Boolean result = false;
+
+            try
+            {
+                await this.GolfClubClient.GetSingleGolfClub(accessToken, cancellationToken);
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                // Look at the inner exception
+                if (ex.InnerException is KeyNotFoundException)
+                {
+                    // Swallow this exception and set the result to false
+                    result = false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return result;
+
+        }
+
+        /// <summary>
+        /// Gets the golf club.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task<UpdateGolfClubViewModel> GetGolfClub(String accessToken,
+                                                           CancellationToken cancellationToken)
+        {
+            GetGolfClubResponse getGolfClubResponse = await this.GolfClubClient.GetSingleGolfClub(accessToken, cancellationToken);
+
+            return this.ModelFactory.ConvertFrom(getGolfClubResponse);
+        }
+
+        /// <summary>
+        /// Creates the golf club.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task<CreateGolfClubResponse> CreateGolfClub(String accessToken, CreateGolfClubViewModel viewModel,
+                                                                 CancellationToken cancellationToken)
+        {
+            // Translate view model to request
+            CreateGolfClubRequest createGolfClubRequest = this.ModelFactory.ConvertFrom(viewModel);
+
+            return await this.GolfClubClient.CreateGolfClub(accessToken, createGolfClubRequest, cancellationToken);
         }
 
         #endregion

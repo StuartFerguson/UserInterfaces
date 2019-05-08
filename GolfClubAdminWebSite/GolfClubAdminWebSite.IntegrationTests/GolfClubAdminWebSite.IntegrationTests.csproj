@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <SpecFlowFeatureFiles Update="Features\CreateGolfClub.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CreateGolfClub.feature.cs</LastGenOutput>
+    </SpecFlowFeatureFiles>
     <SpecFlowFeatureFiles Update="Features\Registration.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Registration.feature.cs</LastGenOutput>
@@ -34,6 +38,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Features\CreateGolfClub.feature.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CreateGolfClub.feature</DependentUpon>
+    </Compile>
     <Compile Update="Features\Registration.feature.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

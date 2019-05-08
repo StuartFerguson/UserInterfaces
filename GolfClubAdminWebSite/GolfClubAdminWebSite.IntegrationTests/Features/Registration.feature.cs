@@ -17,6 +17,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [Xunit.TraitAttribute("Category", "registration")]
     public partial class RegistrationFeature : Xunit.IClassFixture<RegistrationFeature.FixtureData>, System.IDisposable
     {
         
@@ -36,7 +37,8 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Registration", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Registration", null, ProgrammingLanguage.CSharp, new string[] {
+                        "registration"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -79,40 +81,38 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
         [Xunit.FactAttribute(DisplayName="Register Golf Club Administrator")]
         [Xunit.TraitAttribute("FeatureTitle", "Registration")]
         [Xunit.TraitAttribute("Description", "Register Golf Club Administrator")]
-        [Xunit.TraitAttribute("Category", "registration")]
         public virtual void RegisterGolfClubAdministrator()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Register Golf Club Administrator", null, new string[] {
-                        "registration"});
-#line 4
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Register Golf Club Administrator", null, ((string[])(null)));
+#line 5
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 5
- testRunner.Given("I am on the home page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6
- testRunner.And("I click on the register golf club administrator button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I am on the home page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 7
+ testRunner.And("I click on the register golf club administrator button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 8
  testRunner.Then("I should be displayed the registration form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "FirstName",
                         "LastName",
                         "Email",
                         "TelephoneNumber",
                         "Password",
                         "ConfirmPassword"});
-            table1.AddRow(new string[] {
+            table3.AddRow(new string[] {
                         "Test",
                         "User",
                         "testuser@testgolfclub.co.uk",
                         "1234567890",
                         "123456",
                         "123456"});
-#line 8
- testRunner.When("I use the follwing details to register", ((string)(null)), table1, "When ");
-#line 11
- testRunner.And("I click the register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 9
+ testRunner.When("I use the follwing details to register", ((string)(null)), table3, "When ");
 #line 12
+ testRunner.And("I click the register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 13
  testRunner.Then("I should be presented with the Registration Success Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

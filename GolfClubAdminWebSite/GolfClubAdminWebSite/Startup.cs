@@ -106,6 +106,7 @@
             app.UseMvc(routes =>
                        {
                            routes.MapAreaRoute(name:"Account", areaName:"Account", template:"Account/{controller=Home}/{action=Index}/{id?}");
+                           routes.MapAreaRoute(name:"GolfClubAdministrator", areaName:"GolfClubAdministrator", template:"GolfClubAdministrator/{controller=Home}/{action=Index}/{id?}");
 
                            routes.MapRoute(name:"default", template:"{controller=Home}/{action=Index}/{id?}");
                        });
@@ -188,9 +189,9 @@
                                                                             options.Scope.Add("profile");
                                                                             options.Scope.Add("email");
                                                                             options.Scope.Add("offline_access");
+                                                                            options.Scope.Add("managementapi");
 
                                                                             options.ClaimActions.MapAllExcept("iss", "nbf", "exp", "aud", "nonce", "iat", "c_hash");
-
                                                                             options.GetClaimsFromUserInfoEndpoint = true;
                                                                             options.SaveTokens = true;
 

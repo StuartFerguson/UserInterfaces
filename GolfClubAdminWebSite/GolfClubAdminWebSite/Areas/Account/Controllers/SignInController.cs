@@ -9,6 +9,7 @@ namespace GolfClubAdminWebSite.Areas.Account.Controllers
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     [Area("Account")]
     public class SignInController : Controller
@@ -24,7 +25,38 @@ namespace GolfClubAdminWebSite.Areas.Account.Controllers
         [Authorize]
         public async Task<IActionResult> LoggedIn(CancellationToken cancellationToken)
         {
-            return this.View();
+            // Decide which page we move to now based on the role
+            return this.DetermineLoggedInView();
+        }
+
+        private IActionResult DetermineLoggedInView()
+        {
+            IActionResult actionResult = null;
+
+            if (this.User.IsInRole("Club Administrator"))
+            {
+                actionResult = this.RedirectToAction("Index",
+                                                     "Home",
+                                                     new
+                                                     {
+                                                         Area = "GolfClubAdministrator"
+                                                     });
+            }
+            else if (this.User.IsInRole("Match Secretatry"))
+            {
+                //actionResult = this.RedirectToAction("Index",
+                //                                     "Home",
+                //                                     new
+                //                                     {
+                //                                         Area = "MatchSecretary"
+                //                                     });
+            }
+            else
+            {
+                // This should throw some kind of error as not supported
+            }
+
+            return actionResult;
         }
 
         [HttpGet]
