@@ -92,5 +92,69 @@ namespace GolfClubAdminWebSite.Areas.GolfClubAdministrator.Controllers
         {
             return this.ModelState.IsValid;
         }
+
+        private Boolean ValidateModel(MeasuredCourseViewModel model)
+        {
+            return this.ModelState.IsValid;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMeasuredCourseList(CancellationToken cancellationToken)
+        {
+            List<MeasuredCourseListViewModel> measuredCourseList = new List<MeasuredCourseListViewModel>();
+
+            measuredCourseList.Add(new MeasuredCourseListViewModel
+                                   {
+                                       Id = Guid.NewGuid(),
+                                       Name = "Thornton Golf Course (Whites)",
+                                       StandardScratchScore = 70,
+                                       TeeColour = "White"
+                                   });
+
+            measuredCourseList.Add(new MeasuredCourseListViewModel
+                                   {
+                                       Id = Guid.NewGuid(),
+                                       Name = "Thornton Golf Course (Yellows)",
+                                       StandardScratchScore = 70,
+                                       TeeColour = "Yellow"
+                                   });
+
+            measuredCourseList.Add(new MeasuredCourseListViewModel
+                                   {
+                                       Id = Guid.NewGuid(),
+                                       Name = "Test Course 1 (Reds)",
+                                       StandardScratchScore = 70,
+                                       TeeColour = "Red"
+                                   });
+
+            return this.View(measuredCourseList);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> NewMeasuredCourse(CancellationToken cancellationToken)
+        {
+            MeasuredCourseViewModel viewModel = new MeasuredCourseViewModel();
+            
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NewMeasuredCourse(MeasuredCourseViewModel model, CancellationToken cancellationToken)
+        {
+            // Validate the model
+            if (this.ValidateModel(model))
+            {
+                String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+
+                // All good with model, call the client to create the golf club
+                await this.ApiClient.CreateMeasuredCourse(accessToken, model, cancellationToken);
+
+                // GOlf Club Created, redirect to the Club Details screen
+                return this.RedirectToAction(nameof(this.GetMeasuredCourseList));
+            }
+
+            // If we got this far, something failed, redisplay form
+            return this.View(model);
+        }
     }
 }

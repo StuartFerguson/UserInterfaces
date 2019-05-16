@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2C0F08B1-6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GolfClubAdminWebSite.Tests", "GolfClubAdminWebSite.Tests\GolfClubAdminWebSite.Tests.csproj", "{B8CFA718-DCF2-4B84-BAB0-1FE3A73F29E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfClubAdminWebSite.IntegrationTests", "GolfClubAdminWebSite.IntegrationTests\GolfClubAdminWebSite.IntegrationTests.csproj", "{5B537431-37D8-4BFB-A4CE-24094566AEF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GolfClubAdminWebSite.IntegrationTests", "GolfClubAdminWebSite.IntegrationTests\GolfClubAdminWebSite.IntegrationTests.csproj", "{5B537431-37D8-4BFB-A4CE-24094566AEF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

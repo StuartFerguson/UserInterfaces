@@ -27,6 +27,18 @@
 
         #endregion
 
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
         UpdateGolfClubViewModel ConvertFrom(GetGolfClubResponse apiResponse);
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        AddMeasuredCourseToClubRequest ConvertFrom(MeasuredCourseViewModel viewModel);
     }
 }
