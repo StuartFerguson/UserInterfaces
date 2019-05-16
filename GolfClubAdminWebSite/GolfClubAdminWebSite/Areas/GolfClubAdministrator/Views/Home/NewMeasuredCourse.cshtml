@@ -1,0 +1,640 @@
+﻿@model MeasuredCourseViewModel
+
+@{
+    ViewBag.Title = "New Measured Course";
+    Layout = "~/Areas/GolfClubAdministrator/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .yardageInput {
+
+    }
+    
+    .parInput {
+
+    }
+
+    .frontnine {
+
+    }
+
+    .backnine {
+
+    }
+</style>
+
+<div class="container">
+
+        <form id="newMeasuredCourseForm" novalidate="true"  asp-action="NewMeasuredCourse" asp-area="GolfClubAdministrator" asp-controller="Home" method="post" class="user">
+            <div class="form-row">
+                <div class="col-6">
+                    <input asp-for="Name" class="form-control form-control-user" placeholder="Name of Course" required autofocus />
+                </div>
+                <div class="col-2">
+                    <input asp-for="TeeColour" class="form-control form-control-user" placeholder="Tee Colour" required autofocus />
+                </div>
+                <div class="col-2">
+                    <input asp-for="StandardScratchScore" class="form-control form-control-user" placeholder="SSS" required autofocus />
+                </div>
+            </div>
+            <hr />
+            <h4>Holes</h4>
+            <div class="form-row">
+                <div class="col-1 text-center font-weight-bold">
+                    <label>Hole #</label>
+                </div>
+                <div class="col-1 text-center font-weight-bold">
+                    <label>Yardage</label>
+                </div>
+                <div class="col-1 text-center font-weight-bold">
+                    <label>Par</label>
+                </div>
+                <div class="col-1 text-center font-weight-bold">
+                    <label>S.I.</label>
+                </div>
+                <div class="col-2">
+
+                </div>
+                <div class="col-1 text-center font-weight-bold">
+                    <label>Hole #</label>
+                </div>
+                <div class="col-1 text-center font-weight-bold">
+                    <label>Yardage</label>
+                </div>
+                <div class="col-1 text-center font-weight-bold">
+                    <label>Par</label>
+                </div>
+                <div class="col-1 text-center font-weight-bold">
+                    <label>S.I.</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-1">
+                    <label class="form-control form-control-user form-control-user-label" readonly>1</label>
+                </div>
+                <div class="col-1">
+                    <input asp-for="HoleNumber1Yards" class="form-control form-control-user yardageInput frontnine" id="holeNumber1Yardage" />
+                </div>
+                <div class="col-1">
+                    <input asp-for="HoleNumber1Par" class="form-control form-control-user parInput frontnine" id="holeNumber1Par" />
+                </div>
+                <div class="col-1">
+                    <input asp-for="HoleNumber1StrokeIndex" class="form-control form-control-user" id="holeNumber1StrokeIndex" />
+                </div>
+                <div class="col-2">
+
+                </div>
+                <div class="col-1">
+                    <label class="form-control form-control-user" readonly>10</label>
+                </div>
+                <div class="col-1">
+                    <input asp-for="HoleNumber10Yards" class="form-control form-control-user yardageInput backnine" id="holeNumber10Yardage" />
+                </div>
+                <div class="col-1">
+                    <input asp-for="HoleNumber10Par" class="form-control form-control-user parInput backnine" id="holeNumber10Par" />
+                </div>
+                <div class="col-1">
+                    <input asp-for="HoleNumber10StrokeIndex" class="form-control form-control-user" />
+                </div>
+            </div>
+            <div class="form-row">
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>2</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber2Yards" class="form-control form-control-user yardageInput frontnine" id="holeNumber2Yardage"/>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber2Par" class="form-control form-control-user parInput frontnine" id="holeNumber2Par"/>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber2StrokeIndex" class="form-control form-control-user" id="holeNumber2StrokeIndex"/>
+        </div>
+        <div class="col-2">
+
+        </div>
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>11</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber11Yards" class="form-control form-control-user yardageInput backnine" id="holeNumber11Yardage"/>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber11Par" class="form-control form-control-user parInput backnine" id="holeNumber11Par"/>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber11StrokeIndex" class="form-control form-control-user" id="holeNumber11StrokeIndex"/>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>3</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber3Yards" class="form-control form-control-user yardageInput frontnine" id="holeNumber3Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber3Par" class="form-control form-control-user parInput frontnine" id="holeNumber3Par"/>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber3StrokeIndex" class="form-control form-control-user" id="holeNumber3StrokeIndex"/>
+        </div>
+        <div class="col-2">
+
+        </div>
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>12</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber12Yards" class="form-control form-control-user yardageInput backnine" id="holeNumber12Yardage"/>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber12Par" class="form-control form-control-user parInput backnine" id="holeNumber12Par"/>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber12StrokeIndex" class="form-control form-control-user" id="holeNumber12StrokeIndex" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>4</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber4Yards" class="form-control form-control-user yardageInput frontnine" id="holeNumber4Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber4Par" class="form-control form-control-user parInput frontnine" id="holeNumber4Par"/>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber4StrokeIndex" class="form-control form-control-user" id="holeNumber4StrokeIndex" />
+        </div>
+        <div class="col-2">
+
+        </div>
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>13</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber13Yards" class="form-control form-control-user yardageInput backnine" id="holeNumber13Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber13Par" class="form-control form-control-user parInput backnine" id="holeNumber13Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber13StrokeIndex" class="form-control form-control-user" id="holeNumber13StrokeIndex" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>5</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber5Yards" class="form-control form-control-user yardageInput frontnine" id="holeNumber5Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber5Par" class="form-control form-control-user parInput frontnine" id="holeNumber5Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber5StrokeIndex" class="form-control form-control-user" id="holeNumber5StrokeIndex" />
+        </div>
+        <div class="col-2">
+
+        </div>
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>14</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber14Yards" class="form-control form-control-user yardageInput backnine" id="holeNumber14Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber14Par" class="form-control form-control-user parInput backnine" id="holeNumber14Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber14StrokeIndex" class="form-control form-control-user" id="holeNumber14StrokeIndex" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>6</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber6Yards" class="form-control form-control-user yardageInput frontnine" id="holeNumber6Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber6Par" class="form-control form-control-user parInput frontnine" id="holeNumber6Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber6StrokeIndex" class="form-control form-control-user" id="holeNumber6StrokeIndex" />
+        </div>
+        <div class="col-2">
+
+        </div>
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>15</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber15Yards" class="form-control form-control-user yardageInput backnine" id="holeNumber15Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber15Par" class="form-control form-control-user parInput backnine" id="holeNumber15Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber15StrokeIndex" class="form-control form-control-user" id="holeNumber15StrokeIndex" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>7</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber7Yards" class="form-control form-control-user yardageInput frontnine" id="holeNumber7Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber7Par" class="form-control form-control-user parInput frontnine" id="holeNumber7Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber7StrokeIndex" class="form-control form-control-user" id="holeNumber7StrokeIndex" />
+        </div>
+        <div class="col-2">
+
+        </div>
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>16</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber16Yards" class="form-control form-control-user yardageInput backnine" id="holeNumber16Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber16Par" class="form-control form-control-user parInput backnine" id="holeNumber16Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber16StrokeIndex" class="form-control form-control-user" id="holeNumber16StrokeIndex" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>8</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber8Yards" class="form-control form-control-user yardageInput frontnine" id="holeNumber8Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber8Par" class="form-control form-control-user parInput frontnine" id="holeNumber8Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber8StrokeIndex" class="form-control form-control-user" id="holeNumberStrokeIndex" />
+        </div>
+        <div class="col-2">
+
+        </div>
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>17</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber17Yards" class="form-control form-control-user yardageInput backnine" id="holeNumber17Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber17Par" class="form-control form-control-user parInput backnine" id="holeNumber17Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber17StrokeIndex" class="form-control form-control-user" id="holeNumber17StrokeIndex" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>9</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber9Yards" class="form-control form-control-user yardageInput frontnine" id="holeNumber9Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber9Par" class="form-control form-control-user parInput frontnine" id="holeNumber9Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber9StrokeIndex" class="form-control form-control-user" id="holeNumber9StrokeIndex" />
+        </div>
+        <div class="col-2">
+
+        </div>
+        <div class="col-1">
+            <label class="form-control form-control-user" readonly>18</label>
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber18Yards" class="form-control form-control-user yardageInput backnine" id="holeNumber18Yardage" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber18Par" class="form-control form-control-user parInput backnine" id="holeNumber18Par" />
+        </div>
+        <div class="col-1">
+            <input asp-for="HoleNumber18StrokeIndex" class="form-control form-control-user" id="holeNumber18StrokeIndex"/>
+        </div>
+    </div>
+            <div class="form-row">
+                <div class="col-1 text-center font-weight-bold">
+                    <label>Out</label>
+                </div>
+                <div class="col-1 text-center">
+                    <label id="outYardageLabel"></label>
+                </div>
+                <div class="col-1 text-center">
+                    <label id="outParLabel"></label>
+                </div>
+                <div class="col-1">
+
+                </div>
+                <div class="col-2">
+
+                </div>
+                <div class="col-1 text-center font-weight-bold">
+                    <label>In</label>
+                </div>
+                <div class="col-1 text-center">
+                    <label id="inYardageLabel"></label>
+                </div>
+                <div class="col-1 text-center">
+                    <label id="inParLabel"></label>
+                </div>
+                <div class="col-1">
+
+                </div>
+            </div>
+            
+        <div class="form-row">
+            <div class="col-1 text-center font-weight-bold">
+                <label>Total</label>
+            </div>
+            <div class="col-1 text-center">
+                <label id="totalYardageLabel"></label>
+            </div>
+            <div class="col-1 text-center">
+                <label id="totalParLabel"></label>
+            </div>
+            <div class="col-1">
+
+            </div>
+            <div class="col-2">
+
+            </div>
+            <div class="col-1 text-center font-weight-bold">
+                
+            </div>
+            <div class="col-1 text-center">
+                
+            </div>
+            <div class="col-1 text-center">
+                
+            </div>
+            <div class="col-1">
+
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-user btn-block"><i class="fa fa-plus"></i> Create Measured Course</button>
+
+        </form>
+        
+
+    <script type="text/javascript" language="javascript">
+
+        $(document).ready(function() {
+            // initialize tooltipster on text input elements
+            $('#newMeasuredCourseForm input[type="text"]').tooltipster({
+                trigger: 'hover',
+                position: 'right',
+                animation: 'grow'
+            });
+
+            $('#newMeasuredCourseForm input[type="number"]').tooltipster({
+                trigger: 'hover',
+                position: 'right',
+                animation: 'grow'
+            });
+
+            $('.yardageInput').change(calculateTotalYardages);
+            $('.parInput').change(calculateTotalPars);
+        });
+
+        var parRuleSet = {
+            required: true,
+            min: 3,
+            max: 5
+        }
+
+        var parMessages = {
+            required: "Par is a required value",
+            min: "The minimum value for par is 3",
+            max: "The maximum value for par is 5"
+        }
+
+        var strokeIndexRuleSet = {
+            required: true,
+            min: 1,
+            max: 18
+        }
+
+        var strokeIndexMessages = {
+            required: "Stroke Index is required",
+            min: "The minimum value for stroke index is 1",
+            max: "The maximum value for stroke index is 18"
+        }
+
+        var yardageRuleSet = {
+            required: true,
+            min: 1,
+            max: 800
+        }
+
+        var yardageMessages = {
+            required: 'The holes yardage is required',
+            min: "The minimum value for yardage is 1 yard",
+            max: "The maximum value for yardage is 800 yards"
+        }
+        // just for the demos, avoids form submit
+        jQuery.validator.setDefaults({
+            //debug: true
+        });
+        $("#newMeasuredCourseForm").validate({
+            rules: {
+                HoleNumber1Par: parRuleSet,
+                HoleNumber2Par: parRuleSet,
+                HoleNumber3Par: parRuleSet,
+                HoleNumber4Par: parRuleSet,
+                HoleNumber5Par: parRuleSet,
+                HoleNumber6Par: parRuleSet,
+                HoleNumber7Par: parRuleSet,
+                HoleNumber8Par: parRuleSet,
+                HoleNumber9Par: parRuleSet,
+                HoleNumber10Par: parRuleSet,
+                HoleNumber11Par: parRuleSet,
+                HoleNumber12Par: parRuleSet,
+                HoleNumber13Par: parRuleSet,
+                HoleNumber14Par: parRuleSet,
+                HoleNumber15Par: parRuleSet,
+                HoleNumber16Par: parRuleSet,
+                HoleNumber17Par: parRuleSet,
+                HoleNumber18Par: parRuleSet,
+
+                HoleNumber1StrokeIndex: strokeIndexRuleSet,
+                HoleNumber2StrokeIndex: strokeIndexRuleSet,
+                HoleNumber3StrokeIndex: strokeIndexRuleSet,
+                HoleNumber4StrokeIndex: strokeIndexRuleSet,
+                HoleNumber5StrokeIndex: strokeIndexRuleSet,
+                HoleNumber6StrokeIndex: strokeIndexRuleSet,
+                HoleNumber7StrokeIndex: strokeIndexRuleSet,
+                HoleNumber8StrokeIndex: strokeIndexRuleSet,
+                HoleNumber9StrokeIndex: strokeIndexRuleSet,
+                HoleNumber10StrokeIndex: strokeIndexRuleSet,
+                HoleNumber11StrokeIndex: strokeIndexRuleSet,
+                HoleNumber12StrokeIndex: strokeIndexRuleSet,
+                HoleNumber13StrokeIndex: strokeIndexRuleSet,
+                HoleNumber14StrokeIndex: strokeIndexRuleSet,
+                HoleNumber15StrokeIndex: strokeIndexRuleSet,
+                HoleNumber16StrokeIndex: strokeIndexRuleSet,
+                HoleNumber17StrokeIndex: strokeIndexRuleSet,
+                HoleNumber18StrokeIndex: strokeIndexRuleSet,
+
+                HoleNumber1Yards: yardageRuleSet,
+                HoleNumber2Yards: yardageRuleSet,
+                HoleNumber3Yards: yardageRuleSet,
+                HoleNumber4Yards: yardageRuleSet,
+                HoleNumber5Yards: yardageRuleSet,
+                HoleNumber6Yards: yardageRuleSet,
+                HoleNumber7Yards: yardageRuleSet,
+                HoleNumber8Yards: yardageRuleSet,
+                HoleNumber9Yards: yardageRuleSet,
+                HoleNumber10Yards: yardageRuleSet,
+                HoleNumber11Yards: yardageRuleSet,
+                HoleNumber12Yards: yardageRuleSet,
+                HoleNumber13Yards: yardageRuleSet,
+                HoleNumber14Yards: yardageRuleSet,
+                HoleNumber15Yards: yardageRuleSet,
+                HoleNumber16Yards: yardageRuleSet,
+                HoleNumber17Yards: yardageRuleSet,
+                HoleNumber18Yards: yardageRuleSet
+            },
+            messages: {
+                HoleNumber1Par: parMessages,
+                HoleNumber2Par: parMessages,
+                HoleNumber3Par: parMessages,
+                HoleNumber4Par: parMessages,
+                HoleNumber5Par: parMessages,
+                HoleNumber6Par: parMessages,
+                HoleNumber7Par: parMessages,
+                HoleNumber8Par: parMessages,
+                HoleNumber9Par: parMessages,
+                HoleNumber10Par: parMessages,
+                HoleNumber11Par: parMessages,
+                HoleNumber12Par: parMessages,
+                HoleNumber13Par: parMessages,
+                HoleNumber14Par: parMessages,
+                HoleNumber15Par: parMessages,
+                HoleNumber16Par: parMessages,
+                HoleNumber17Par: parMessages,
+                HoleNumber18Par: parMessages,
+
+                HoleNumber1StrokeIndex: strokeIndexMessages,
+                HoleNumber2StrokeIndex: strokeIndexMessages,
+                HoleNumber3StrokeIndex: strokeIndexMessages,
+                HoleNumber4StrokeIndex: strokeIndexMessages,
+                HoleNumber5StrokeIndex: strokeIndexMessages,
+                HoleNumber6StrokeIndex: strokeIndexMessages,
+                HoleNumber7StrokeIndex: strokeIndexMessages,
+                HoleNumber8StrokeIndex: strokeIndexMessages,
+                HoleNumber9StrokeIndex: strokeIndexMessages,
+                HoleNumber10StrokeIndex: strokeIndexMessages,
+                HoleNumber11StrokeIndex: strokeIndexMessages,
+                HoleNumber12StrokeIndex: strokeIndexMessages,
+                HoleNumber13StrokeIndex: strokeIndexMessages,
+                HoleNumber14StrokeIndex: strokeIndexMessages,
+                HoleNumber15StrokeIndex: strokeIndexMessages,
+                HoleNumber16StrokeIndex: strokeIndexMessages,
+                HoleNumber17StrokeIndex: strokeIndexMessages,
+                HoleNumber18StrokeIndex: strokeIndexMessages,
+
+                HoleNumber1Yards: yardageMessages,
+                HoleNumber2Yards: yardageMessages,
+                HoleNumber3Yards: yardageMessages,
+                HoleNumber4Yards: yardageMessages,
+                HoleNumber5Yards: yardageMessages,
+                HoleNumber6Yards: yardageMessages,
+                HoleNumber7Yards: yardageMessages,
+                HoleNumber8Yards: yardageMessages,
+                HoleNumber9Yards: yardageMessages,
+                HoleNumber10Yards: yardageMessages,
+                HoleNumber11Yards: yardageMessages,
+                HoleNumber12Yards: yardageMessages,
+                HoleNumber13Yards: yardageMessages,
+                HoleNumber14Yards: yardageMessages,
+                HoleNumber15Yards: yardageMessages,
+                HoleNumber16Yards: yardageMessages,
+                HoleNumber17Yards: yardageMessages,
+                HoleNumber18Yards: yardageMessages
+            },
+            validClass: "is-valid",
+            errorClass: "is-invalid",
+            errorPlacement: function (error, element) {
+                var ele = $(element),
+                    err = $(error),
+                    msg = err.text();
+                if (msg != null && msg !== '') {
+                    ele.tooltipster('content', msg);
+                    
+                }
+            },
+            highlight: function (element, errorClass, validClass)
+            {
+                $(element).addClass(errorClass).removeClass(validClass);
+            },
+            unhighlight: function(element, errorClass, validClass)
+            {
+                $(element).removeClass(errorClass).addClass(validClass).tooltipster('close');
+            }
+        });
+        
+        function calculateTotalYardages()
+        {
+            var outwardYardage = 0;
+            var inwardYardage = 0;
+            var totalYardage = 0;
+
+            var frontNine = $(".yardageInput.frontnine");
+            for(i = 0; i < frontNine.length; i++)
+            {
+                outwardYardage = +outwardYardage + +frontNine[i].value;
+                totalYardage = +totalYardage + +frontNine[i].value;
+            }
+            var backNine = $(".yardageInput.backnine");
+            for(i = 0; i < backNine.length; i++)
+            {
+                inwardYardage = +inwardYardage + +backNine[i].value;
+                totalYardage = +totalYardage + +backNine[i].value;
+            }
+            $("#outYardageLabel").text(outwardYardage.toLocaleString());
+            $("#inYardageLabel").text(inwardYardage.toLocaleString());
+            $("#totalYardageLabel").text(totalYardage.toLocaleString());
+        }
+
+        function calculateTotalPars()
+        {
+            var outwardPar = 0;
+            var inwardPar = 0;
+            var totalPar = 0;
+
+            var frontNine = $(".parInput.frontnine");
+            for(i = 0; i < frontNine.length; i++)
+            {
+                outwardPar = +outwardPar + +frontNine[i].value;
+                totalPar = +totalPar + +frontNine[i].value;
+            }
+            var backNine = $(".parInput.backnine");
+            for(i = 0; i < backNine.length; i++)
+            {
+                inwardPar = +inwardPar + +backNine[i].value;
+                totalPar = +totalPar + +backNine[i].value;
+            }
+            $("#outParLabel").text(outwardPar.toLocaleString());
+            $("#inParLabel").text(inwardPar.toLocaleString());
+            $("#totalParLabel").text(totalPar.toLocaleString());
+        }
+    </script>
+    </div>

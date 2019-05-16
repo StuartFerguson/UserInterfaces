@@ -1,0 +1,10 @@
+﻿@model List<MeasuredCourseListViewModel>
+
+@{
+    ViewBag.Title = "Measured Courses";
+    Layout = "~/Areas/GolfClubAdministrator/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <a class="btn btn-primary btn-user btn-block" asp-action="NewMeasuredCourse" asp-controller="Home" asp-area="GolfClubAdministrator"><i class="fa fa-plus"></i> New Measured Course</a>
+</div>

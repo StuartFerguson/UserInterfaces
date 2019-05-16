@@ -112,6 +112,20 @@
         }
 
         /// <summary>
+        /// Creates the measured course.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task CreateMeasuredCourse(String accessToken, MeasuredCourseViewModel viewModel, CancellationToken cancellationToken)
+        {
+            AddMeasuredCourseToClubRequest addMeasuredCourseToClubRequest = this.ModelFactory.ConvertFrom(viewModel);
+
+            await this.GolfClubClient.AddMeasuredCourseToGolfClub(accessToken, addMeasuredCourseToClubRequest, cancellationToken);
+        }
+
+        /// <summary>
         /// Creates the golf club.
         /// </summary>
         /// <param name="accessToken">The access token.</param>

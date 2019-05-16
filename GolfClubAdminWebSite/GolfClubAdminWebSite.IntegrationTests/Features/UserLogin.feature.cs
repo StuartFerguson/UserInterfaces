@@ -83,14 +83,14 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
 #line 7
  testRunner.Then("I should be displayed the registration form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                         "FirstName",
                         "LastName",
                         "Email",
                         "TelephoneNumber",
                         "Password",
                         "ConfirmPassword"});
-            table4.AddRow(new string[] {
+            table8.AddRow(new string[] {
                         "Test",
                         "User",
                         "testuser@testgolfclub.co.uk",
@@ -98,7 +98,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
                         "123456",
                         "123456"});
 #line 8
- testRunner.When("I use the follwing details to register", ((string)(null)), table4, "When ");
+ testRunner.When("I use the follwing details to register", ((string)(null)), table8, "When ");
 #line 11
  testRunner.And("I click the register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
