@@ -7,11 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace GolfClubAdminWebSite.Areas.GolfClubAdministrator.Controllers
 {
     using System.IO;
+    using System.Linq.Expressions;
+    using System.Reflection;
     using System.Threading;
     using ManagementAPI.Service.Client;
     using ManagementAPI.Service.DataTransferObjects;
     using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Http;
     using Models;
+    using Newtonsoft.Json;
+    using NLog.Layouts;
+    using Remotion.Linq.Clauses;
     using Services;
     using Shared.General;
 
@@ -101,33 +107,28 @@ namespace GolfClubAdminWebSite.Areas.GolfClubAdministrator.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMeasuredCourseList(CancellationToken cancellationToken)
         {
-            List<MeasuredCourseListViewModel> measuredCourseList = new List<MeasuredCourseListViewModel>();
+            return this.View();
+        }
 
-            measuredCourseList.Add(new MeasuredCourseListViewModel
-                                   {
-                                       Id = Guid.NewGuid(),
-                                       Name = "Thornton Golf Course (Whites)",
-                                       StandardScratchScore = 70,
-                                       TeeColour = "White"
-                                   });
-
-            measuredCourseList.Add(new MeasuredCourseListViewModel
-                                   {
-                                       Id = Guid.NewGuid(),
-                                       Name = "Thornton Golf Course (Yellows)",
-                                       StandardScratchScore = 70,
-                                       TeeColour = "Yellow"
-                                   });
-
-            measuredCourseList.Add(new MeasuredCourseListViewModel
-                                   {
-                                       Id = Guid.NewGuid(),
-                                       Name = "Test Course 1 (Reds)",
-                                       StandardScratchScore = 70,
-                                       TeeColour = "Red"
-                                   });
-
-            return this.View(measuredCourseList);
+        [HttpPost]
+        public async Task<IActionResult> GetMeasuredCourseListAsJson(CancellationToken cancellationToken)
+        {
+            Logger.LogInformation("In method GetMeasuredCourseListAsJson");
+            // Search Value from (Search box)  
+            String searchValue = HttpContext.Request.Form["search[value]"].FirstOrDefault();
+            Logger.LogInformation($"searchvalue is {searchValue}");
+            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+            Logger.LogInformation($"got access token");
+            List<MeasuredCourseListViewModel> measuredCourseList = await this.ApiClient.GetMeasuredCourses(accessToken, cancellationToken);
+            Logger.LogInformation($"course list count is {measuredCourseList.Count}");
+            Expression<Func<MeasuredCourseListViewModel, Boolean>> whereClause = m => m.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                                                                                      m.TeeColour.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                                                                                      m.StandardScratchScore.ToString().Contains(searchValue);
+            var gimp = this.GetDataForDataTable(measuredCourseList, whereClause);
+            Logger.LogInformation($"gimp count is {gimp.Data.Count()}");
+            String jsonResult = JsonConvert.SerializeObject(gimp);
+            Logger.LogInformation(jsonResult);
+            return this.Json(this.GetDataForDataTable(measuredCourseList, whereClause));
         }
 
         [HttpGet]
@@ -141,6 +142,7 @@ namespace GolfClubAdminWebSite.Areas.GolfClubAdministrator.Controllers
         [HttpPost]
         public async Task<IActionResult> NewMeasuredCourse(MeasuredCourseViewModel model, CancellationToken cancellationToken)
         {
+            model.MeasuredCourseId = Guid.NewGuid();
             // Validate the model
             if (this.ValidateModel(model))
             {
@@ -156,5 +158,118 @@ namespace GolfClubAdminWebSite.Areas.GolfClubAdministrator.Controllers
             // If we got this far, something failed, redisplay form
             return this.View(model);
         }
+
+        private DataTablesResult<T> GetDataForDataTable<T>(IEnumerable<T> queryData,
+                                                           Expression<Func<T, Boolean>> whereClause = null)
+        {
+            DataTablesResult<T> result;
+            
+            IFormCollection formData = HttpContext.Request.Form;
+
+            if (formData == null)
+            {
+                result = null;
+            }
+            else
+            {
+                Logger.LogInformation($"got form");
+                // Extract the data tables fields
+                String draw = formData["draw"].FirstOrDefault();
+                Logger.LogInformation($"draw is {draw}");
+                // Skiping number of Rows count  
+                String start = formData["start"].FirstOrDefault();
+                Logger.LogInformation($"start is {start}");
+                // Paging Length 10,20  
+                String length = formData["length"].FirstOrDefault();
+                Logger.LogInformation($"length is {length}");
+                // Sort Column Name  
+                String sortColumn = formData["columns[" + formData["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                Logger.LogInformation($"sortcol is {sortColumn}");
+                // Sort Column Direction ( asc ,desc)  
+                String sortColumnDirection = formData["order[0][dir]"].FirstOrDefault();
+                Logger.LogInformation($"sortcoldirection is {sortColumnDirection}");
+                // Search Value from (Search box)  
+                String searchValue = formData["search[value]"].FirstOrDefault();
+                Logger.LogInformation($"searchvalue is {searchValue}");
+                //Paging Size (10,20,50,100)  
+                Int32 pageSize = length != null ? Convert.ToInt32(length) : 0;
+                Int32 skip = start != null ? Convert.ToInt32(start) : 0;
+                Int32 recordsTotal = 0;
+
+                recordsTotal = queryData.Count();
+
+                // Filtering
+                if (whereClause != null)
+                {
+                    queryData = queryData.AsQueryable().Where(whereClause);
+                }
+                
+                // Sorting
+                if (!(String.IsNullOrEmpty(sortColumn) && String.IsNullOrEmpty(sortColumnDirection)))
+                {
+                    queryData = queryData.OrderBy(sortColumn ,sortColumnDirection).ToList();
+                }
+
+                //Paging   
+                queryData = queryData.Skip(skip).Take(pageSize).ToList();
+                Logger.LogInformation($"querydata count is {queryData.Count()}");
+                // Build the result 
+                result = new DataTablesResult<T>
+                         {
+                             Data = queryData,
+                             Draw = Int32.Parse(draw),
+                             RecordsTotal = recordsTotal,
+                             RecordsFiltered = queryData.Count()
+                         };
+            }
+            return result;
+        }
+    }
+
+    public static class Extensions
+    {
+        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> enumerable,
+                                         String orderByColumn,
+                                         String orderByDirection)
+        {
+            var gimp = typeof(T).GetProperty(orderByColumn, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+            if (orderByDirection == "asc")
+            {
+                return enumerable.OrderBy(x => gimp.GetValue(x, null));
+            }
+            else
+            {
+                return enumerable.OrderByDescending(x => gimp.GetValue(x, null));
+            }
+        }
+
+        public static IEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> enumerable,
+                                                String orderByColumn,
+                                                String orderByDirection)
+        {
+            var gimp = typeof(T).GetProperty(orderByColumn, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+            if (orderByDirection == "asc")
+            {
+                return enumerable.ThenBy(x => gimp.GetValue(x, null));
+            }
+            else
+            {
+                return enumerable.ThenByDescending(x => gimp.GetValue(x, null));
+            }
+        }
+    }
+
+    public class DataTablesResult<T>
+    {
+        [JsonProperty("draw")]
+        public Int32 Draw { get; set; }
+        [JsonProperty("recordsFiltered")]
+        public Int32 RecordsFiltered { get; set; }
+        [JsonProperty("recordsTotal")]
+        public Int32 RecordsTotal { get; set; }
+        [JsonProperty("data")]
+        public IEnumerable<T> Data { get; set; }
     }
 }

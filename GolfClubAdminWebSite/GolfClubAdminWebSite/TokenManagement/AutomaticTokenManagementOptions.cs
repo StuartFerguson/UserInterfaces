@@ -1,10 +1,12 @@
-﻿namespace GolfClubAdminWebSite.TokenManagement.TestClientUserInterface.TokenManagement
+﻿namespace GolfClubAdminWebSite.TokenManagement
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// 
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class AutomaticTokenManagementOptions
     {
         #region Properties

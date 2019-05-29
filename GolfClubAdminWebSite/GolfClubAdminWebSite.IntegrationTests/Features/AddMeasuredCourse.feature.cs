@@ -288,6 +288,8 @@ this.FeatureBackground();
  testRunner.And("I click the Create Measured Course", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 57
  testRunner.Then("I am presented with the list of measured courses", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 58
+ testRunner.And("a measured course with the name \"Test Golf Course\" should be in the list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

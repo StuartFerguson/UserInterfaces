@@ -17,6 +17,7 @@
     using Microsoft.IdentityModel.Logging;
     using Microsoft.IdentityModel.Tokens;
     using NLog.Extensions.Logging;
+    using Shared.Extensions;
     using Shared.General;
     using StructureMap;
 
@@ -102,6 +103,9 @@
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseCookiePolicy();
+
+            app.AddRequestLogging();
+            app.AddResponseLogging();
 
             app.UseMvc(routes =>
                        {

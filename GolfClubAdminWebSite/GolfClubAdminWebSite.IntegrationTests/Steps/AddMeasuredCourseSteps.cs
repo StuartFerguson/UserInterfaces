@@ -10,6 +10,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
     using Shouldly;
 
     [Binding]
+    [Scope(Tag = "addmeasuredcourse")]
     public class AddMeasuredCourseSteps : GenericSteps
     {
         private readonly BrowserSession BrowserSession;
@@ -205,5 +206,17 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
         {
             this.BrowserSession.Title.ShouldBe("New Measured Course");
         }
+
+        [Then(@"a measured course with the name ""(.*)"" should be in the list")]
+        public void ThenAMeasuredCourseWithTheNameShouldBeInTheList(String golfClubName)
+        {
+            Boolean hasContent = this.BrowserSession.HasContent(golfClubName, new Options
+                                                                              {
+                                                                                  Timeout = TimeSpan.FromSeconds(30),
+                                                                                  RetryInterval = TimeSpan.FromSeconds(1)
+                                                                              });
+            hasContent.ShouldBeTrue();
+        }
+
     }
 }

@@ -1,8 +1,11 @@
 ﻿namespace GolfClubAdminWebSite.Factories
 {
+    using System.Collections.Generic;
     using Areas.Account.Models;
     using Areas.GolfClubAdministrator.Models;
     using ManagementAPI.Service.DataTransferObjects;
+    using ManagementAPI.Service.DataTransferObjects.Requests;
+    using ManagementAPI.Service.DataTransferObjects.Responses;
 
     /// <summary>
     /// 
@@ -40,5 +43,12 @@
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
         AddMeasuredCourseToClubRequest ConvertFrom(MeasuredCourseViewModel viewModel);
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        List<MeasuredCourseListViewModel> ConvertFrom(GetMeasuredCourseListResponse apiResponse);
     }
 }

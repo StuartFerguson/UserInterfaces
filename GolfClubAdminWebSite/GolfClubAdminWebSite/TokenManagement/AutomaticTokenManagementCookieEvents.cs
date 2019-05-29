@@ -1,8 +1,9 @@
-﻿namespace GolfClubAdminWebSite.TokenManagement.TestClientUserInterface.TokenManagement
+﻿namespace GolfClubAdminWebSite.TokenManagement
 {
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
@@ -17,6 +18,7 @@
     /// 
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents" />
+    [ExcludeFromCodeCoverage]
     public class AutomaticTokenManagementCookieEvents : CookieAuthenticationEvents
     {
         /// <summary>
