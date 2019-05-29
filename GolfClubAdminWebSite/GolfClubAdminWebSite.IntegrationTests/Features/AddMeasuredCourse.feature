@@ -55,3 +55,4 @@ Scenario: Add a measured course
 	| 18         | 399     | 4   | 9           |
 	And I click the Create Measured Course
 	Then I am presented with the list of measured courses
+	And a measured course with the name "Test Golf Course" should be in the list

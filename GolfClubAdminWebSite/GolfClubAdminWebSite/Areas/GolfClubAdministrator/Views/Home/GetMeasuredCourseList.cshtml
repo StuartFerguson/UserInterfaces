@@ -6,5 +6,53 @@
 }
 
 <div class="container">
+
+    <table id="measuredCoursesList" class="table table-striped table-bordered nowrap" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Measured Course Id</th>
+                <th>Name</th>
+                <th>Tee Colour</th>
+                <th>SSS</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+
     <a class="btn btn-primary btn-user btn-block" asp-action="NewMeasuredCourse" asp-controller="Home" asp-area="GolfClubAdministrator"><i class="fa fa-plus"></i> New Measured Course</a>
 </div>
+
+<script>
+    $(document).ready(function ()
+        {
+            $("#measuredCoursesList").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": "GetMeasuredCourseListAsJson",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columnDefs":
+                [{
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                }],
+                "columns": [
+                    { "data": "id", "name": "id", "autoWidth": true },
+                    { "data": "name", "name": "name", "autoWidth": true },
+                    { "data": "teeColour", "name": "teeColour", "autoWidth": true },
+                    { "data": "standardScratchScore", "name": "standardScratchScore", "autoWidth": true },
+                    {
+                        "render": function (data, type, full, meta)
+                        { return '<a class="btn btn-info" href="/DemoGrid/Edit/' + full.CustomerID + '">Edit</a>'; }
+                    }
+                ]
+
+            });
+        });
+
+</script>

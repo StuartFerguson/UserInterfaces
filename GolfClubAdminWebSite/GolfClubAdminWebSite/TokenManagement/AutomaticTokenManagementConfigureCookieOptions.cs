@@ -1,6 +1,7 @@
-﻿namespace GolfClubAdminWebSite.TokenManagement.TestClientUserInterface.TokenManagement
+﻿namespace GolfClubAdminWebSite.TokenManagement
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.Extensions.Options;
@@ -9,6 +10,7 @@
     /// 
     /// </summary>
     /// <seealso cref="Microsoft.Extensions.Options.IConfigureNamedOptions{Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions}" />
+    [ExcludeFromCodeCoverage]
     public class AutomaticTokenManagementConfigureCookieOptions : IConfigureNamedOptions<CookieAuthenticationOptions>
     {
         #region Fields

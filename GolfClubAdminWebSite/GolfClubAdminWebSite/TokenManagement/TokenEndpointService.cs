@@ -1,6 +1,7 @@
-﻿namespace GolfClubAdminWebSite.TokenManagement.TestClientUserInterface.TokenManagement
+﻿namespace GolfClubAdminWebSite.TokenManagement
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Net.Http;
     using System.Threading.Tasks;
     using IdentityModel;
@@ -14,6 +15,7 @@
     /// <summary>
     /// 
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class TokenEndpointService
     {
         #region Fields

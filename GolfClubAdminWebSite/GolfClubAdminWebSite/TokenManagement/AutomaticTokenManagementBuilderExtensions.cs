@@ -1,8 +1,7 @@
 ﻿namespace GolfClubAdminWebSite.TokenManagement
 {
-    namespace TestClientUserInterface.TokenManagement
-    {
         using System;
+        using System.Diagnostics.CodeAnalysis;
         using Microsoft.AspNetCore.Authentication;
         using Microsoft.AspNetCore.Authentication.Cookies;
         using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +10,7 @@
         /// <summary>
         /// 
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static class AutomaticTokenManagementBuilderExtensions
         {
             #region Methods
@@ -46,5 +46,4 @@
 
             #endregion
         }
-    }
 }
