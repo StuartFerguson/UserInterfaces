@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             mc:Ignorable="d"
+             x:Class="GolfHandicapMobile.Views.RegistrationPage"
+             Title="Registration">
+    <ContentPage.Content>
+        <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
+            <StackLayout>
+                <Entry x:Name="FirstName" AutomationId="FirstName" Placeholder="First Name" Text="{Binding FirstName}"/>
+                <Entry x:Name="LastName" AutomationId="LastName" Placeholder="Last Name" Text="{Binding LastName}"/>
+                <Picker x:Name="Gender" Title="Gender">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Male</x:String>
+                            <x:String>Female</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <StackLayout Orientation="Horizontal">
+                    <Entry x:Name="DateOfBirth" AutomationId="DateOfBirth" Placeholder="Date Of Birth" Text="{Binding DateOfBirth}" WidthRequest="175"/>
+                    <Entry x:Name="ExactHandicap" AutomationId="ExactHandicap" Placeholder="Exact H/cap"
+                           Text="{Binding ExactHandicap}" WidthRequest="110"/>
+                </StackLayout>
+                <Entry x:Name="EmailAddress" AutomationId="EmailAddress" Placeholder="Email"
+                       Text="{Binding EmailAddress}"/>
+                <Button x:Name="Register" Text="Register"/>
+            </StackLayout>
+            <StackLayout>
+                <Label x:Name="RegistrationStatus" AutomationId="RegistrationStatus" IsVisible="False"/>
+            </StackLayout>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>
