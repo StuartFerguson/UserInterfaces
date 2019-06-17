@@ -46,9 +46,7 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
             
             if (isCI)
             {
-                //String apkFile = "C:\\BuildAgent\\work\\e5cf2393c6fba2b1\\hht prototype\\uitest1\\bin\\debug\\VME.HHT-Signed.apk";
-                String apkFile = "VME.HHT-Signed.apk";
-                //apkFile = $"C:\\Git\\hht-prototype\\HHT Prototype\\UITest1\\bin\\Debug\\{apkFile}";
+                String apkFile = "com.golfhandicapping.mobile-Signed.apk";
                 this.App = ConfigureApp.Android.ApkFile(apkFile).DeviceSerial("emulator-5554").EnableLocalScreenshots().StartApp(AppDataMode.Clear);
 
                 //Logger.WriteToLog("Starting Application");
