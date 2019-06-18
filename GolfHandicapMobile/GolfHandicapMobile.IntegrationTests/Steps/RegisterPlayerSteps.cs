@@ -91,7 +91,7 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
         [Then(@"the Registration Success screen should be displayed")]
         public void ThenTheRegistrationSuccessScreenShouldBeDisplayed()
         {
-            this.App.WaitForElement(x => x.Text("Registration Success"), timeout: TimeSpan.FromSeconds(5));
+            this.App.WaitForElement(x => x.Text("Registration Success"), timeout: TimeSpan.FromSeconds(15));
         }
     }
 }
