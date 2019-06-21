@@ -24,7 +24,7 @@
         /// <summary>
         /// The exact handicap
         /// </summary>
-        private Decimal exactHandicap;
+        private String exactHandicap;
 
         /// <summary>
         /// The first name
@@ -94,7 +94,7 @@
         /// <value>
         /// The exact handicap.
         /// </value>
-        public Decimal ExactHandicap
+        public String ExactHandicap
         {
             get
             {

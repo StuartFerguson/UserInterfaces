@@ -52,11 +52,11 @@
             // Translate the view model into the api request
             RegisterPlayerRequest apiRequest = new RegisterPlayerRequest
                                                {
-                                                   DateOfBirth = DateTime.Now,
+                                                   DateOfBirth = viewModel.DateOfBirth,
                                                    Gender = viewModel.Gender == 0 ? "M" : "F",
                                                    EmailAddress = viewModel.EmailAddress,
                                                    MiddleName = viewModel.MiddleName,
-                                                   ExactHandicap = viewModel.ExactHandicap,
+                                                   ExactHandicap = Decimal.Parse(viewModel.ExactHandicap),
                                                    FirstName = viewModel.FirstName,
                                                    LastName = viewModel.LastName
                                                };

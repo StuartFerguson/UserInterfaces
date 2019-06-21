@@ -6,12 +6,15 @@
              xmlns:system="clr-namespace:System;assembly=netstandard"
              mc:Ignorable="d"
              x:Class="GolfHandicapMobile.Views.RegistrationPage"
+             xmlns:behaviors="clr-namespace:GolfHandicapMobile.Behaviors;assembly=GolfHandicapMobile"
              Title="Registration">
     <ContentPage.Content>
         <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
             <StackLayout>
                 <Entry x:Name="FirstName" AutomationId="FirstName" Placeholder="First Name" Text="{Binding FirstName}"/>
+                <Label x:Name="FirstNameError" AutomationId="FirstNameError" IsVisible="False"/>
                 <Entry x:Name="LastName" AutomationId="LastName" Placeholder="Last Name" Text="{Binding LastName}"/>
+                <Label x:Name="LastNameError" AutomationId="LastNameError" IsVisible="False"/>
                 <Picker x:Name="Gender" Title="Gender">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
@@ -20,13 +23,26 @@
                         </x:Array>
                     </Picker.ItemsSource>
                 </Picker>
+                <Label x:Name="GenderError" AutomationId="GenderError" IsVisible="False"/>
                 <StackLayout Orientation="Horizontal">
-                    <Entry x:Name="DateOfBirth" AutomationId="DateOfBirth" Placeholder="Date Of Birth" Text="{Binding DateOfBirth}" WidthRequest="175"/>
-                    <Entry x:Name="ExactHandicap" AutomationId="ExactHandicap" Placeholder="Exact H/cap"
-                           Text="{Binding ExactHandicap}" WidthRequest="110"/>
+                    <StackLayout Orientation="Vertical">
+                        <Entry x:Name="DateOfBirth" AutomationId="DateOfBirth" Placeholder="Date of Birth" Text="{Binding DateOfBirth}" WidthRequest="120" Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behaviors:MaskedBehavior Mask="XX-XX-XX" />
+                            </Entry.Behaviors>
+                        </Entry>
+                        <Label x:Name="DateOfBirthError" AutomationId="DateOfBirthError" IsVisible="False"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical">
+                        <Entry x:Name="ExactHandicap" AutomationId="ExactHandicap" Placeholder="Exact H/cap" Keyboard="Numeric"
+                           Text="{Binding ExactHandicap}" WidthRequest="110">
+                        </Entry>
+                        <Label x:Name="ExactHandicapError" AutomationId="ExactHandicapError" IsVisible="False"/>
+                    </StackLayout>
                 </StackLayout>
-                <Entry x:Name="EmailAddress" AutomationId="EmailAddress" Placeholder="Email"
-                       Text="{Binding EmailAddress}"/>
+                <Entry x:Name="EmailAddress" AutomationId="EmailAddress" Placeholder="Email" Keyboard="Email"
+                       Text="{Binding EmailAddress}"></Entry>
+                <Label x:Name="EmailAddressError" AutomationId="EmailAddressError" IsVisible="False"/>
                 <Button x:Name="Register" Text="Register"/>
             </StackLayout>
             <StackLayout>
