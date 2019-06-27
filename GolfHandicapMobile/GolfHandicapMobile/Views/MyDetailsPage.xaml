@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+             x:Class="GolfHandicapMobile.Views.MyDetailsPage" Title="My Details">
+    <ContentPage.Content>
+        <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
+            <Entry x:Name="FirstName" AutomationId="FirstName" Placeholder="First Name" Text="{Binding FirstName}"
+                   IsReadOnly="True"/>
+            <Entry x:Name="LastName" AutomationId="LastName" Placeholder="Last Name" Text="{Binding LastName}"
+                   IsReadOnly="True"/>
+            <Picker x:Name="Gender" Title="Gender" IsEnabled="False" SelectedIndex="{Binding Gender}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Male</x:String>
+                        <x:String>Female</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Entry x:Name="DateOfBirth" AutomationId="DateOfBirth" Placeholder="Date of Birth"
+                   Text="{Binding DateOfBirth, StringFormat='{0:dd-MM-yy}'}" WidthRequest="120" Keyboard="Numeric"
+                   IsReadOnly="True"/>
+            <StackLayout Orientation="Horizontal">
+                <Entry x:Name="ExactHandicap" AutomationId="ExactHandicap"
+                       Text="{Binding ExactHandicap, StringFormat='{0:F1}'}" WidthRequest="75" IsReadOnly="True"/>
+                <Entry x:Name="PlayingHandicap" AutomationId="PlayingHandicap"
+                       Text="{Binding PlayingHandicap, StringFormat='{0:N0}'}" WidthRequest="75" IsReadOnly="True"/>
+                <Entry x:Name="HandicapCategory" AutomationId="HandicapCategory"
+                       Text="{Binding HandicapCategory, StringFormat='{0:N0}'}" WidthRequest="75" IsReadOnly="True"/>
+            </StackLayout>
+            <Entry x:Name="EmailAddress" AutomationId="EmailAddress" Placeholder="Email" Keyboard="Email"
+                   IsReadOnly="True" Text="{Binding EmailAddress}"/>
+            <Button x:Name="HomeButton" Text="Home"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

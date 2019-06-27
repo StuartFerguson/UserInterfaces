@@ -28,7 +28,7 @@
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient"/> class.
+        /// Initializes a new instance of the <see cref="ApiClient" /> class.
         /// </summary>
         /// <param name="playerClient">The player client.</param>
         public ApiClient(IPlayerClient playerClient)
@@ -39,6 +39,32 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Gets the player.
+        /// </summary>
+        /// <param name="passwordToken">The password token.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task GetPlayer(String passwordToken,
+                                    MyDetailsViewModel viewModel,
+                                    CancellationToken cancellationToken)
+        {
+            GetPlayerDetailsResponse apiResponse = await this.PlayerClient.GetPlayer(passwordToken, cancellationToken);
+
+            viewModel.FirstName = apiResponse.FirstName;
+            viewModel.HasBeenRegistered = apiResponse.HasBeenRegistered;
+            viewModel.LastName = apiResponse.LastName;
+            viewModel.MiddleName = apiResponse.MiddleName;
+            viewModel.PlayingHandicap = apiResponse.PlayingHandicap;
+            viewModel.DateOfBirth = apiResponse.DateOfBirth;
+            viewModel.EmailAddress = apiResponse.EmailAddress;
+            viewModel.ExactHandicap = apiResponse.ExactHandicap;
+            viewModel.FullName = apiResponse.FullName;
+            viewModel.Gender = apiResponse.Gender == "M" ? 0 : 1;
+            viewModel.HandicapCategory = apiResponse.HandicapCategory;
+        }
 
         /// <summary>
         /// Registers the player.
@@ -56,7 +82,7 @@
                                                    Gender = viewModel.Gender == 0 ? "M" : "F",
                                                    EmailAddress = viewModel.EmailAddress,
                                                    MiddleName = viewModel.MiddleName,
-                                                   ExactHandicap = Decimal.Parse(viewModel.ExactHandicap),
+                                                   ExactHandicap = decimal.Parse(viewModel.ExactHandicap),
                                                    FirstName = viewModel.FirstName,
                                                    LastName = viewModel.LastName
                                                };

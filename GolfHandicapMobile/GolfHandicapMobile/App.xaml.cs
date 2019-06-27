@@ -1,5 +1,6 @@
 ﻿namespace GolfHandicapMobile
 {
+    using System;
     using Common;
     using Presenters;
     using Unity;
@@ -14,23 +15,32 @@
         #region Fields
 
         /// <summary>
+        /// The access token
+        /// </summary>
+        public static String AccessToken;
+
+        /// <summary>
         /// Unity container
         /// </summary>
         public static IUnityContainer Container;
+
+        /// <summary>
+        /// The player identifier
+        /// </summary>
+        public static Guid PlayerId;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="App"/> class.
+        /// Initializes a new instance of the <see cref="App" /> class.
         /// </summary>
         public App()
         {
             this.InitializeComponent();
 
             App.Container = Bootstrapper.Run();
-            this.MainPage = new AppShell();
         }
 
         #endregion
@@ -68,10 +78,10 @@
         protected override async void OnStart()
         {
             // Handle when your app starts
-            IHomePagePresenter homePagePresenter = App.Container.Resolve<IHomePagePresenter>();
+            ISignInPresenter signInPresenter = App.Container.Resolve<ISignInPresenter>();
 
             // show the login page
-            await homePagePresenter.Start();
+            await signInPresenter.Start();
         }
 
         #endregion

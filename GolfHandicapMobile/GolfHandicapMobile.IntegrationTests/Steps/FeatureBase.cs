@@ -75,7 +75,7 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
             context.RemoveRange(usersToRemove);
 
             List<Player> playersToRemove = context.Players.ToList();
-            context.RemoveRange(usersToRemove);
+            context.RemoveRange(playersToRemove);
 
             context.SaveChanges();
         }

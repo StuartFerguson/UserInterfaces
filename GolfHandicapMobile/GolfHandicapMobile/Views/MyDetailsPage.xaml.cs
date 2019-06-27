@@ -2,6 +2,7 @@
 {
     using System;
     using Pages;
+    using ViewModels;
     using Xamarin.Forms;
     using Xamarin.Forms.Xaml;
 
@@ -9,19 +10,20 @@
     /// 
     /// </summary>
     /// <seealso cref="Xamarin.Forms.ContentPage" />
-    /// <seealso cref="GolfHandicapMobile.Pages.IRegistrationSuccessPage" />
+    /// <seealso cref="GolfHandicapMobile.Pages.IMyDetailsPage" />
     /// <seealso cref="GolfHandicapMobile.Pages.IPage" />
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RegistrationSuccessPage : ContentPage, IRegistrationSuccessPage, IPage
+    public partial class MyDetailsPage : ContentPage, IMyDetailsPage, IPage
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationSuccessPage"/> class.
+        /// Initializes a new instance of the <see cref="MyDetailsPage"/> class.
         /// </summary>
-        public RegistrationSuccessPage()
+        public MyDetailsPage()
         {
             this.InitializeComponent();
+            Shell.Current.FlyoutIsPresented = false;
         }
 
         #endregion
@@ -38,29 +40,22 @@
         #region Methods
 
         /// <summary>
-        /// Initializes this instance.
+        /// Initializes the specified view model.
         /// </summary>
-        public void Init()
+        /// <param name="viewModel">The view model.</param>
+        public void Init(MyDetailsViewModel viewModel)
         {
-            this.Home.Clicked += this.Home_OnClicked;
+            this.BindingContext = viewModel;
+            this.HomeButton.Clicked += this.HomeButton_Clicked;
         }
 
         /// <summary>
-        /// Sets the registration success message.
-        /// </summary>
-        /// <param name="successMessage">The success message.</param>
-        public void SetRegistrationSuccessMessage(String successMessage)
-        {
-            this.RegistrationStatus.Text = successMessage;
-        }
-
-        /// <summary>
-        /// Handles the OnClicked event of the Home control.
+        /// Handles the Clicked event of the HomeButton control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void Home_OnClicked(Object sender,
-                                    EventArgs e)
+        private void HomeButton_Clicked(Object sender,
+                                        EventArgs e)
         {
             this.HomeButtonClick(sender, e);
         }

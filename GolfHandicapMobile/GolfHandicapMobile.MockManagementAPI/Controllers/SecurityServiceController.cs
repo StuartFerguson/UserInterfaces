@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HandicapMobile.MockAPI.Controllers
 {
+    using Database.Models;
+
     [Route("")]
     [ApiController]
     public class SecurityServiceController : ControllerBase
@@ -32,9 +34,17 @@ namespace HandicapMobile.MockAPI.Controllers
 
                 if (user != null)
                 {
+                    // Get the player data
+                    Player player = context.Players.SingleOrDefault(u => u.EmailAddress == request.UserName);
+
+                    if (player == null)
+                    {
+                        return this.BadRequest();
+                    }
+
                     var accessToken = new
                     {
-                        access_token = $"{request.UserName}|accesstoken",
+                        access_token = $"{request.UserName}|{user.UserId}|{player.PlayerId}",
                         expires_in = 3600,
                         token_type = "Bearer"
                     };
@@ -72,6 +82,14 @@ namespace HandicapMobile.MockAPI.Controllers
                     return this.BadRequest();
                 }
 
+                // Get the player data
+                Player player = context.Players.SingleOrDefault(u => u.EmailAddress == userName);
+
+                if (player == null)
+                {
+                    return this.BadRequest();
+                }
+
                 String userRole = "Player";
 
                 var userInfo = new
@@ -79,7 +97,8 @@ namespace HandicapMobile.MockAPI.Controllers
                                    sub = user.UserId,
                                    role = userRole,
                                    name = user.EmailAddress,
-                                   email = user.EmailAddress
+                                   email = user.EmailAddress,
+                                   PlayerId = player.PlayerId
                                };
 
                 return this.Ok(userInfo);

@@ -6,6 +6,7 @@
     using ManagementAPI.Service.Client;
     using Pages;
     using Presenters;
+    using Services;
     using Unity;
     using Unity.Injection;
     using Unity.Lifetime;
@@ -31,8 +32,15 @@
             String securityServiceAPIUri = string.Empty;
 
             // TODO: Setup configuration
-            managementAPIUri = "http://3.9.26.155:9000";
-            securityServiceAPIUri = "http://3.9.26.155:9000";
+            //AWS
+            //managementAPIUri = "http://3.9.26.155:9000";
+            //securityServiceAPIUri = "http://3.9.26.155:9000";
+            // Dev
+            managementAPIUri = "http://192.168.1.132:9000";
+            securityServiceAPIUri = "http://192.168.1.132:9000";
+            // Local
+            //managementAPIUri = "http://192.168.1.67:9000";
+            //securityServiceAPIUri = "http://192.168.1.67:9000";
 
             Configuration configuration = new Configuration
                                           {
@@ -43,20 +51,23 @@
             unityContainer.RegisterInstance<IConfiguration>(configuration, new SingletonLifetimeManager());
 
             // Presentation registrations
-            unityContainer.RegisterType<IHomePagePresenter, HomePagePresenter>(new TransientLifetimeManager());
-            unityContainer.RegisterType<IRegistrationPresenter, RegistrationPresenter>(new TransientLifetimeManager());
+            unityContainer.RegisterType<ISignInPresenter, SignInPresenter>(new TransientLifetimeManager());
+            unityContainer.RegisterType<IMyDetailsPresenter, MyDetailsPresenter>(new TransientLifetimeManager());
 
             // View registrations
-            unityContainer.RegisterType<IHomePage, HomePage>(new SingletonLifetimeManager());
             unityContainer.RegisterType<IRegistrationPage, RegistrationPage>(new TransientLifetimeManager());
-            unityContainer.RegisterType<IRegistrationSuccessPage, RegistrationSuccessPage>(new TransientLifetimeManager());
+            unityContainer.RegisterType<ISignInPage, SignInPage>(new TransientLifetimeManager());
+            unityContainer.RegisterType<IMyDetailsPage, MyDetailsPage>(new TransientLifetimeManager());
 
             // View model registrations
             unityContainer.RegisterType<RegistrationViewModel>(new TransientLifetimeManager());
+            unityContainer.RegisterType<SignInViewModel>(new TransientLifetimeManager());
+            unityContainer.RegisterType<MyDetailsViewModel>(new TransientLifetimeManager());
 
             // Other registrations
             unityContainer.RegisterType<IClient, ApiClient>(new SingletonLifetimeManager());
             unityContainer.RegisterType<IPlayerClient, PlayerClient>(new SingletonLifetimeManager());
+            unityContainer.RegisterType<ISecurityServiceClient, SecurityServiceClient>(new SingletonLifetimeManager());
 
             HttpClient httpClient = new HttpClient();
             unityContainer.RegisterInstance(httpClient, new SingletonLifetimeManager());

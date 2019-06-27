@@ -1,17 +1,17 @@
 ﻿namespace GolfHandicapMobile.Pages
 {
     using System;
+    using ViewModels;
 
     /// <summary>
     /// 
     /// </summary>
-    /// <seealso cref="GolfHandicapMobile.Pages.IPage" />
-    public interface IHomePage : IPage
+    public interface ISignInPage
     {
         #region Events
 
         /// <summary>
-        /// Occurs when [register button click].
+        /// Occurs when [cancel button click].
         /// </summary>
         event EventHandler RegisterButtonClick;
 
@@ -25,9 +25,16 @@
         #region Methods
 
         /// <summary>
-        /// Initializes this instance.
+        /// Initializes the specified view model.
         /// </summary>
-        void Init();
+        /// <param name="viewModel">The view model.</param>
+        void Init(SignInViewModel viewModel);
+
+        /// <summary>
+        /// Sets the registration failure message.
+        /// </summary>
+        /// <param name="failureMessage">The failure message.</param>
+        void SetSignInFailureMessage(String failureMessage);
 
         #endregion
     }
