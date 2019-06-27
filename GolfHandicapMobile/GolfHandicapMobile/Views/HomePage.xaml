@@ -5,7 +5,7 @@
              x:Class="GolfHandicapMobile.Views.HomePage">
     <ContentPage.Content>
         <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
-            <Label Text="This is my home!" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+            <Label Text="This is my home!" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" AutomationId="HomePageLabel"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
