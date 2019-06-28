@@ -98,12 +98,13 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
         {
             this.App.WaitForElement(x => x.Text("Registration"), timeout: TimeSpan.FromSeconds(5));
         }
-        
-        [Then(@"the Registration Success screen should be displayed")]
-        public void ThenTheRegistrationSuccessScreenShouldBeDisplayed()
+
+        [Then(@"the Registration Success message should be displayed")]
+        public void ThenTheRegistrationSuccessMessageShouldBeDisplayed()
         {
-            this.App.WaitForElement(x => x.Text("Registration Success"), timeout: TimeSpan.FromSeconds(15));
+            this.App.WaitForElement("Registration Successful", timeout: TimeSpan.FromSeconds(15));
         }
+
 
         [Then(@"an error indicating first name is required will be displayed")]
         public void ThenAnErrorIndicatingFirstNameIsRequiredWillBeDisplayed()

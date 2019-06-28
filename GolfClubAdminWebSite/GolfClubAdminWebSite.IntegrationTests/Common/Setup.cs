@@ -111,6 +111,7 @@
                         sw.WriteLine($"Attempt {counter}");
                         sw.WriteLine(DateTime.Now);
 
+                        
                         connection.Open();
 
                         MySqlCommand command = connection.CreateCommand();

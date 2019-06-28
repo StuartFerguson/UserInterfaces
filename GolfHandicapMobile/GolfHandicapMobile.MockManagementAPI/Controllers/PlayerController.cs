@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace GolfHandicapMobile.MockAPI.Controllers
 {
     using System.Threading;
+    using DataTransferObjects;
     using HandicapMobile.MockAPI.Database;
     using HandicapMobile.MockAPI.Database.Models;
     using Microsoft.AspNetCore.Mvc;
@@ -60,75 +61,81 @@ namespace GolfHandicapMobile.MockAPI.Controllers
                                PlayerId = player.PlayerId
                            });
         }
-    }
 
-    public class RegisterPlayerRequest
-    {
-        /// <summary>
-        /// Gets or sets the first name.
-        /// </summary>
-        /// <value>
-        /// The first name.
-        /// </value>
-        public String FirstName { get; set; }
+        [HttpGet]
+        public async Task<IActionResult> GetPlayer()
+        {
+            var gimp = this.Request.Headers.ToList();
+            var authHeader = gimp.Where(x => x.Key == "Authorization").Select(x => x.Value).SingleOrDefault().SingleOrDefault();
 
-        /// <summary>
-        /// Gets or sets the name of the middle.
-        /// </summary>
-        /// <value>
-        /// The name of the middle.
-        /// </value>
-        public String MiddleName { get; set; }
+            if (authHeader == null)
+            {
+                return this.Unauthorized();
+            }
 
-        /// <summary>
-        /// Gets or sets the last name.
-        /// </summary>
-        /// <value>
-        /// The last name.
-        /// </value>
-        public String LastName { get; set; }
+            // Parse the token
+            String[] tokenValues = authHeader.Split('|');
 
-        /// <summary>
-        /// Gets the gender.
-        /// </summary>
-        /// <value>
-        /// The gender.
-        /// </value>
-        public String Gender { get; set; }
+            // Get the player id
+            Guid playerId = Guid.Parse(tokenValues[2]);
 
-        /// <summary>
-        /// Gets or sets the date of birth.
-        /// </summary>
-        /// <value>
-        /// The date of birth.
-        /// </value>
-        public DateTime DateOfBirth { get; set; }
+            using(MockDatabaseDbContext context = this.MockDatabaseDbContextResolver())
+            {
+                // Find the player
+                Player player = context.Players.Where(p => p.PlayerId == playerId).SingleOrDefault();
 
-        /// <summary>
-        /// Gets the exact handicap.
-        /// </summary>
-        /// <value>
-        /// The exact handicap.
-        /// </value>
-        public Decimal ExactHandicap { get; set; }
+                if (player == null)
+                {
+                    return this.NotFound();
+                }
+                else
+                {
+                    return this.Ok(new GetPlayerDetailsResponse
+                                   {
+                                       DateOfBirth = player.DateOfBirth,
+                                       FirstName = player.FirstName,
+                                       EmailAddress = player.EmailAddress,
+                                       LastName = player.LastName,
+                                       ExactHandicap = player.ExactHandicap,
+                                       Gender = player.Gender,
+                                       FullName = $"{player.FirstName} {player.LastName}",
+                                       HasBeenRegistered = true,
+                                       PlayingHandicap = this.CalculatePlayingHandicap(player.ExactHandicap),
+                                       HandicapCategory = this.CalculateHandicapCategory(this.CalculatePlayingHandicap(player.ExactHandicap))
+                                   });
+                }
+            }
+        }
 
-        /// <summary>
-        /// Gets or sets the email address.
-        /// </summary>
-        /// <value>
-        /// The email address.
-        /// </value>
-        public String EmailAddress { get; set; }
-    }
+        private Int32 CalculatePlayingHandicap(Decimal exactHandicap)
+        {
+            return Convert.ToInt32(Math.Round(exactHandicap, MidpointRounding.AwayFromZero));
+        }
 
-    public class RegisterPlayerResponse
-    {
-        /// <summary>
-        /// Gets or sets the player identifier.
-        /// </summary>
-        /// <value>
-        /// The player identifier.
-        /// </value>
-        public Guid PlayerId { get; set; }
+        private Int32 CalculateHandicapCategory(Int32 playingHandicap)
+        {
+            Int32 category = 0;
+
+            switch (playingHandicap)
+            {
+                case var h when (h < 5):
+                    category = 1;
+                    break;
+                case var h when (h >= 6 && h <= 12):
+                    category = 2;
+                    break;
+                case var h when (h >= 13 && h <= 21):
+                    category = 3;
+                    break;
+                case var h when (h >= 22 && h <= 28):
+                    category = 4;
+                    break;
+                case var h when (h >= 29):
+                    category = 5;
+                    break;
+            }
+
+            return category;
+        }
     }
 }

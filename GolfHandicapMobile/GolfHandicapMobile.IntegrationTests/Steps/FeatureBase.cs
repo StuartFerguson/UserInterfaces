@@ -32,7 +32,7 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
         {
             this.FeatureContext = featureContext;
             this.ScenarioContext = scenarioContext;
-            String connectionString = "server=golfhandicapping.ck9ila7cw53m.eu-west-2.rds.amazonaws.com;database=MockDatabase;user id=ghawsuser;password=Sc0tland";
+            String connectionString = "server=192.168.1.132;database=MockDatabase;user id=root;password=Pa55word";
             this.MockDatabase = new MockDatabaseDbContext(connectionString);
         }
 
@@ -60,12 +60,13 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
             this.ScenarioContext.Add("App", this.App);
         }
 
-        [Given(@"I am on the Main Page")]
-        public void GivenIAmOnTheMainPage()
+        [Given(@"I am on the Sign In Page")]
+        public void GivenIAmOnTheSignInPage()
         {
-
+            this.App.WaitForElement("Golf Handicap");
         }
-        
+
+
         [Given(@"There are no players signed up")]
         public void GivenThereAreNoPlayersSignedUp()
         {
@@ -75,7 +76,7 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
             context.RemoveRange(usersToRemove);
 
             List<Player> playersToRemove = context.Players.ToList();
-            context.RemoveRange(usersToRemove);
+            context.RemoveRange(playersToRemove);
 
             context.SaveChanges();
         }

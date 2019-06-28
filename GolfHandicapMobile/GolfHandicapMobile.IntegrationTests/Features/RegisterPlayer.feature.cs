@@ -93,7 +93,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 11
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 12
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
@@ -115,7 +115,7 @@ this.FeatureBackground();
 #line 21
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22
- testRunner.Then("the Registration Success screen should be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the Registration Success message should be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -131,7 +131,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 25
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 26
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 27
@@ -167,7 +167,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 38
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 39
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 40
@@ -203,7 +203,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 51
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 52
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 53
@@ -237,7 +237,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 63
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 64
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 65
@@ -273,7 +273,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 76
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 77
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 78
@@ -311,7 +311,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 90
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 91
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 92
@@ -347,7 +347,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 103
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 104
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 105
@@ -385,7 +385,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 117
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 118
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 119
@@ -423,7 +423,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 131
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 132
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 133
@@ -459,7 +459,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line 144
- testRunner.Given("I am on the Main Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am on the Sign In Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 145
  testRunner.When("I tap on Register", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 146
