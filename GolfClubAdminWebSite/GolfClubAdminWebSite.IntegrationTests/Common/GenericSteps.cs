@@ -68,8 +68,8 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
 
                 this.EventStoreConnectionString =
                     $"EventStoreSettings:ConnectionString=ConnectTo=tcp://admin:changeit@{this.EventStoreContainerName}:1113;VerboseLogging=true;";
-                this.SecurityServiceAddress = $"AppSettings:OAuth2SecurityService=http://3.9.26.155:55001";
-                this.AuthorityAddress = $"SecurityConfiguration:Authority=http://3.9.26.155:55001";
+                this.SecurityServiceAddress = $"AppSettings:OAuth2SecurityService=http://192.168.1.132:55001";
+                this.AuthorityAddress = $"SecurityConfiguration:Authority=http://192.168.1.132:55001";
                 this.SubscriptionServiceConnectionString =
                     $"\"ConnectionStrings:SubscriptionServiceConfigurationContext={Setup.GetConnectionString("SubscriptionServiceConfiguration")}\"";
                 this.ManagementAPISeedingType = "SeedingType=IntegrationTest";
@@ -78,13 +78,13 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
                 this.SetupTestNetwork();
                 this.SetupManagementAPIContainer(testFolder);
                 this.SetupEventStoreContainer(testFolder);
-                this.SetupSubscriptionServiceContainer(testFolder);
                 this.SetupGolfClubAdminUIContainer(testFolder);
 
                 // Cache the ports
                 this.GolfClubAdminUIPort = this.GolfClubAdminUIContainer.ToHostExposedEndpoint("5005/tcp").Port;
 
                 this.SetupSubscriptionServiceConfig();
+                this.SetupSubscriptionServiceContainer(testFolder);
 
                 this.UpdateClientRedirectUris("golfhandicap.adminwebsite", $"http://localhost:{this.GolfClubAdminUIPort}");
                 this.DeleteAllRegisteredUsers();
@@ -93,10 +93,10 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
 
         private void DeleteAllRegisteredUsers()
         {
-            String server = "golfhandicapping.ck9ila7cw53m.eu-west-2.rds.amazonaws.com";
+            String server = "192.168.1.132";
             String database = "Authentication_uitest";
-            String user = "ghawsuser";
-            String password = "Sc0tland";
+            String user = "root";
+            String password = "Pa55word";
             String sslM = "none";
 
             String connectionString = $"server={server};user id={user}; password={password}; database={database}; SslMode={sslM}";
@@ -342,10 +342,10 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
         private void UpdateClientRedirectUris(String clientId,
                                               String uri)
         {
-            String server = "golfhandicapping.ck9ila7cw53m.eu-west-2.rds.amazonaws.com";
+            String server = "192.168.1.132";
             String database = "Configuration_uitest";
-            String user = "ghawsuser";
-            String password = "Sc0tland";
+            String user = "root";
+            String password = "Pa55word";
             String sslM = "none";
 
             String connectionString = $"server={server};user id={user}; password={password}; database={database}; SslMode={sslM}";
