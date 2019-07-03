@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-             x:Class="GolfHandicapMobile.Views.HomePage">
+             x:Class="GolfHandicapMobile.Views.HomePage"
+             Title="Home">
     <ContentPage.Content>
         <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
             <Label Text="This is my home!" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" AutomationId="HomePageLabel"/>

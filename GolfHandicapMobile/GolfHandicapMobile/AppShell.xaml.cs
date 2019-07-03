@@ -84,7 +84,8 @@
         /// <returns></returns>
         private async Task NavigateToMyMemberships()
         {
-            CrossToastPopUp.Current.ShowToastError("Clicked My Memberships");
+            IMyMembershipsPresenter myMembershipsPresenter = App.Container.Resolve<IMyMembershipsPresenter>();
+            await myMembershipsPresenter.Start();
         }
 
         #endregion

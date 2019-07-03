@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HandicapMobile.MockAPI.Database
 {
+    using GolfHandicapMobile.MockDatabase.Database.Models;
+
     public class MockDatabaseDbContext : DbContext
     {
         private readonly String ConnectionString;
@@ -76,7 +78,30 @@ namespace HandicapMobile.MockAPI.Database
         /// The registered users.
         /// </value>
         public DbSet<RegisteredUser> RegisteredUsers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the players.
+        /// </summary>
+        /// <value>
+        /// The players.
+        /// </value>
         public DbSet<Player> Players { get; set; }
+
+        /// <summary>
+        /// Gets or sets the golf clubs.
+        /// </summary>
+        /// <value>
+        /// The golf clubs.
+        /// </value>
+        public DbSet<GolfClub> GolfClubs { get; set; }
+
+        /// <summary>
+        /// Gets or sets the golf club memberships.
+        /// </summary>
+        /// <value>
+        /// The golf club memberships.
+        /// </value>
+        public DbSet<GolfClubMembership> GolfClubMemberships { get; set; }
 
         #endregion
     }

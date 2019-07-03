@@ -10,6 +10,8 @@ namespace GolfHandicapMobile.MockAPI.Controllers
     using HandicapMobile.MockAPI.Database;
     using HandicapMobile.MockAPI.Database.Models;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Primitives;
+    using MockDatabase.Database.Models;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -65,8 +67,8 @@ namespace GolfHandicapMobile.MockAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPlayer()
         {
-            var gimp = this.Request.Headers.ToList();
-            var authHeader = gimp.Where(x => x.Key == "Authorization").Select(x => x.Value).SingleOrDefault().SingleOrDefault();
+            List<KeyValuePair<String, StringValues>> headers = this.Request.Headers.ToList();
+            String authHeader = headers.Where(x => x.Key == "Authorization").Select(x => x.Value).SingleOrDefault().SingleOrDefault();
 
             if (authHeader == null)
             {
@@ -82,7 +84,7 @@ namespace GolfHandicapMobile.MockAPI.Controllers
             using(MockDatabaseDbContext context = this.MockDatabaseDbContextResolver())
             {
                 // Find the player
-                Player player = context.Players.Where(p => p.PlayerId == playerId).SingleOrDefault();
+                Player player = context.Players.SingleOrDefault(p => p.PlayerId == playerId);
 
                 if (player == null)
                 {
@@ -104,6 +106,51 @@ namespace GolfHandicapMobile.MockAPI.Controllers
                                        HandicapCategory = this.CalculateHandicapCategory(this.CalculatePlayingHandicap(player.ExactHandicap))
                                    });
                 }
+            }
+        }
+
+        [HttpGet]
+        [Route("Memberships")]
+        public async Task<IActionResult> GetPlayerMemberships(CancellationToken cancellationToken)
+        {
+            List<KeyValuePair<String, StringValues>> headers = this.Request.Headers.ToList();
+            String authHeader = headers.Where(x => x.Key == "Authorization").Select(x => x.Value).SingleOrDefault().SingleOrDefault();
+
+            if (authHeader == null)
+            {
+                return this.Unauthorized();
+            }
+
+            // Parse the token
+            String[] tokenValues = authHeader.Split('|');
+
+            // Get the player id
+            Guid playerId = Guid.Parse(tokenValues[2]);
+
+            using(MockDatabaseDbContext context = this.MockDatabaseDbContextResolver())
+            {
+                IQueryable<GolfClubMembership> playerMemberships = context.GolfClubMemberships.Where(m => m.PlayerId == playerId);
+
+                if (!playerMemberships.Any())
+                {
+                    return this.NotFound();
+                }
+
+                List<ClubMembershipResponse> membershipResponses = new List<ClubMembershipResponse>();
+                foreach (GolfClubMembership golfClubMembership in playerMemberships)
+                {
+                    membershipResponses.Add(new ClubMembershipResponse
+                                            {
+                                                AcceptedDateTime = golfClubMembership.AcceptedDateTime,
+                                                GolfClubId = golfClubMembership.GolfClubId,
+                                                MembershipId = golfClubMembership.MembershipId,
+                                                GolfClubName = golfClubMembership.GolfClubName,
+                                                MembershipNumber = "000001",
+                                                Status = MembershipStatus.Accepted
+                    });
+                }
+
+                return this.Ok(membershipResponses);
             }
         }
 

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="GolfHandicapMobile.Views.MyMembershipsPage"
+             Title="My Club Memberships">
+    <ContentPage.Content>
+        <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
+            <ListView x:Name="EmployeeView" ItemsSource="{Binding Memberships}" SelectionMode="Single">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout BackgroundColor="#eee"
+                                         Orientation="Vertical">
+                                <Label Text="{Binding GolfClubName}" FontSize="12" FontAttributes="Bold" ></Label>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Membership Number:" FontSize="10" FontAttributes="Bold" />
+                                    <Label Text="{Binding MembershipNumber}" FontSize="10" FontAttributes="None" />
+                                    <Label Text="Date Joined:"  FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding DateJoined, StringFormat='{0: dd/MM/yy}'}" HorizontalOptions="EndAndExpand" FontSize="10" FontAttributes="None"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button x:Name="RequestClubMembershipButton" Text="Request Club Membership"/>
+            <Button x:Name="HomeButton" Text="Home"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

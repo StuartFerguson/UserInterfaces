@@ -180,11 +180,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\FeatureBase.cs" />
     <Compile Include="Steps\RegisterPlayerSteps.cs" />
+    <Compile Include="Steps\RequestClubMembershipSteps.cs" />
     <Compile Include="Steps\SignInPlayerSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Features\RegisterPlayer.feature" />
+    <None Include="Features\RequestClubMembership.feature" />
     <None Include="Features\SignInPlayer.feature" />
     <None Include="packages.config" />
   </ItemGroup>
