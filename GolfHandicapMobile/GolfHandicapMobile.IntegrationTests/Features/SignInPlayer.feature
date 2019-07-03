@@ -1,5 +1,5 @@
 ﻿@base @registerplayer @signinplayer
-Feature: SignInPlayer
+Feature: Sign In Player
 	In order to use the Golf Handicap Mobile Application
 	As a player
 	I require to be able to sign in once registered

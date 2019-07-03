@@ -18,7 +18,7 @@ namespace GolfHandicapMobile.IntegrationTests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("RegisterPlayer")]
+    [NUnit.Framework.DescriptionAttribute("Register Player")]
     [NUnit.Framework.CategoryAttribute("base")]
     [NUnit.Framework.CategoryAttribute("registerplayer")]
     public partial class RegisterPlayerFeature
@@ -33,7 +33,7 @@ namespace GolfHandicapMobile.IntegrationTests.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "RegisterPlayer", "\tIn order to use the Golf Handicap Mobile Application\r\n\tAs a player\r\n\tI require t" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Register Player", "\tIn order to use the Golf Handicap Mobile Application\r\n\tAs a player\r\n\tI require t" +
                     "o be able to register", ProgrammingLanguage.CSharp, new string[] {
                         "base",
                         "registerplayer"});

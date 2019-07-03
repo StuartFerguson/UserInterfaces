@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="GolfHandicapMobile.ViewModels.MyMembershipRequestClubListPage"
+             Title="Request Membership">
+    <ContentPage.Content>
+        <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
+            <Picker x:Name="GolfClub" Title="Select Golf Club" ItemsSource="{Binding GolfClubList}" 
+                    ItemDisplayBinding="{Binding GolfClubName}"
+                    SelectedItem="{Binding SelectedGolfClub}">
+            </Picker>
+
+            <Label Text="{Binding SelectedGolfClub.GolfClubName}" AutomationId="GolfClubName"/>
+            <Label Text="{Binding SelectedGolfClub.Town}"  AutomationId="Town"/>
+            <Label Text="{Binding SelectedGolfClub.Region}" AutomationId="Region"/>
+            <Label Text="{Binding SelectedGolfClub.PostCode}" AutomationId="PostCode"/>
+
+            <Button x:Name="RequestMembershipButton" Text="Request Membership"></Button>
+            <Button x:Name="HomeButton" Text="Home"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,5 +1,5 @@
 ﻿@base @registerplayer
-Feature: RegisterPlayer
+Feature: Register Player
 	In order to use the Golf Handicap Mobile Application
 	As a player
 	I require to be able to register

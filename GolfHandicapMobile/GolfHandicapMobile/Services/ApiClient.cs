@@ -1,6 +1,8 @@
 ﻿namespace GolfClubAdminWebSite.Services
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
@@ -23,6 +25,11 @@
         /// </summary>
         private readonly IPlayerClient PlayerClient;
 
+        /// <summary>
+        /// The golf club client
+        /// </summary>
+        private readonly IGolfClubClient GolfClubClient;
+
         #endregion
 
         #region Constructors
@@ -31,9 +38,11 @@
         /// Initializes a new instance of the <see cref="ApiClient" /> class.
         /// </summary>
         /// <param name="playerClient">The player client.</param>
-        public ApiClient(IPlayerClient playerClient)
+        /// <param name="golfClubClient">The golf club client.</param>
+        public ApiClient(IPlayerClient playerClient, IGolfClubClient golfClubClient)
         {
             this.PlayerClient = playerClient;
+            this.GolfClubClient = golfClubClient;
         }
 
         #endregion
@@ -91,6 +100,93 @@
 
             // Set the result in the view model
             viewModel.PlayerId = apiResponse.PlayerId;
+        }
+
+        /// <summary>
+        /// Requests the club membership.
+        /// </summary>
+        /// <param name="passwordToken">The password token.</param>
+        /// <param name="golfClubId">The golf club identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task RequestClubMembership(String passwordToken,
+                                                Guid golfClubId,
+                                                CancellationToken cancellationToken)
+        {
+            await this.GolfClubClient.RequestClubMembership(passwordToken, golfClubId, cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets the golf club list.
+        /// </summary>
+        /// <param name="passwordToken">The password token.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task GetGolfClubList(String passwordToken,
+                                          MyMembershipRequestClubListViewModel viewModel,
+                                          CancellationToken cancellationToken)
+        {
+            List<GetGolfClubResponse> apiResponse = await this.GolfClubClient.GetGolfClubList(passwordToken, cancellationToken);
+
+            foreach (GetGolfClubResponse getGolfClubResponse in apiResponse)
+            {
+                viewModel.GolfClubList.Add(new GolfClubViewModel
+                                           {
+                                               GolfClubId = getGolfClubResponse.Id,
+                                               GolfClubName = getGolfClubResponse.Name,
+                                               PostCode = getGolfClubResponse.PostalCode,
+                                               Region = getGolfClubResponse.Region,
+                                               Town = getGolfClubResponse.Town
+                });
+            }
+        }
+
+        /// <summary>
+        /// Gets the player memberships.
+        /// </summary>
+        /// <param name="passwordToken">The password token.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task GetPlayerMemberships(String passwordToken,
+                                               MyMembershipsListViewModel viewModel,
+                                               CancellationToken cancellationToken)
+        {
+            try
+            {
+                List<ClubMembershipResponse> apiResponse = await this.PlayerClient.GetPlayerMemberships(passwordToken, cancellationToken);
+
+                foreach (ClubMembershipResponse clubMembershipResponse in apiResponse)
+                {
+                    // Only show accepted memberships
+                    if (clubMembershipResponse.Status == MembershipStatus.Accepted)
+                    {
+                        viewModel.Memberships.Add(new MembershipViewModel
+                                                  {
+                                                      GolfClubId = clubMembershipResponse.GolfClubId,
+                                                      GolfClubName = clubMembershipResponse.GolfClubName,
+                                                      MembershipId = clubMembershipResponse.MembershipId,
+                                                      MembershipNumber = clubMembershipResponse.MembershipNumber,
+                                                      DateJoined = clubMembershipResponse.AcceptedDateTime.Value
+                                                  });
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                // Look at the inner exception
+                if (ex.InnerException is KeyNotFoundException)
+                {
+                    // Swallow this exception and set the view model list to empty
+                    viewModel.Memberships = new ObservableCollection<MembershipViewModel>();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            
         }
 
         #endregion

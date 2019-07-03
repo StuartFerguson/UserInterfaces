@@ -11,6 +11,7 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
     using NUnit.Framework;
     using System.Diagnostics;
     using System.Threading;
+    using MockDatabase.Database.Models;
     using TechTalk.SpecFlow;
     using Xamarin.UITest;
     using Xamarin.UITest.Configuration;
@@ -66,6 +67,18 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
             this.App.WaitForElement("Golf Handicap");
         }
 
+        [Given(@"I am on the Home Page")]
+        public void GivenIAmOnTheHomePage()
+        {
+            this.App.WaitForElement("Home");
+        }
+
+        [When(@"I click on the '(.*)' sidebar option")]
+        public void WhenIClickOnTheSidebarOption(String sidebarOption)
+        {
+            this.App.Tap(sidebarOption);
+        }
+
 
         [Given(@"There are no players signed up")]
         public void GivenThereAreNoPlayersSignedUp()
@@ -80,6 +93,37 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
 
             context.SaveChanges();
         }
+
+        [Given(@"the following golf clubs are registered")]
+        public void GivenTheFollowingGolfClubsAreRegistered(Table table)
+        {
+            MockDatabaseDbContext context = this.MockDatabase;
+
+            List<GolfClub> golfClubsToRemove = context.GolfClubs.ToList();
+            context.RemoveRange(golfClubsToRemove);
+
+            foreach (TableRow tableRow in table.Rows)
+            {
+                GolfClub golfClub = new GolfClub
+                                    {
+                                        GolfClubId = Guid.NewGuid(),
+                                        Name = tableRow["GolfClubName"],
+                                        Town = tableRow["Town"],
+                                        Region = tableRow["Region"],
+                                        PostalCode = tableRow["PostalCode"]
+                                    };
+                context.GolfClubs.Add(golfClub);
+            }
+
+            context.SaveChanges();
+        }
+
+        [Given(@"I open up the sidebar")]
+        public void GivenIOpenUpTheSidebar()
+        {
+            this.App.DragCoordinates(15, 50, 305, 50);
+        }
+
 
         [BeforeFeature]
         public static void StartEmulator()

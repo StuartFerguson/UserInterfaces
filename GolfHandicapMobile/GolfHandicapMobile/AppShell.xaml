@@ -27,9 +27,9 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <ShellItem Title="Home">
+    <ShellItem Title="My Home" AutomationId="Test">
         <ShellSection>
-            <ShellContent>
+            <ShellContent AutomationId="Testing">
                 <local:HomePage/>
             </ShellContent>
         </ShellSection>
