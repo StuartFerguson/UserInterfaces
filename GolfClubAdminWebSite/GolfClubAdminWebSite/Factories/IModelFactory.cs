@@ -50,5 +50,19 @@
         /// <param name="apiResponse">The API response.</param>
         /// <returns></returns>
         List<MeasuredCourseListViewModel> ConvertFrom(GetMeasuredCourseListResponse apiResponse);
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        List<GetGolfClubUserListViewModel> ConvertFrom(GetGolfClubUserListResponse apiResponse);
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        CreateMatchSecretaryRequest ConvertFrom(CreateGolfClubUserViewModel viewModel);
     }
 }

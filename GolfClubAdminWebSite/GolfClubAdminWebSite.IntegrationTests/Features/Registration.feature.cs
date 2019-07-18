@@ -94,14 +94,14 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
  testRunner.Then("I should be displayed the registration form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
                         "FirstName",
                         "LastName",
                         "Email",
                         "TelephoneNumber",
                         "Password",
                         "ConfirmPassword"});
-            table11.AddRow(new string[] {
+            table16.AddRow(new string[] {
                         "Test",
                         "User",
                         "testuser@testgolfclub.co.uk",
@@ -109,7 +109,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "123456",
                         "123456"});
 #line 9
- testRunner.When("I use the follwing details to register", ((string)(null)), table11, "When ");
+ testRunner.When("I use the follwing details to register", ((string)(null)), table16, "When ");
 #line 12
  testRunner.And("I click the register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 13

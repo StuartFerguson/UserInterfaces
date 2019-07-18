@@ -180,7 +180,7 @@
                                                     }).AddOpenIdConnect("oidc",
                                                                         options =>
                                                                         {
-                                                                            options.Authority = ConfigurationReader.GetValue("AppSettings", "OAuth2SecurityService");
+                                                                            options.Authority = ConfigurationReader.GetValue("AppSettings", "SecurityService");
                                                                             options.RequireHttpsMetadata = false;
 
                                                                             options.ClientSecret = ConfigurationReader.GetValue("AppSettings", "ClientSecret");

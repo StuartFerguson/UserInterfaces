@@ -69,6 +69,22 @@
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="viewModel"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task CreateMatchSecretary(String accessToken,
+                                               CreateGolfClubUserViewModel viewModel,
+                                               CancellationToken cancellationToken)
+        {
+            CreateMatchSecretaryRequest createMatchSecretaryRequest = this.ModelFactory.ConvertFrom(viewModel);
+
+            await this.GolfClubClient.CreateMatchSecretary(accessToken, createMatchSecretaryRequest, cancellationToken);
+        }
+
+        /// <summary>
         /// Creates the measured course.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
@@ -177,6 +193,19 @@
             RegisterClubAdministratorRequest registerRegisterClubAdministratorRequest = this.ModelFactory.ConvertFrom(viewModel);
 
             await this.GolfClubClient.RegisterGolfClubAdministrator(registerRegisterClubAdministratorRequest, cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets the user list.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task<List<GetGolfClubUserListViewModel>> GetUserList(String accessToken, CancellationToken cancellationToken)
+        {
+            GetGolfClubUserListResponse userList = await this.GolfClubClient.GetGolfClubUserList(accessToken, cancellationToken);
+
+            return this.ModelFactory.ConvertFrom(userList);
         }
 
         #endregion
