@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
     using Areas.Account.Models;
     using Areas.GolfClubAdministrator.Models;
-    using ManagementAPI.Service.DataTransferObjects;
     using ManagementAPI.Service.DataTransferObjects.Responses;
 
     /// <summary>
@@ -26,6 +25,17 @@
         Task<CreateGolfClubResponse> CreateGolfClub(String accessToken,
                                                     CreateGolfClubViewModel viewModel,
                                                     CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Creates the match secretary.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task CreateMatchSecretary(String accessToken, 
+                                  CreateGolfClubUserViewModel viewModel,
+                                  CancellationToken cancellationToken);
 
         /// <summary>
         /// Creates the measured course.
@@ -55,6 +65,15 @@
         /// <returns></returns>
         Task<List<MeasuredCourseListViewModel>> GetMeasuredCourses(String accessToken,
                                                                    CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Gets the user list.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task<List<GetGolfClubUserListViewModel>> GetUserList(String accessToken,
+                                                             CancellationToken cancellationToken);
 
         /// <summary>
         /// Determines whether [is golf club created] [the specified access token].

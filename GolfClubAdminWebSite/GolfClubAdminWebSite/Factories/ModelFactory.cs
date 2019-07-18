@@ -1,5 +1,6 @@
 ﻿namespace GolfClubAdminWebSite.Factories
 {
+    using System;
     using System.Collections.Generic;
     using Areas.Account.Models;
     using Areas.GolfClubAdministrator.Models;
@@ -27,7 +28,10 @@
                                                                                             ConfirmPassword = viewModel.ConfirmPassword,
                                                                                             EmailAddress = viewModel.Email,
                                                                                             Password = viewModel.Password,
-                                                                                            TelephoneNumber = viewModel.TelephoneNumber
+                                                                                            TelephoneNumber = viewModel.TelephoneNumber,
+                                                                                            FamilyName = viewModel.LastName,
+                                                                                            GivenName = viewModel.FirstName,
+                                                                                            MiddleName = String.Empty
                                                                                         };
 
             return registerRegisterClubAdministratorRequest;
@@ -117,8 +121,6 @@
             request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 17, LengthInYards = viewModel.HoleNumber17Yards, Par = viewModel.HoleNumber17Par, StrokeIndex = viewModel.HoleNumber17StrokeIndex });
             request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 18, LengthInYards = viewModel.HoleNumber18Yards, Par = viewModel.HoleNumber18Par, StrokeIndex = viewModel.HoleNumber18StrokeIndex });
 
-            
-
             return request;
         }
 
@@ -143,6 +145,53 @@
             }
 
             return viewModels;
+        }
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        public List<GetGolfClubUserListViewModel> ConvertFrom(GetGolfClubUserListResponse apiResponse)
+        {
+            List<GetGolfClubUserListViewModel> viewModels = new List<GetGolfClubUserListViewModel>();
+
+            foreach (GolfClubUserResponse golfClubUserResponse in apiResponse.Users)
+            {
+                viewModels.Add(new GetGolfClubUserListViewModel
+                               {
+                                   Email = golfClubUserResponse.Email,
+                                   FullName = $"{golfClubUserResponse.GivenName} {golfClubUserResponse.FamilyName}",
+                                   GolfClubId = golfClubUserResponse.GolfClubId,
+                                   PhoneNumber = golfClubUserResponse.PhoneNumber == null ? String.Empty : golfClubUserResponse.PhoneNumber,
+                                   UserId = golfClubUserResponse.UserId,
+                                   UserName = golfClubUserResponse.UserName,
+                                   UserType = golfClubUserResponse.UserType
+                });
+            }
+
+            return viewModels;
+        }
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        public CreateMatchSecretaryRequest ConvertFrom(CreateGolfClubUserViewModel viewModel)
+        {
+            CreateMatchSecretaryRequest request = new CreateMatchSecretaryRequest
+                                                  {
+                                                      ConfirmPassword = "123456",
+                                                      GivenName = viewModel.GivenName,
+                                                      FamilyName = viewModel.FamilyName,
+                                                      MiddleName = viewModel.MiddleName,
+                                                      EmailAddress = viewModel.Email,
+                                                      Password = "123456",
+                                                      TelephoneNumber = viewModel.TelephoneNumber,
+                                                  };
+
+            return request;
         }
 
         #endregion

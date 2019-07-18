@@ -68,7 +68,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
 
                 this.EventStoreConnectionString =
                     $"EventStoreSettings:ConnectionString=ConnectTo=tcp://admin:changeit@{this.EventStoreContainerName}:1113;VerboseLogging=true;";
-                this.SecurityServiceAddress = $"AppSettings:OAuth2SecurityService=http://192.168.1.132:55001";
+                this.SecurityServiceAddress = $"AppSettings:SecurityService=http://192.168.1.132:55001";
                 this.AuthorityAddress = $"SecurityConfiguration:Authority=http://192.168.1.132:55001";
                 this.SubscriptionServiceConnectionString =
                     $"\"ConnectionStrings:SubscriptionServiceConfigurationContext={Setup.GetConnectionString("SubscriptionServiceConfiguration")}\"";

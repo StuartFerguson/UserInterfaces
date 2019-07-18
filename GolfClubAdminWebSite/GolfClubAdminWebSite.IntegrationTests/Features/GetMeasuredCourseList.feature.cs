@@ -83,14 +83,14 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
 #line 7
  testRunner.Then("I should be displayed the registration form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
                         "FirstName",
                         "LastName",
                         "Email",
                         "TelephoneNumber",
                         "Password",
                         "ConfirmPassword"});
-            table7.AddRow(new string[] {
+            table12.AddRow(new string[] {
                         "Test",
                         "User",
                         "testuser@testgolfclub.co.uk",
@@ -98,7 +98,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
                         "123456",
                         "123456"});
 #line 8
- testRunner.When("I use the follwing details to register", ((string)(null)), table7, "When ");
+ testRunner.When("I use the follwing details to register", ((string)(null)), table12, "When ");
 #line 11
  testRunner.And("I click the register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
@@ -122,7 +122,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
 #line 21
  testRunner.Then("I am presented with the Create Golf Club Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
                         "GolfClubName",
                         "AddressLine1",
                         "AddressLine2",
@@ -132,7 +132,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
                         "TelephoneNumber",
                         "EmailAddress",
                         "Website"});
-            table8.AddRow(new string[] {
+            table13.AddRow(new string[] {
                         "Test Golf Club",
                         "Address Line 1",
                         "",
@@ -143,7 +143,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
                         "testclub@testclub.co.uk",
                         "www.testclub.co.uk"});
 #line 22
- testRunner.When("I use the following details to create a new golf club", ((string)(null)), table8, "When ");
+ testRunner.When("I use the following details to create a new golf club", ((string)(null)), table13, "When ");
 #line 25
  testRunner.And("I click the Create Club button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 26
@@ -157,114 +157,114 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
 #line 30
  testRunner.Then("I am presented with the New Measured Course screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
                         "Name",
                         "TeeColour",
                         "SSS"});
-            table9.AddRow(new string[] {
+            table14.AddRow(new string[] {
                         "Test Golf Course",
                         "White",
                         "70"});
 #line 31
- testRunner.When("I add the following details for the new measured course", ((string)(null)), table9, "When ");
+ testRunner.When("I add the following details for the new measured course", ((string)(null)), table14, "When ");
 #line hidden
-            TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
                         "HoleNumber",
                         "Yardage",
                         "Par",
                         "StrokeIndex"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "1",
                         "348",
                         "4",
                         "10"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "2",
                         "402",
                         "4",
                         "4"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "3",
                         "207",
                         "3",
                         "14"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "4",
                         "405",
                         "4",
                         "8"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "5",
                         "428",
                         "4",
                         "2"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "6",
                         "477",
                         "5",
                         "12"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "7",
                         "186",
                         "3",
                         "16"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "8",
                         "397",
                         "4",
                         "6"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "9",
                         "130",
                         "3",
                         "18"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "10",
                         "399",
                         "4",
                         "3"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "11",
                         "401",
                         "4",
                         "13"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "12",
                         "421",
                         "4",
                         "1"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "13",
                         "530",
                         "5",
                         "11"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "14",
                         "196",
                         "3",
                         "5"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "15",
                         "355",
                         "4",
                         "7"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "16",
                         "243",
                         "4",
                         "15"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "17",
                         "286",
                         "4",
                         "17"});
-            table10.AddRow(new string[] {
+            table15.AddRow(new string[] {
                         "18",
                         "399",
                         "4",
                         "9"});
 #line 34
- testRunner.When("I add the following hole information for the new measured course", ((string)(null)), table10, "When ");
+ testRunner.When("I add the following hole information for the new measured course", ((string)(null)), table15, "When ");
 #line 54
  testRunner.And("I click the Create Measured Course", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 55
