@@ -103,6 +103,84 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
  testRunner.And("I click the register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
  testRunner.Then("I should be presented with the Registration Success Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+ testRunner.Given("I am on the home page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 14
+ testRunner.And("I click on the login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 15
+ testRunner.Then("I am presented with the login screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 16
+ testRunner.When("I enter the username \'testuser@testgolfclub.co.uk\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.And("I enter the password \'123456\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 18
+ testRunner.And("I click on the forms login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 19
+ testRunner.Then("I should be presented with the logged in screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 20
+ testRunner.When("I click on the Manage Golf Club sidebar option", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 21
+ testRunner.Then("I am presented with the Create Golf Club Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
+                        "GolfClubName",
+                        "AddressLine1",
+                        "AddressLine2",
+                        "TownCity",
+                        "Region",
+                        "PostCode",
+                        "TelephoneNumber",
+                        "EmailAddress",
+                        "Website"});
+            table18.AddRow(new string[] {
+                        "Test Golf Club",
+                        "Address Line 1",
+                        "",
+                        "TestTown",
+                        "TestRegion",
+                        "TE57 1NG",
+                        "1234567890",
+                        "testclub@testclub.co.uk",
+                        "www.testclub.co.uk"});
+#line 22
+ testRunner.When("I use the following details to create a new golf club", ((string)(null)), table18, "When ");
+#line 25
+ testRunner.And("I click the Create Club button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 26
+ testRunner.Then("I should be presented with the Edit Golf Club screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 27
+ testRunner.When("I click on the Users sidebar option", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 28
+ testRunner.Then("I am presented with the list of golf club users", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 29
+ testRunner.And("a user with the name \"Test User\" should be in the list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 30
+ testRunner.When("I click on the Users sidebar option", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 31
+ testRunner.Then("I am presented with the list of golf club users", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 32
+ testRunner.When("I click on the New Match Secretary Button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
+                        "FirstName",
+                        "LastName",
+                        "Email",
+                        "TelephoneNumber"});
+            table19.AddRow(new string[] {
+                        "Test",
+                        "Match Secretary",
+                        "testmatchsecretary@testgolfclub.co.uk",
+                        "1234567890"});
+#line 33
+ testRunner.And("I use the following details to create a match secretary", ((string)(null)), table19, "And ");
+#line 36
+ testRunner.And("I click on the create user button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 37
+ testRunner.Then("I am presented with the list of golf club users", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 38
+ testRunner.And("a user with the name \"Test Match Secretary\" should be in the list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 39
+ testRunner.And("I have logged out of the application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -117,24 +195,53 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
         public virtual void LoginAsGolfClubAdministrator()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login as Golf Club Administrator", null, ((string[])(null)));
-#line 14
+#line 41
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
 this.FeatureBackground();
-#line 15
+#line 42
  testRunner.Given("I am on the home page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 16
+#line 43
  testRunner.And("I click on the login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 17
+#line 44
  testRunner.Then("I am presented with the login screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 18
+#line 45
  testRunner.When("I enter the username \'testuser@testgolfclub.co.uk\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 19
+#line 46
  testRunner.And("I enter the password \'123456\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 20
+#line 47
  testRunner.And("I click on the forms login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 21
+#line 48
+ testRunner.Then("I should be presented with the logged in screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Login as Match Secretary")]
+        [Xunit.TraitAttribute("FeatureTitle", "UserLogin")]
+        [Xunit.TraitAttribute("Description", "Login as Match Secretary")]
+        public virtual void LoginAsMatchSecretary()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login as Match Secretary", null, ((string[])(null)));
+#line 50
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line 51
+ testRunner.Given("I am on the home page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 52
+ testRunner.And("I click on the login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 53
+ testRunner.Then("I am presented with the login screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 54
+ testRunner.When("I enter the username \'testuser@testgolfclub.co.uk\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 55
+ testRunner.And("I enter the password \'123456\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 56
+ testRunner.And("I click on the forms login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 57
  testRunner.Then("I should be presented with the logged in screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

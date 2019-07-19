@@ -4,6 +4,7 @@
     using Factories;
     using ManagementAPI.Service.Client;
     using Microsoft.Extensions.Configuration;
+    using GolfClubAdminWebSite;
     using Services;
     using Shared.General;
     using StructureMap;

@@ -3,7 +3,7 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
-    using Bootstrapper;
+    using GolfClubAdminWebSite.Bootstrapper;
     using IdentityModel;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
@@ -111,6 +111,7 @@
                        {
                            routes.MapAreaRoute(name:"Account", areaName:"Account", template:"Account/{controller=Home}/{action=Index}/{id?}");
                            routes.MapAreaRoute(name:"GolfClubAdministrator", areaName:"GolfClubAdministrator", template:"GolfClubAdministrator/{controller=Home}/{action=Index}/{id?}");
+                           routes.MapAreaRoute(name: "MatchSecretary", areaName: "MatchSecretary", template: "MatchSecretary/{controller=Home}/{action=Index}/{id?}");
 
                            routes.MapRoute(name:"default", template:"{controller=Home}/{action=Index}/{id?}");
                        });

@@ -42,14 +42,14 @@ namespace GolfClubAdminWebSite.Areas.Account.Controllers
                                                          Area = "GolfClubAdministrator"
                                                      });
             }
-            else if (this.User.IsInRole("Match Secretatry"))
+            else if (this.User.IsInRole("Match Secretary"))
             {
-                //actionResult = this.RedirectToAction("Index",
-                //                                     "Home",
-                //                                     new
-                //                                     {
-                //                                         Area = "MatchSecretary"
-                //                                     });
+                actionResult = this.RedirectToAction("Index",
+                                                     "Home",
+                                                     new
+                                                     {
+                                                         Area = "MatchSecretary"
+                                                     });
             }
             else
             {
