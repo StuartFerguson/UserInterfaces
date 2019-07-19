@@ -24,6 +24,8 @@
   <ItemGroup>
     <Folder Include="Areas\Account\Data\" />
     <Folder Include="Areas\GolfClubAdministrator\Data\" />
+    <Folder Include="Areas\MatchSecretary\Data\" />
+    <Folder Include="Areas\MatchSecretary\Models\" />
     <Folder Include="Bootstrapper\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
