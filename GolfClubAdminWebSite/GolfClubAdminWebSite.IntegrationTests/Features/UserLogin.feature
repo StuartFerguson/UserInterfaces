@@ -51,7 +51,7 @@ Scenario: Login as Match Secretary
 	Given I am on the home page
 	And I click on the login button
 	Then I am presented with the login screen
-	When I enter the username 'testuser@testgolfclub.co.uk'
+	When I enter the username 'testmatchsecretary@testgolfclub.co.uk'
 	And I enter the password '123456'
 	And I click on the forms login button
 	Then I should be presented with the logged in screen

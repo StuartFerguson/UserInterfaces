@@ -35,6 +35,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CreateMatchSecretary.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="Features\CreateTournament.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CreateTournament.feature.cs</LastGenOutput>
+    </SpecFlowFeatureFiles>
     <SpecFlowFeatureFiles Update="Features\GetGolfClubUserList.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>GetGolfClubUserList.feature.cs</LastGenOutput>
@@ -67,6 +71,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>CreateMatchSecretary.feature</DependentUpon>
+    </Compile>
+    <Compile Update="Features\CreateTournament.feature.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CreateTournament.feature</DependentUpon>
     </Compile>
     <Compile Update="Features\GetGolfClubUserList.feature.cs">
       <DesignTime>True</DesignTime>

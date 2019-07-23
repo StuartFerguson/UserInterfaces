@@ -1,0 +1,101 @@
+﻿@model GolfClubAdminWebSite.Areas.MatchSecretary.Models.CreateTournamentViewModel
+
+
+@{
+    ViewData["Title"] = "Create Tournament";
+    Layout = "~/Areas/MatchSecretary/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    
+    @*public DateTime TournamentDate { get; set; }
+
+    public String Name { get; set; }
+
+    public Int32 MemberCategory { get; set; }
+
+    public Int32 Format { get; set; }*@
+
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Create Tournament</h1>
+                        </div>
+                        <form id="createMatchSecretaryForm" asp-action="CreateTournament" asp-area="MatchSecretary" asp-controller="Home" method="post" class="user">
+                            <div class="form-group">
+                                <select asp-for="MeasuredCourseId" id="measuredCourses" class="form-control" required>
+                                    <option value="" disabled selected>Select a Measured Course</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <select asp-for="Format" id="formats" class="form-control" required>
+                                    <option value="" disabled selected>Select a Format</option>
+                                    <option value="1">Strokeplay</option>
+                                    <option value="2">Stableford</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <select asp-for="MemberCategory" id="memberCategories" class="form-control" required>
+                                    <option value="" disabled selected>Select a Member Category</option>
+                                    <option value="1">Gents</option>
+                                    <option value="2">Gents Senior</option>
+                                    <option value="3">Female</option>
+                                    <option value="4">Female Senior</option>
+                                    <option value="5">Junior</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input asp-for="Name" class="form-control form-control-user" placeholder="Tournament Name" required autofocus />
+                            </div>
+                            
+                            <div class="form-group">
+                                <input asp-for="TournamentDate" type="text" id="tournamentDate" class="form-control form-control-user" required placeholder="Select the Tournament Date">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-user btn-block"><i class="fa fa-plus"></i> Create Tournament</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function()
+    {
+        $('#tournamentDate').datepicker({
+            todayBtn: "linked",
+            clearBtn: true,
+            todayHighlight: true,
+            autoClose: true,
+            format: 'dd/mm/yyyy'
+        });
+
+        $.get("GetMeasuredCourseListAsJson",
+            function(data)
+            {
+                var measuredCoursesSelect = $('#measuredCourses');
+                var courseList = data;
+
+                courseList.forEach(function(element)
+                    {
+                        measuredCoursesSelect.append(
+                            $('<option></option>').val(element.id).html(element.name));
+                        console.log(element);
+                    });
+
+            });
+    });
+
+</script>
