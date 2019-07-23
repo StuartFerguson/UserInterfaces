@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Areas.Account.Models;
     using Areas.GolfClubAdministrator.Models;
+    using Areas.MatchSecretary.Models;
     using ManagementAPI.Service.DataTransferObjects.Responses;
 
     public class ModelFactoryTestData
@@ -185,6 +186,22 @@
 
         public static Int32 HoleNumber9Yards = 130;
 
+        private static String UserType = "Match Secretary";
+
+        private static Guid GolfClubId = Guid.Parse("D79D7371-EB8C-4362-9F9D-596C63AE2FB4");
+
+        private static Guid UserId = Guid.Parse("2085948A-92BE-4FAF-B0F2-DF7D7B78775E");
+
+        private static Int32 TournamentFormat = 1;
+
+        private static Int32 MemberCategory = 1;
+
+        private static Guid MeasuredCourseId = Guid.Parse("6AA71105-5A4E-48C7-96A6-1ED0CF93579A");
+
+        private static DateTime? TournamentDate = new DateTime(2019,7,23);
+
+        private static String TournamentName = "Test Tournament";
+
         public static MeasuredCourseViewModel GetMeasuredCourseViewModel()
         {
             return new MeasuredCourseViewModel
@@ -267,6 +284,52 @@
                                              }
                                          }
                    };
+        }
+
+        public static GetGolfClubUserListResponse GetGolfClubUserListResponse()
+        {
+            return new GetGolfClubUserListResponse
+                   {
+                       Users = new List<GolfClubUserResponse>
+                               {
+                                   new GolfClubUserResponse
+                                   {
+                                       GivenName = ModelFactoryTestData.FirstName,
+                                       FamilyName = ModelFactoryTestData.LastName,
+                                       MiddleName = String.Empty,
+                                       Email = ModelFactoryTestData.Email,
+                                       UserType = ModelFactoryTestData.UserType,
+                                       PhoneNumber = ModelFactoryTestData.TelephoneNumber,
+                                       UserName = ModelFactoryTestData.Email,
+                                       GolfClubId = ModelFactoryTestData.GolfClubId,
+                                       UserId = ModelFactoryTestData.UserId
+                                   }
+                               }
+                   };
+        }
+
+        public static CreateGolfClubUserViewModel GetCreateGolfClubUserViewModel()
+        {
+            return new CreateGolfClubUserViewModel
+                   {
+                       FamilyName = ModelFactoryTestData.LastName,
+                       MiddleName = String.Empty,
+                       GivenName = ModelFactoryTestData.FirstName,
+                       Email = ModelFactoryTestData.Email,
+                       TelephoneNumber = ModelFactoryTestData.TelephoneNumber
+                   };
+        }
+
+        public static CreateTournamentViewModel GetCreateTournamentViewModel()
+        {
+            return new CreateTournamentViewModel()
+            {
+                Format = ModelFactoryTestData.TournamentFormat,
+                MemberCategory = ModelFactoryTestData.MemberCategory,
+                MeasuredCourseId = ModelFactoryTestData.MeasuredCourseId,
+                TournamentDate = ModelFactoryTestData.TournamentDate,
+                Name = ModelFactoryTestData.TournamentName
+            };
         }
     }
 }

@@ -25,6 +25,11 @@
     },
     {
       "provider": "cdnjs",
+      "library": "bootstrap-datepicker@1.9.0",
+      "destination": "wwwroot/lib/bootstrap-datepicker"
+    },
+    {
+      "provider": "cdnjs",
       "library": "jquery-easing@1.4.1",
       "destination": "wwwroot/lib/jquery-easing"
     },

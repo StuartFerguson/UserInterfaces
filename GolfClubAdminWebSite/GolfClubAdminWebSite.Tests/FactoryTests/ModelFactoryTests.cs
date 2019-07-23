@@ -7,6 +7,7 @@ namespace GolfClubAdminWebSite.Tests.FactoryTests
     using System.Runtime.InteropServices.ComTypes;
     using Areas.Account.Models;
     using Areas.GolfClubAdministrator.Models;
+    using Areas.MatchSecretary.Models;
     using Factories;
     using ManagementAPI.Service.DataTransferObjects;
     using ManagementAPI.Service.DataTransferObjects.Requests;
@@ -174,6 +175,60 @@ namespace GolfClubAdminWebSite.Tests.FactoryTests
             viewModel.First().StandardScratchScore.ShouldBe(apiResponse.MeasuredCourses.First().StandardScratchScore);
             viewModel.First().TeeColour.ShouldBe(apiResponse.MeasuredCourses.First().TeeColour);
             viewModel.First().Name.ShouldBe(apiResponse.MeasuredCourses.First().Name);
+        }
+
+        [Fact]
+        public void ModelFactory_ConvertFrom_GetGolfClubUserListResponse_ConvertedSuccessfully()
+        {
+            ModelFactory factory = new ModelFactory();
+
+            GetGolfClubUserListResponse apiResponse = ModelFactoryTestData.GetGolfClubUserListResponse();
+
+            List<GetGolfClubUserListViewModel> viewModel = factory.ConvertFrom(apiResponse);
+
+            viewModel.Count.ShouldBe(apiResponse.Users.Count);
+            viewModel.First().Email.ShouldBe(apiResponse.Users.First().Email);
+            viewModel.First().FullName.ShouldBe($"{apiResponse.Users.First().GivenName} {apiResponse.Users.First().FamilyName}");
+            viewModel.First().GolfClubId.ShouldBe(apiResponse.Users.First().GolfClubId);
+            viewModel.First().PhoneNumber.ShouldBe(apiResponse.Users.First().PhoneNumber);
+            viewModel.First().UserId.ShouldBe(apiResponse.Users.First().UserId);
+            viewModel.First().UserType.ShouldBe(apiResponse.Users.First().UserType);
+            viewModel.First().UserName.ShouldBe(apiResponse.Users.First().UserName);
+        }
+
+        [Fact]
+        public void ModelFactory_ConvertFrom_CreateGolfClubUserViewModel_ConvertedSuccessfully()
+        {
+            ModelFactory factory = new ModelFactory();
+
+            CreateGolfClubUserViewModel viewModel = ModelFactoryTestData.GetCreateGolfClubUserViewModel();
+
+            CreateMatchSecretaryRequest apiRequest = factory.ConvertFrom(viewModel);
+
+            apiRequest.MiddleName.ShouldBe(viewModel.MiddleName);
+            apiRequest.ConfirmPassword.ShouldBe(ModelFactoryTestData.ConfirmPassword);
+            apiRequest.EmailAddress.ShouldBe(viewModel.Email);
+            apiRequest.FamilyName.ShouldBe(viewModel.FamilyName);
+            apiRequest.GivenName.ShouldBe(viewModel.GivenName);
+            apiRequest.Password.ShouldBe(ModelFactoryTestData.Password);
+            apiRequest.TelephoneNumber.ShouldBe(viewModel.TelephoneNumber);
+
+        }
+
+        [Fact]
+        public void ModelFactory_ConvertFrom_CreateTournamentViewModel_ConvertedSuccessfully()
+        {
+            ModelFactory factory = new ModelFactory();
+
+            CreateTournamentViewModel viewModel = ModelFactoryTestData.GetCreateTournamentViewModel();
+
+            CreateTournamentRequest apiRequest = factory.ConvertFrom(viewModel);
+
+            apiRequest.Format.ShouldBe(viewModel.Format);
+            apiRequest.MeasuredCourseId.ShouldBe(viewModel.MeasuredCourseId);
+            apiRequest.MemberCategory.ShouldBe(viewModel.MemberCategory);
+            apiRequest.Name.ShouldBe(viewModel.Name);
+            apiRequest.TournamentDate.ShouldBe(viewModel.TournamentDate.Value);
         }
     }
 }

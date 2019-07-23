@@ -1,10 +1,9 @@
 ﻿namespace GolfClubAdminWebSite.Factories
 {
-    using System;
     using System.Collections.Generic;
     using Areas.Account.Models;
     using Areas.GolfClubAdministrator.Models;
-    using ManagementAPI.Service.DataTransferObjects;
+    using Areas.MatchSecretary.Models;
     using ManagementAPI.Service.DataTransferObjects.Requests;
     using ManagementAPI.Service.DataTransferObjects.Responses;
 
@@ -31,7 +30,7 @@
                                                                                             TelephoneNumber = viewModel.TelephoneNumber,
                                                                                             FamilyName = viewModel.LastName,
                                                                                             GivenName = viewModel.FirstName,
-                                                                                            MiddleName = String.Empty
+                                                                                            MiddleName = string.Empty
                                                                                         };
 
             return registerRegisterClubAdministratorRequest;
@@ -101,25 +100,133 @@
                                                          Holes = new List<HoleDataTransferObjectRequest>()
                                                      };
 
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 1, LengthInYards = viewModel.HoleNumber1Yards, Par = viewModel.HoleNumber1Par, StrokeIndex = viewModel.HoleNumber1StrokeIndex});
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 2, LengthInYards = viewModel.HoleNumber2Yards, Par = viewModel.HoleNumber2Par, StrokeIndex = viewModel.HoleNumber2StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 3, LengthInYards = viewModel.HoleNumber3Yards, Par = viewModel.HoleNumber3Par, StrokeIndex = viewModel.HoleNumber3StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 4, LengthInYards = viewModel.HoleNumber4Yards, Par = viewModel.HoleNumber4Par, StrokeIndex = viewModel.HoleNumber4StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 5, LengthInYards = viewModel.HoleNumber5Yards, Par = viewModel.HoleNumber5Par, StrokeIndex = viewModel.HoleNumber5StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 6, LengthInYards = viewModel.HoleNumber6Yards, Par = viewModel.HoleNumber6Par, StrokeIndex = viewModel.HoleNumber6StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 7, LengthInYards = viewModel.HoleNumber7Yards, Par = viewModel.HoleNumber7Par, StrokeIndex = viewModel.HoleNumber7StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 8, LengthInYards = viewModel.HoleNumber8Yards, Par = viewModel.HoleNumber8Par, StrokeIndex = viewModel.HoleNumber8StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 9, LengthInYards = viewModel.HoleNumber9Yards, Par = viewModel.HoleNumber9Par, StrokeIndex = viewModel.HoleNumber9StrokeIndex });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 1,
+                                  LengthInYards = viewModel.HoleNumber1Yards,
+                                  Par = viewModel.HoleNumber1Par,
+                                  StrokeIndex = viewModel.HoleNumber1StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 2,
+                                  LengthInYards = viewModel.HoleNumber2Yards,
+                                  Par = viewModel.HoleNumber2Par,
+                                  StrokeIndex = viewModel.HoleNumber2StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 3,
+                                  LengthInYards = viewModel.HoleNumber3Yards,
+                                  Par = viewModel.HoleNumber3Par,
+                                  StrokeIndex = viewModel.HoleNumber3StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 4,
+                                  LengthInYards = viewModel.HoleNumber4Yards,
+                                  Par = viewModel.HoleNumber4Par,
+                                  StrokeIndex = viewModel.HoleNumber4StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 5,
+                                  LengthInYards = viewModel.HoleNumber5Yards,
+                                  Par = viewModel.HoleNumber5Par,
+                                  StrokeIndex = viewModel.HoleNumber5StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 6,
+                                  LengthInYards = viewModel.HoleNumber6Yards,
+                                  Par = viewModel.HoleNumber6Par,
+                                  StrokeIndex = viewModel.HoleNumber6StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 7,
+                                  LengthInYards = viewModel.HoleNumber7Yards,
+                                  Par = viewModel.HoleNumber7Par,
+                                  StrokeIndex = viewModel.HoleNumber7StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 8,
+                                  LengthInYards = viewModel.HoleNumber8Yards,
+                                  Par = viewModel.HoleNumber8Par,
+                                  StrokeIndex = viewModel.HoleNumber8StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 9,
+                                  LengthInYards = viewModel.HoleNumber9Yards,
+                                  Par = viewModel.HoleNumber9Par,
+                                  StrokeIndex = viewModel.HoleNumber9StrokeIndex
+                              });
 
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 10, LengthInYards = viewModel.HoleNumber10Yards, Par = viewModel.HoleNumber10Par, StrokeIndex = viewModel.HoleNumber10StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 11, LengthInYards = viewModel.HoleNumber11Yards, Par = viewModel.HoleNumber11Par, StrokeIndex = viewModel.HoleNumber11StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 12, LengthInYards = viewModel.HoleNumber12Yards, Par = viewModel.HoleNumber12Par, StrokeIndex = viewModel.HoleNumber12StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 13, LengthInYards = viewModel.HoleNumber13Yards, Par = viewModel.HoleNumber13Par, StrokeIndex = viewModel.HoleNumber13StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 14, LengthInYards = viewModel.HoleNumber14Yards, Par = viewModel.HoleNumber14Par, StrokeIndex = viewModel.HoleNumber14StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 15, LengthInYards = viewModel.HoleNumber15Yards, Par = viewModel.HoleNumber15Par, StrokeIndex = viewModel.HoleNumber15StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 16, LengthInYards = viewModel.HoleNumber16Yards, Par = viewModel.HoleNumber16Par, StrokeIndex = viewModel.HoleNumber16StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 17, LengthInYards = viewModel.HoleNumber17Yards, Par = viewModel.HoleNumber17Par, StrokeIndex = viewModel.HoleNumber17StrokeIndex });
-            request.Holes.Add(new HoleDataTransferObjectRequest { HoleNumber = 18, LengthInYards = viewModel.HoleNumber18Yards, Par = viewModel.HoleNumber18Par, StrokeIndex = viewModel.HoleNumber18StrokeIndex });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 10,
+                                  LengthInYards = viewModel.HoleNumber10Yards,
+                                  Par = viewModel.HoleNumber10Par,
+                                  StrokeIndex = viewModel.HoleNumber10StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 11,
+                                  LengthInYards = viewModel.HoleNumber11Yards,
+                                  Par = viewModel.HoleNumber11Par,
+                                  StrokeIndex = viewModel.HoleNumber11StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 12,
+                                  LengthInYards = viewModel.HoleNumber12Yards,
+                                  Par = viewModel.HoleNumber12Par,
+                                  StrokeIndex = viewModel.HoleNumber12StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 13,
+                                  LengthInYards = viewModel.HoleNumber13Yards,
+                                  Par = viewModel.HoleNumber13Par,
+                                  StrokeIndex = viewModel.HoleNumber13StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 14,
+                                  LengthInYards = viewModel.HoleNumber14Yards,
+                                  Par = viewModel.HoleNumber14Par,
+                                  StrokeIndex = viewModel.HoleNumber14StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 15,
+                                  LengthInYards = viewModel.HoleNumber15Yards,
+                                  Par = viewModel.HoleNumber15Par,
+                                  StrokeIndex = viewModel.HoleNumber15StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 16,
+                                  LengthInYards = viewModel.HoleNumber16Yards,
+                                  Par = viewModel.HoleNumber16Par,
+                                  StrokeIndex = viewModel.HoleNumber16StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 17,
+                                  LengthInYards = viewModel.HoleNumber17Yards,
+                                  Par = viewModel.HoleNumber17Par,
+                                  StrokeIndex = viewModel.HoleNumber17StrokeIndex
+                              });
+            request.Holes.Add(new HoleDataTransferObjectRequest
+                              {
+                                  HoleNumber = 18,
+                                  LengthInYards = viewModel.HoleNumber18Yards,
+                                  Par = viewModel.HoleNumber18Par,
+                                  StrokeIndex = viewModel.HoleNumber18StrokeIndex
+                              });
 
             return request;
         }
@@ -163,11 +270,11 @@
                                    Email = golfClubUserResponse.Email,
                                    FullName = $"{golfClubUserResponse.GivenName} {golfClubUserResponse.FamilyName}",
                                    GolfClubId = golfClubUserResponse.GolfClubId,
-                                   PhoneNumber = golfClubUserResponse.PhoneNumber == null ? String.Empty : golfClubUserResponse.PhoneNumber,
+                                   PhoneNumber = golfClubUserResponse.PhoneNumber == null ? string.Empty : golfClubUserResponse.PhoneNumber,
                                    UserId = golfClubUserResponse.UserId,
                                    UserName = golfClubUserResponse.UserName,
                                    UserType = golfClubUserResponse.UserType
-                });
+                               });
             }
 
             return viewModels;
@@ -188,8 +295,27 @@
                                                       MiddleName = viewModel.MiddleName,
                                                       EmailAddress = viewModel.Email,
                                                       Password = "123456",
-                                                      TelephoneNumber = viewModel.TelephoneNumber,
+                                                      TelephoneNumber = viewModel.TelephoneNumber
                                                   };
+
+            return request;
+        }
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        public CreateTournamentRequest ConvertFrom(CreateTournamentViewModel viewModel)
+        {
+            CreateTournamentRequest request = new CreateTournamentRequest
+                                              {
+                                                  Format = viewModel.Format,
+                                                  MemberCategory = viewModel.MemberCategory,
+                                                  MeasuredCourseId = viewModel.MeasuredCourseId,
+                                                  TournamentDate = viewModel.TournamentDate.Value,
+                                                  Name = viewModel.Name
+                                              };
 
             return request;
         }

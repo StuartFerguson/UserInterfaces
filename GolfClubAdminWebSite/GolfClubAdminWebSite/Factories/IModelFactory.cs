@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Areas.Account.Models;
     using Areas.GolfClubAdministrator.Models;
-    using ManagementAPI.Service.DataTransferObjects;
+    using Areas.MatchSecretary.Models;
     using ManagementAPI.Service.DataTransferObjects.Requests;
     using ManagementAPI.Service.DataTransferObjects.Responses;
 
@@ -27,8 +27,6 @@
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
         CreateGolfClubRequest ConvertFrom(CreateGolfClubViewModel viewModel);
-
-        #endregion
 
         /// <summary>
         /// Converts from.
@@ -64,5 +62,14 @@
         /// <param name="viewModel">The view model.</param>
         /// <returns></returns>
         CreateMatchSecretaryRequest ConvertFrom(CreateGolfClubUserViewModel viewModel);
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns></returns>
+        CreateTournamentRequest ConvertFrom(CreateTournamentViewModel viewModel);
+
+        #endregion
     }
 }
