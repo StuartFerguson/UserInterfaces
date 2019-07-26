@@ -47,6 +47,11 @@
       "provider": "cdnjs",
       "library": "datatables@1.10.19",
       "destination": "wwwroot/lib/datatables"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "moment.js@2.24.0",
+      "destination": "wwwroot/lib/momentjs"
     }
   ]
 }

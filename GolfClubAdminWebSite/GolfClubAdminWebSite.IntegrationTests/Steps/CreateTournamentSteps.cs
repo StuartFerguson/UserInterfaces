@@ -296,9 +296,32 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
         [When(@"I click on the create tournament button")]
         public void WhenIClickOnTheCreateTournamentButton()
         {
-            //this.BrowserSession.ClickLink("Create Tournament");
             ElementScope section = this.BrowserSession.FindButton("Create Tournament");
             section.Click();
+        }
+
+        [Then(@"I am presented with the Tournament List screen")]
+        public void ThenIAmPresentedWithTheTournamentListScreen()
+        {
+            this.BrowserSession.Title.ShouldBe("Tournaments");
+        }
+
+        [When(@"I click on the New Tournament button")]
+        public void WhenIClickOnTheNewTournamentButton()
+        {
+            ElementScope section = this.BrowserSession.FindButton("New Tournament");
+            section.Click();
+        }
+
+        [Then(@"a tournament with the name ""(.*)"" should be in the list")]
+        public void ThenATournamentWithTheNameShouldBeInTheList(String tournamentName)
+        {
+            Boolean hasContent = this.BrowserSession.HasContent(tournamentName, new Options
+                                                                          {
+                                                                              Timeout = TimeSpan.FromSeconds(30),
+                                                                              RetryInterval = TimeSpan.FromSeconds(1)
+                                                                          });
+            hasContent.ShouldBeTrue();
         }
 
     }

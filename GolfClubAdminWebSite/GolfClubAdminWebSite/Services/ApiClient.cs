@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Areas.Account.Models;
@@ -170,6 +171,33 @@
             return result;
         }
 
+        public async Task<List<GetTournamentListViewModel>> GetTournamentList(String accessToken,
+                                            CancellationToken cancellationToken)
+        {
+            List<GetTournamentListViewModel> result = new List<GetTournamentListViewModel>();
+            try
+            {
+                GetTournamentListResponse tournamentListResponse = await this.TournamentClient.GetTournamentList(accessToken, cancellationToken);
+
+                result = this.ModelFactory.ConvertFrom(tournamentListResponse);
+            }
+            catch (Exception ex)
+            {
+                // Look at the inner exception
+                if (ex.InnerException is KeyNotFoundException)
+                {
+                    // Swallow this exception and set the result to false
+                    result = new List<GetTournamentListViewModel>();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Gets the user list.
         /// </summary>
@@ -181,7 +209,9 @@
         {
             GetGolfClubUserListResponse userList = await this.GolfClubClient.GetGolfClubUserList(accessToken, cancellationToken);
 
-            return this.ModelFactory.ConvertFrom(userList);
+            List<GetGolfClubUserListViewModel> result = this.ModelFactory.ConvertFrom(userList);
+            
+            return result;
         }
 
         /// <summary>

@@ -320,6 +320,32 @@
             return request;
         }
 
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        public List<GetTournamentListViewModel> ConvertFrom(GetTournamentListResponse apiResponse)
+        {
+            List<GetTournamentListViewModel> viewModels = new List<GetTournamentListViewModel>();
+
+            foreach (GetTournamentResponse apiResponseTournament in apiResponse.Tournaments)
+            {
+                viewModels.Add(new GetTournamentListViewModel
+                {
+                    Date = apiResponseTournament.TournamentDate,
+                    Format = apiResponseTournament.TournamentFormat.ToString(),
+                    MeasuredCourseName = apiResponseTournament.MeasuredCourseName,
+                    MeasuredCourseTeeColour = apiResponseTournament.MeasuredCourseTeeColour,
+                    Name = apiResponseTournament.TournamentName,
+                    PlayerCategory = apiResponseTournament.PlayerCategory.ToString(),
+                    TournamentId = apiResponseTournament.TournamentId
+                });
+            }
+
+            return viewModels;
+        }
+
         #endregion
     }
 }

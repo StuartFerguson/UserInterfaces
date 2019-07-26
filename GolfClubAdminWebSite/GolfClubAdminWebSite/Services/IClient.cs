@@ -7,7 +7,6 @@
     using Areas.Account.Models;
     using Areas.GolfClubAdministrator.Models;
     using Areas.MatchSecretary.Models;
-    using ManagementAPI.Service.DataTransferObjects.Responses;
 
     /// <summary>
     /// 
@@ -24,8 +23,8 @@
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         Task CreateGolfClub(String accessToken,
-                                                    CreateGolfClubViewModel viewModel,
-                                                    CancellationToken cancellationToken);
+                            CreateGolfClubViewModel viewModel,
+                            CancellationToken cancellationToken);
 
         /// <summary>
         /// Creates the match secretary.
@@ -77,6 +76,15 @@
         /// <returns></returns>
         Task<List<MeasuredCourseListViewModel>> GetMeasuredCourses(String accessToken,
                                                                    CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Gets the tournament list.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task<List<GetTournamentListViewModel>> GetTournamentList(String accessToken,
+                                                                 CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets the user list.

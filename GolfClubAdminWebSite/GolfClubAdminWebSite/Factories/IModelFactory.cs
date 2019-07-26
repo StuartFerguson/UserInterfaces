@@ -70,6 +70,13 @@
         /// <returns></returns>
         CreateTournamentRequest ConvertFrom(CreateTournamentViewModel viewModel);
 
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        List<GetTournamentListViewModel> ConvertFrom(GetTournamentListResponse apiResponse);
+
         #endregion
     }
 }
