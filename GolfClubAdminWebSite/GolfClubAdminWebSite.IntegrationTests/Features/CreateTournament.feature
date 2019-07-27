@@ -73,10 +73,13 @@ Background:
 
 Scenario:  Create Tournament
 	When I click on the Tournaments sidebar option
+	Then I am presented with the Tournament List screen
+	When I click on the New Tournament button
 	Then I am presented with the Create Tournament screen
 	When I enter the following details for a new tournament
 	| MeasuredCourse   | Format     | MemberCategory | Name            | TournamentDate |
 	| Test Golf Course | Strokeplay | Gents          | Test Tournament | 2019-07-23     |
 	And I click on the create tournament button
-	Then I should be presented with the logged in screen
+	Then I am presented with the Tournament List screen
+	And a tournament with the name "Test Tournament" should be in the list
 	

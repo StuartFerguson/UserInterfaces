@@ -332,6 +332,10 @@ this.FeatureBackground();
 #line 75
  testRunner.When("I click on the Tournaments sidebar option", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 76
+ testRunner.Then("I am presented with the Tournament List screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 77
+ testRunner.When("I click on the New Tournament button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 78
  testRunner.Then("I am presented with the Create Tournament screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
@@ -346,12 +350,14 @@ this.FeatureBackground();
                         "Gents",
                         "Test Tournament",
                         "2019-07-23"});
-#line 77
+#line 79
  testRunner.When("I enter the following details for a new tournament", ((string)(null)), table15, "When ");
-#line 80
+#line 82
  testRunner.And("I click on the create tournament button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 81
- testRunner.Then("I should be presented with the logged in screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 83
+ testRunner.Then("I am presented with the Tournament List screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 84
+ testRunner.And("a tournament with the name \"Test Tournament\" should be in the list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
