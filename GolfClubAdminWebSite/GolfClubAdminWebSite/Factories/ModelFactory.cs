@@ -1,5 +1,6 @@
 ﻿namespace GolfClubAdminWebSite.Factories
 {
+    using System;
     using System.Collections.Generic;
     using Areas.Account.Models;
     using Areas.GolfClubAdministrator.Models;
@@ -339,11 +340,37 @@
                     MeasuredCourseTeeColour = apiResponseTournament.MeasuredCourseTeeColour,
                     Name = apiResponseTournament.TournamentName,
                     PlayerCategory = apiResponseTournament.PlayerCategory.ToString(),
-                    TournamentId = apiResponseTournament.TournamentId
+                    TournamentId = apiResponseTournament.TournamentId,
+                    Status = this.TranslateTournamentStatus(apiResponseTournament)
                 });
             }
 
             return viewModels;
+        }
+
+        /// <summary>
+        /// Translates the tournament status.
+        /// </summary>
+        /// <param name="apiResponseTournament">The API response tournament.</param>
+        /// <returns></returns>
+        private String TranslateTournamentStatus(GetTournamentResponse apiResponseTournament)
+        {
+            if (apiResponseTournament.HasResultBeenProduced)
+            {
+                return "Resulted";
+            }
+
+            if (apiResponseTournament.HasBeenCancelled)
+            {
+                return "Cancelled";
+            }
+
+            if (apiResponseTournament.HasBeenCompleted)
+            {
+                return "Completed";
+            }
+
+            return "Created";
         }
 
         #endregion

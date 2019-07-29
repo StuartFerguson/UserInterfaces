@@ -65,6 +65,14 @@
         /// </value>
         public Guid TournamentId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        /// <value>
+        /// The status.
+        /// </value>
+        public String Status { get; set; }
+
         #endregion
     }
 }

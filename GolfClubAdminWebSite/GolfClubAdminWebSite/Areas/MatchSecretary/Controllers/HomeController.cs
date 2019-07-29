@@ -11,7 +11,6 @@
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.CodeAnalysis.CodeActions;
     using Models;
     using Newtonsoft.Json;
     using Services;
@@ -49,13 +48,20 @@
         #region Methods
 
         /// <summary>
-        /// Indexes this instance.
+        /// Completes the tournament.
         /// </summary>
+        /// <param name="tournamentId">The tournament identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> Index()
+        [HttpPut]
+        public async Task<IActionResult> CompleteTournament(Guid tournamentId,
+                                                            CancellationToken cancellationToken)
         {
-            return this.View();
+            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+
+            await this.ApiClient.CompleteTournament(accessToken, tournamentId, cancellationToken);
+
+            return this.Ok();
         }
 
         /// <summary>
@@ -64,17 +70,11 @@
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> CreateTournament( CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateTournament(CancellationToken cancellationToken)
         {
             CreateTournamentViewModel viewModel = new CreateTournamentViewModel();
 
             return this.View(viewModel);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetTournamentList(CancellationToken cancellationToken)
-        {
-            return this.View();
         }
 
         /// <summary>
@@ -84,7 +84,8 @@
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateTournament(CreateTournamentViewModel model, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateTournament(CreateTournamentViewModel model,
+                                                          CancellationToken cancellationToken)
         {
             // Validate the model
             if (this.ValidateModel(model))
@@ -103,16 +104,6 @@
         }
 
         /// <summary>
-        /// Validates the model.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <returns></returns>
-        private Boolean ValidateModel(CreateTournamentViewModel model)
-        {
-            return this.ModelState.IsValid;
-        }
-
-        /// <summary>
         /// Gets the measured course list as json.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
@@ -121,14 +112,20 @@
         public async Task<IActionResult> GetMeasuredCourseListAsJson(CancellationToken cancellationToken)
         {
             Logger.LogDebug("In method GetMeasuredCourseListAsJson");
-            
+
             String accessToken = await this.HttpContext.GetTokenAsync("access_token");
             Logger.LogDebug("got access token");
 
             List<MeasuredCourseListViewModel> measuredCourseList = await this.ApiClient.GetMeasuredCourses(accessToken, cancellationToken);
             Logger.LogDebug($"course list count is {measuredCourseList.Count}");
-            
+
             return this.Json(measuredCourseList);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTournamentList(CancellationToken cancellationToken)
+        {
+            return this.View();
         }
 
         /// <summary>
@@ -157,12 +154,22 @@
                                                                                      m.MeasuredCourseName.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
                                                                                      m.MeasuredCourseTeeColour.Contains(searchValue, StringComparison.OrdinalIgnoreCase);
 
-            DataTablesResult <GetTournamentListViewModel> dataTableResult = this.GetDataForDataTable(tournamentList, whereClause);
+            DataTablesResult<GetTournamentListViewModel> dataTableResult = this.GetDataForDataTable(tournamentList, whereClause);
 
             String jsonResult = JsonConvert.SerializeObject(dataTableResult);
             Logger.LogDebug(jsonResult);
 
             return this.Json(this.GetDataForDataTable(tournamentList, whereClause));
+        }
+
+        /// <summary>
+        /// Indexes this instance.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            return this.View();
         }
 
         /// <summary>
@@ -228,15 +235,25 @@
                 Logger.LogInformation($"querydata count is {queryData.Count()}");
                 // Build the result 
                 result = new DataTablesResult<T>
-                {
-                    Data = queryData,
-                    Draw = int.Parse(draw),
-                    RecordsTotal = recordsTotal,
-                    RecordsFiltered = queryData.Count()
-                };
+                         {
+                             Data = queryData,
+                             Draw = int.Parse(draw),
+                             RecordsTotal = recordsTotal,
+                             RecordsFiltered = queryData.Count()
+                         };
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Validates the model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        private Boolean ValidateModel(CreateTournamentViewModel model)
+        {
+            return this.ModelState.IsValid;
         }
 
         #endregion
