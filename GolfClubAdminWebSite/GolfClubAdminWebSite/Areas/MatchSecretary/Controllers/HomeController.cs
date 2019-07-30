@@ -48,6 +48,25 @@
         #region Methods
 
         /// <summary>
+        /// Cancels the tournament.
+        /// </summary>
+        /// <param name="tournamentId">The tournament identifier.</param>
+        /// <param name="cancellationReason">The cancellation reason.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> CancelTournament(Guid tournamentId,
+                                                          String cancellationReason,
+                                                          CancellationToken cancellationToken)
+        {
+            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+
+            await this.ApiClient.CancelTournament(accessToken, tournamentId, cancellationReason, cancellationToken);
+
+            return this.Ok();
+        }
+
+        /// <summary>
         /// Completes the tournament.
         /// </summary>
         /// <param name="tournamentId">The tournament identifier.</param>

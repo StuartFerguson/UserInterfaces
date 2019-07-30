@@ -25,41 +25,83 @@
 </div>
 
 <script>
-    $(document).ready(function ()
-        {
-            $("#tournamentList").DataTable({
-                "processing": false, // for show progress bar
-                "serverSide": true, // for process server side
-                "filter": true, // this is for disable filter (search box)
-                "orderMulti": false, // for disable multiple column at once
-                "ajax": {
-                    "url": "GetTournamentListAsJson",
-                    "type": "POST",
-                    "datatype": "json"
-                },
-                "columnDefs":
-                [{
+    $(document).ready(function()
+    {
+        $("#tournamentList").DataTable({
+            "processing": false, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "ajax": {
+                "url": "GetTournamentListAsJson",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columnDefs":
+            [
+                {
                     "targets": [0],
                     "visible": false,
                     "searchable": false
-                }],
-                "columns": [
-                    { "data": "tournamentId", "name": "tournamentId", "autoWidth": true },
-                    { "data": "name", "name": "name", "autoWidth": true },
-                    {
-                        "data": "date", "name": "date", "autoWidth": true,
-                        render: function(d) {
-                            return moment(d).format("DD-MM-YYYY");
+                }
+            ],
+            "columns": [
+                { "data": "tournamentId", "name": "tournamentId", "autoWidth": true },
+                { "data": "name", "name": "name", "autoWidth": true },
+                {
+                    "data": "date",
+                    "name": "date",
+                    "autoWidth": true,
+                    render: function(d) { return moment(d).format("DD-MM-YYYY"); }
+                },
+                { "data": "format", "name": "format", "autoWidth": true },
+                { "data": "playerCategory", "name": "playerCategory", "autoWidth": true },
+                { "data": "measuredCourseName", "name": "measuredCourseName", "autoWidth": true },
+                { "data": "measuredCourseTeeColour", "name": "measuredCourseTeeColour", "autoWidth": true },
+                { "data": "status", "name": "status", "autoWidth": true },
+                {
+                    "render": function(data, type, full, meta)
+                        {
+                            if (full.status === 'Cancelled' || full.status === 'Resulted')
+                            {
+                                return '';
+                            }
+
+                            var markup =
+                                '<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions' +
+                                '<span class="caret"></span></button>' +
+                                '<ul class="dropdown-menu">';
+
+                            if (full.status === 'Created')
+                            {
+                                markup = markup +
+                                    '<li><a href="#" onclick="completeTournament(\'' +
+                                    full.name +
+                                    '\', \'' +
+                                    full.tournamentId +
+                                    '\')">Complete</a></li>';
+                                markup = markup +
+                                    '<li><a href="#" onclick="cancelTournament(\'' +
+                                    full.name +
+                                    '\', \'' +
+                                    full.tournamentId +
+                                    '\')">Cancel</a></li>';
+                            }
+
+                            if (full.status === 'Completed')
+                            {
+                                markup = markup +
+                                    '<li><a href="#" onclick="produceTournamentResult(\'' +
+                                    full.name +
+                                    '\', \'' +
+                                    full.tournamentId +
+                                    '\')">Produce Result</a></li>';
+                            }
+
+                            markup = markup + '</ul>';
+
+                            return markup;
                         }
-                    },
-                    { "data": "format", "name": "format", "autoWidth": true },
-                    { "data": "playerCategory", "name": "playerCategory", "autoWidth": true },
-                    { "data": "measuredCourseName", "name": "measuredCourseName", "autoWidth": true },
-                    { "data": "measuredCourseTeeColour", "name": "measuredCourseTeeColour", "autoWidth": true },
-                    { "data": "status", "name": "status", "autoWidth": true },
-                    {
-                        "render": function (data, type, full, meta)
-                            { return '<a class="btn btn-info" onclick="completeTournament(\'' + full.name + '\', \'' + full.tournamentId + '\')">Complete</a>'; }
                     }
                 ],
                 "order": [[2, "asc"]]
@@ -96,6 +138,51 @@
                             success: function(data, textStatus, jqXHR)
                             {
                                 bootbox.alert("Tournament " + tournamentName + " completed successfully");
+                            },
+                            error: function(jqXHR, textstatus, errorThrown)
+                            {
+                                bootbox.alert("Error completing tournament " + tournamentName);
+                            }
+                        });
+                }
+            }
+        });
+    }
+
+    function cancelTournament(tournamentName, tournamentId)
+    {
+        bootbox.prompt({
+            title: "Cancel Tournament " + tournamentName,
+            inputType: 'select',
+            inputOptions: [
+                {
+                    text: 'Select a Cancellation Reason',
+                    value: '',
+                },
+                {
+                    text: 'Course Closure',
+                    value: 'Course Closure',
+                },
+                {
+                    text: 'Created in Error',
+                    value: 'Created in Error',
+                }],
+            callback: function (result)
+            {
+                if (result !== '')
+                {
+                    // Make a call to the server to cancel the tournament
+                    $.ajax(
+                        {
+                            url: "CancelTournament",
+                            type: "PUT",
+                            data: {
+                                tournamentId: tournamentId,
+                                cancellationReason: result
+                            },
+                            success: function(data, textStatus, jqXHR)
+                            {
+                                bootbox.alert("Tournament " + tournamentName + " cancelled successfully");
                             },
                             error: function(jqXHR, textstatus, errorThrown)
                             {
