@@ -16,6 +16,19 @@
         #region Methods
 
         /// <summary>
+        /// Cancels the tournament.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="tournamentId">The tournament identifier.</param>
+        /// <param name="cancellationReason">The cancellation reason.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task CancelTournament(String accessToken,
+                              Guid tournamentId,
+                              String cancellationReason,
+                              CancellationToken cancellationToken);
+
+        /// <summary>
         /// Completes the tournament.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
