@@ -52,6 +52,11 @@
       "provider": "cdnjs",
       "library": "moment.js@2.24.0",
       "destination": "wwwroot/lib/momentjs"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootbox.js@4.4.0",
+      "destination": "wwwroot/lib/bootboxjs"
     }
   ]
 }

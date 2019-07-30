@@ -15,6 +15,8 @@
                 <th>Player Category</th>
                 <th>Course</th>
                 <th>Tee Colour</th>
+                <th>Status</th>
+                <th></th>
             </tr>
         </thead>
     </table>
@@ -26,7 +28,7 @@
     $(document).ready(function ()
         {
             $("#tournamentList").DataTable({
-                "processing": true, // for show progress bar
+                "processing": false, // for show progress bar
                 "serverSide": true, // for process server side
                 "filter": true, // this is for disable filter (search box)
                 "orderMulti": false, // for disable multiple column at once
@@ -53,11 +55,61 @@
                     { "data": "format", "name": "format", "autoWidth": true },
                     { "data": "playerCategory", "name": "playerCategory", "autoWidth": true },
                     { "data": "measuredCourseName", "name": "measuredCourseName", "autoWidth": true },
-                    { "data": "measuredCourseTeeColour", "name": "measuredCourseTeeColour", "autoWidth": true }
+                    { "data": "measuredCourseTeeColour", "name": "measuredCourseTeeColour", "autoWidth": true },
+                    { "data": "status", "name": "status", "autoWidth": true },
+                    {
+                        "render": function (data, type, full, meta)
+                            { return '<a class="btn btn-info" onclick="completeTournament(\'' + full.name + '\', \'' + full.tournamentId + '\')">Complete</a>'; }
+                    }
                 ],
                 "order": [[2, "asc"]]
 
             });
+            autoRefresh();
         });
 
+    function completeTournament(tournamentName, tournamentId)
+    {
+        bootbox.confirm({
+            message: "This will mark the " + tournamentName + " tournament as completed, are you sure?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result === true)
+                {
+                    // Make a call to the server to complete the tournament
+                    $.ajax(
+                        {
+                            url: "CompleteTournament",
+                            type: "PUT",
+                            data: {
+                                tournamentId: tournamentId
+                            },
+                            success: function(data, textStatus, jqXHR)
+                            {
+                                bootbox.alert("Tournament " + tournamentName + " completed successfully");
+                            },
+                            error: function(jqXHR, textstatus, errorThrown)
+                            {
+                                bootbox.alert("Error completing tournament " + tournamentName);
+                            }
+                        });
+                }
+            }
+        });
+    }
+
+    function autoRefresh() {
+        $('#tournamentList').DataTable().ajax.reload(null,false);
+    }
+
+    setInterval('autoRefresh()', 5000); 
 </script>

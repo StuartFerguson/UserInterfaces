@@ -16,6 +16,17 @@
         #region Methods
 
         /// <summary>
+        /// Completes the tournament.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="tournamentId">The tournament identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task CompleteTournament(String accessToken,
+                                Guid tournamentId,
+                                CancellationToken cancellationToken);
+
+        /// <summary>
         /// Creates the golf club.
         /// </summary>
         /// <param name="accessToken">The access token.</param>

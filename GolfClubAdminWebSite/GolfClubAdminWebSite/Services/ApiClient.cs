@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Areas.Account.Models;
@@ -28,21 +27,25 @@
         /// </summary>
         private readonly IGolfClubClient GolfClubClient;
 
-        private readonly ITournamentClient TournamentClient;
-
         /// <summary>
         /// The model factory
         /// </summary>
         private readonly IModelFactory ModelFactory;
+
+        /// <summary>
+        /// The tournament client
+        /// </summary>
+        private readonly ITournamentClient TournamentClient;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient"/> class.
+        /// Initializes a new instance of the <see cref="ApiClient" /> class.
         /// </summary>
         /// <param name="golfClubClient">The golf club client.</param>
+        /// <param name="tournamentClient">The tournament client.</param>
         /// <param name="modelFactory">The model factory.</param>
         public ApiClient(IGolfClubClient golfClubClient,
                          ITournamentClient tournamentClient,
@@ -58,6 +61,20 @@
         #region Methods
 
         /// <summary>
+        /// Completes the tournament.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="tournamentId">The tournament identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task CompleteTournament(String accessToken,
+                                             Guid tournamentId,
+                                             CancellationToken cancellationToken)
+        {
+            await this.TournamentClient.CompleteTournament(accessToken, tournamentId, cancellationToken);
+        }
+
+        /// <summary>
         /// Creates the golf club.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
@@ -65,8 +82,8 @@
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         public async Task CreateGolfClub(String accessToken,
-                                                                 CreateGolfClubViewModel viewModel,
-                                                                 CancellationToken cancellationToken)
+                                         CreateGolfClubViewModel viewModel,
+                                         CancellationToken cancellationToken)
         {
             // Translate view model to request
             CreateGolfClubRequest createGolfClubRequest = this.ModelFactory.ConvertFrom(viewModel);
@@ -75,11 +92,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Creates the match secretary.
         /// </summary>
-        /// <param name="accessToken"></param>
-        /// <param name="viewModel"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         public async Task CreateMatchSecretary(String accessToken,
                                                CreateGolfClubUserViewModel viewModel,
@@ -117,11 +134,9 @@
                                            CreateTournamentViewModel viewModel,
                                            CancellationToken cancellationToken)
         {
-
             CreateTournamentRequest request = this.ModelFactory.ConvertFrom(viewModel);
 
             await this.TournamentClient.CreateTournament(accessToken, request, cancellationToken);
-
         }
 
         /// <summary>
@@ -171,8 +186,14 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets the tournament list.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
         public async Task<List<GetTournamentListViewModel>> GetTournamentList(String accessToken,
-                                            CancellationToken cancellationToken)
+                                                                              CancellationToken cancellationToken)
         {
             List<GetTournamentListViewModel> result = new List<GetTournamentListViewModel>();
             try
@@ -181,7 +202,7 @@
 
                 result = this.ModelFactory.ConvertFrom(tournamentListResponse);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 // Look at the inner exception
                 if (ex.InnerException is KeyNotFoundException)
@@ -210,7 +231,7 @@
             GetGolfClubUserListResponse userList = await this.GolfClubClient.GetGolfClubUserList(accessToken, cancellationToken);
 
             List<GetGolfClubUserListViewModel> result = this.ModelFactory.ConvertFrom(userList);
-            
+
             return result;
         }
 
