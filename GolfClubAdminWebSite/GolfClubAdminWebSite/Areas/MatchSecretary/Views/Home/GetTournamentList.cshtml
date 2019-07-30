@@ -194,6 +194,45 @@
         });
     }
 
+    function produceTournamentResult(tournamentName, tournamentId)
+    {
+        bootbox.confirm({
+            message: "This will produce the result for " + tournamentName + " tournament, are you sure?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result === true)
+                {
+                    // Make a call to the server to complete the tournament
+                    $.ajax(
+                        {
+                            url: "ProduceTournamentResult",
+                            type: "PUT",
+                            data: {
+                                tournamentId: tournamentId
+                            },
+                            success: function(data, textStatus, jqXHR)
+                            {
+                                bootbox.alert("Tournament " + tournamentName + " result produced successfully");
+                            },
+                            error: function(jqXHR, textstatus, errorThrown)
+                            {
+                                bootbox.alert("Error producing result for tournament " + tournamentName);
+                            }
+                        });
+                }
+            }
+        });
+    }
+
     function autoRefresh() {
         $('#tournamentList').DataTable().ajax.reload(null,false);
     }

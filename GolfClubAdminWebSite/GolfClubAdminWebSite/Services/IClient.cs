@@ -29,6 +29,17 @@
                               CancellationToken cancellationToken);
 
         /// <summary>
+        /// Produces the tournament result.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="tournamentId">The tournament identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task ProduceTournamentResult(String accessToken,
+                              Guid tournamentId,
+                              CancellationToken cancellationToken);
+
+        /// <summary>
         /// Completes the tournament.
         /// </summary>
         /// <param name="accessToken">The access token.</param>

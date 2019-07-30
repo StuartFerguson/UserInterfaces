@@ -67,6 +67,23 @@
         }
 
         /// <summary>
+        /// Produces the tournament result.
+        /// </summary>
+        /// <param name="tournamentId">The tournament identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> ProduceTournamentResult(Guid tournamentId,
+                                                          CancellationToken cancellationToken)
+        {
+            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+
+            await this.ApiClient.ProduceTournamentResult(accessToken, tournamentId, cancellationToken);
+
+            return this.Ok();
+        }
+
+        /// <summary>
         /// Completes the tournament.
         /// </summary>
         /// <param name="tournamentId">The tournament identifier.</param>
