@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
-    <PackageReference Include="ManagementAPI.Service.Client" Version="1.0.32.1" />
+    <PackageReference Include="ManagementAPI.Service.Client" Version="1.0.33" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.12" />
@@ -26,7 +26,7 @@
     <Folder Include="Areas\GolfClubAdministrator\Data\" />
     <Folder Include="Areas\MatchSecretary\Data\" />
     <Folder Include="Bootstrapper\" />
-    <Folder Include="wwwroot\lib\" />
+    <Folder Include="wwwroot\lib\chartjs\dist\" />
   </ItemGroup>
 
 </Project>

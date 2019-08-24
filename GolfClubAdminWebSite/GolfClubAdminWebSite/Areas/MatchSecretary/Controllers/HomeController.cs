@@ -4,8 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Security.Claims;
     using System.Threading;
     using System.Threading.Tasks;
+    using Common;
     using GolfClubAdministrator.Controllers;
     using GolfClubAdministrator.Models;
     using Microsoft.AspNetCore.Authentication;
@@ -61,24 +63,7 @@
         {
             String accessToken = await this.HttpContext.GetTokenAsync("access_token");
 
-            await this.ApiClient.CancelTournament(accessToken, tournamentId, cancellationReason, cancellationToken);
-
-            return this.Ok();
-        }
-
-        /// <summary>
-        /// Produces the tournament result.
-        /// </summary>
-        /// <param name="tournamentId">The tournament identifier.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
-        [HttpPut]
-        public async Task<IActionResult> ProduceTournamentResult(Guid tournamentId,
-                                                          CancellationToken cancellationToken)
-        {
-            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
-
-            await this.ApiClient.ProduceTournamentResult(accessToken, tournamentId, cancellationToken);
+            await this.ApiClient.CancelTournament(accessToken, this.User.Identity as ClaimsIdentity, tournamentId, cancellationReason, cancellationToken);
 
             return this.Ok();
         }
@@ -95,7 +80,7 @@
         {
             String accessToken = await this.HttpContext.GetTokenAsync("access_token");
 
-            await this.ApiClient.CompleteTournament(accessToken, tournamentId, cancellationToken);
+            await this.ApiClient.CompleteTournament(accessToken, this.User.Identity as ClaimsIdentity, tournamentId, cancellationToken);
 
             return this.Ok();
         }
@@ -129,7 +114,7 @@
                 String accessToken = await this.HttpContext.GetTokenAsync("access_token");
 
                 // All good with model, call the client to create the golf club
-                await this.ApiClient.CreateTournament(accessToken, model, cancellationToken);
+                await this.ApiClient.CreateTournament(accessToken, this.User.Identity as ClaimsIdentity, model, cancellationToken);
 
                 // Tournament Created, redirect to the Manage Tournaments screen
                 return this.RedirectToAction(nameof(this.GetTournamentList));
@@ -152,7 +137,8 @@
             String accessToken = await this.HttpContext.GetTokenAsync("access_token");
             Logger.LogDebug("got access token");
 
-            List<MeasuredCourseListViewModel> measuredCourseList = await this.ApiClient.GetMeasuredCourses(accessToken, cancellationToken);
+            List<MeasuredCourseListViewModel> measuredCourseList =
+                await this.ApiClient.GetMeasuredCourses(accessToken, this.User.Identity as ClaimsIdentity, cancellationToken);
             Logger.LogDebug($"course list count is {measuredCourseList.Count}");
 
             return this.Json(measuredCourseList);
@@ -181,7 +167,8 @@
             String accessToken = await this.HttpContext.GetTokenAsync("access_token");
             Logger.LogDebug("got access token");
 
-            List<GetTournamentListViewModel> tournamentList = await this.ApiClient.GetTournamentList(accessToken, cancellationToken);
+            List<GetTournamentListViewModel> tournamentList =
+                await this.ApiClient.GetTournamentList(accessToken, this.User.Identity as ClaimsIdentity, cancellationToken);
             Logger.LogDebug($"tournament list count is {tournamentList.Count}");
 
             Expression<Func<GetTournamentListViewModel, Boolean>> whereClause = m => m.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
@@ -206,6 +193,23 @@
         public async Task<IActionResult> Index()
         {
             return this.View();
+        }
+
+        /// <summary>
+        /// Produces the tournament result.
+        /// </summary>
+        /// <param name="tournamentId">The tournament identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> ProduceTournamentResult(Guid tournamentId,
+                                                                 CancellationToken cancellationToken)
+        {
+            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+
+            await this.ApiClient.ProduceTournamentResult(accessToken, this.User.Identity as ClaimsIdentity, tournamentId, cancellationToken);
+
+            return this.Ok();
         }
 
         /// <summary>

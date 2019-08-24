@@ -57,6 +57,17 @@
       "provider": "cdnjs",
       "library": "bootbox.js@4.4.0",
       "destination": "wwwroot/lib/bootboxjs"
+    },
+    {
+      "provider": "unpkg",
+      "library": "chart.js@2.8.0",
+      "destination": "wwwroot/lib/chartjs",
+      "files": [
+        "dist/Chart.css",
+        "dist/Chart.js",
+        "dist/Chart.min.css",
+        "dist/Chart.min.js"
+      ]
     }
   ]
 }

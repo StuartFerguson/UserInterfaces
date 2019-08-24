@@ -230,5 +230,97 @@ namespace GolfClubAdminWebSite.Tests.FactoryTests
             apiRequest.Name.ShouldBe(viewModel.Name);
             apiRequest.TournamentDate.ShouldBe(viewModel.TournamentDate.Value);
         }
+
+        [Fact]
+        public void ModelFactory_ConvertFrom_GetTournamentListResponse_ConvertedSuccessfully()
+        {
+            ModelFactory factory = new ModelFactory();
+
+            GetTournamentListResponse apiResponse = ModelFactoryTestData.GetTournamentListResponse();
+
+            List<GetTournamentListViewModel> viewModel = factory.ConvertFrom(apiResponse);
+
+            viewModel.First().PlayerCategory.ShouldBe(apiResponse.Tournaments.First().PlayerCategory.ToString());
+            viewModel.First().Date.ShouldBe(apiResponse.Tournaments.First().TournamentDate);
+            viewModel.First().Format.ShouldBe(apiResponse.Tournaments.First().TournamentFormat.ToString());
+            viewModel.First().MeasuredCourseName.ShouldBe(apiResponse.Tournaments.First().MeasuredCourseName);
+            viewModel.First().MeasuredCourseTeeColour.ShouldBe(apiResponse.Tournaments.First().MeasuredCourseTeeColour);
+            viewModel.First().Name.ShouldBe(apiResponse.Tournaments.First().TournamentName);
+            viewModel.First().Status.ShouldBe("Resulted");
+            viewModel.First().TournamentId.ShouldBe(apiResponse.Tournaments.First().TournamentId);
+        }
+
+        [Fact]
+        public void ModelFactory_ConvertFrom_GetNumberOfMembersByTimePeriodReportResponse_ConvertedSuccessfully()
+        {
+            ModelFactory factory = new ModelFactory();
+
+            GetNumberOfMembersByTimePeriodReportResponse apiResponse = ModelFactoryTestData.GetNumberOfMembersByTimePeriodReportResponse();
+
+            ChartJsLineChartDataViewModel viewModel = factory.ConvertFrom(apiResponse);
+
+            viewModel.Labels.ShouldNotBeEmpty();
+            viewModel.Datasets.ShouldNotBeEmpty();
+            viewModel.Datasets.Count.ShouldBe(1);
+            viewModel.Datasets.First().Label.ShouldBe("Number Of Members");
+            foreach (MembersByTimePeriodResponse membersByTimePeriodResponse in apiResponse.MembersByTimePeriodResponse)
+            {
+                viewModel.Labels.ShouldContain(membersByTimePeriodResponse.Period);
+                viewModel.Datasets.First().Data.ShouldContain(membersByTimePeriodResponse.NumberOfMembers);
+
+            }
+        }
+
+        [Fact]
+        public void ModelFactory_ConvertFrom_GetNumberOfMembersByHandicapCategoryReportResponse_ConvertedSuccessfully()
+        {
+            ModelFactory factory = new ModelFactory();
+
+            GetNumberOfMembersByHandicapCategoryReportResponse apiResponse = ModelFactoryTestData.GetNumberOfMembersByHandicapCategoryReportResponse();
+
+            ChartJsPieChartDataViewModel viewModel = factory.ConvertFrom(apiResponse);
+
+            viewModel.Labels.ShouldNotBeEmpty();
+            viewModel.Datasets.ShouldNotBeEmpty();
+            viewModel.Datasets.Count.ShouldBe(1);
+            foreach (MembersByHandicapCategoryResponse membersByHandicapCategoryResponse in apiResponse.MembersByHandicapCategoryResponse)
+            {
+                viewModel.Labels.ShouldContain($"Category {membersByHandicapCategoryResponse.HandicapCategory}");
+                viewModel.Datasets.First().Data.ShouldContain(membersByHandicapCategoryResponse.NumberOfMembers);
+
+            }
+        }
+
+        [Fact]
+        public void ModelFactory_ConvertFrom_GetNumberOfMembersByAgeCategoryReportResponse_ConvertedSuccessfully()
+        {
+            ModelFactory factory = new ModelFactory();
+
+            GetNumberOfMembersByAgeCategoryReportResponse apiResponse = ModelFactoryTestData.GetNumberOfMembersByAgeCategoryReportResponse();
+
+            ChartJsPieChartDataViewModel viewModel = factory.ConvertFrom(apiResponse);
+
+            viewModel.Labels.ShouldNotBeEmpty();
+            viewModel.Datasets.ShouldNotBeEmpty();
+            viewModel.Datasets.Count.ShouldBe(1);
+            foreach (MembersByAgeCategoryResponse membersByAgeCategoryResponse in apiResponse.MembersByAgeCategoryResponse)
+            {
+                viewModel.Labels.ShouldContain(membersByAgeCategoryResponse.AgeCategory);
+                viewModel.Datasets.First().Data.ShouldContain(membersByAgeCategoryResponse.NumberOfMembers);
+
+            }
+        }
+
+        [Fact]
+        public void ModelFactory_ConvertFrom_GetNumberOfMembersReportResponse_ConvertedSuccessfully()
+        {
+            ModelFactory factory = new ModelFactory();
+
+            GetNumberOfMembersReportResponse apiResponse = ModelFactoryTestData.GetNumberOfMembersReportResponse();
+
+            NumberOfMembersReportViewModel viewModel = factory.ConvertFrom(apiResponse);
+
+            viewModel.NumberOfMembers.ShouldBe(apiResponse.NumberOfMembers);
+        }
     }
 }

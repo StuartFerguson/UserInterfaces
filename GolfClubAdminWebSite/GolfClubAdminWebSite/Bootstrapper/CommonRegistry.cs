@@ -27,6 +27,7 @@
             this.For<Func<String, String>>().Use(baseAddressResolver);
             this.For<IGolfClubClient>().Use<GolfClubClient>();
             this.For<ITournamentClient>().Use<TournamentClient>();
+            this.For<IReportingClient>().Use<ReportingClient>();
             this.For<IClient>().Use<ApiClient>();
             this.For<IModelFactory>().Use<ModelFactory>();
         }
