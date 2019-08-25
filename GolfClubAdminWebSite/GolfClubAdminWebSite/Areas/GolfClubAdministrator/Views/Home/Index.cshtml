@@ -4,6 +4,285 @@
     Layout = "~/Areas/GolfClubAdministrator/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    TODO
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800" id="numberOfMembersLabel">Total Number of Members:</h1>
+    <hr />
+    <!-- Content Row -->
+    <div class="row">
+        <!-- Members By Age Category -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Members By Age Category</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="chart-pie pt-4">
+                        <canvas id="membersByAgeCategoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Members By Handicap Category -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Members By Handicap Category</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="chart-pie pt-4">
+                        <canvas id="membersByHandicapCategoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Number of Members By Time Period -->
+        <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Members By Time Period</h6>
+                    @*<select id="timePeriod" onchange="refreshTimePeriodChart()">
+                        <option value="Day">Day</option>
+                        <option value="Month">Month</option>
+                        <option value="Year">Year</option>
+                    </select>*@
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="chart-area pt-4">
+                        <canvas id="membersByTimePeriodChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script language="javascript">
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
+    var membersByAgeCategoryChartCtx = document.getElementById("membersByAgeCategoryChart");
+
+    $.ajax({
+        url: "GetNumberOfMembersAsJson",
+        type: "POST",
+        dataType: 'json'
+    }).done(function(results)
+    {
+        var numberOfMembersLabel = document.getElementById("numberOfMembersLabel");
+        numberOfMembersLabel.innerHTML = numberOfMembersLabel.innerHTML + " " + results.numberOfMembers;
+    });
+
+    $.ajax({
+        url: "GetMembersByAgeCategoryAsJson",
+        type: "POST",
+        dataType: 'json'
+    }).done(function(results)
+    {
+        var myPieChart = new Chart(membersByAgeCategoryChartCtx, {
+            type: 'pie',
+            data: results,
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: true
+                },
+                cutoutPercentage: 0
+            }
+        });
+    });
+
+    var membersByHandicapCategoryChartCtx = document.getElementById("membersByHandicapCategoryChart");
+
+    $.ajax({
+        url: "GetMembersByHandicapCategoryAsJson",
+        type: "POST",
+        dataType: 'json'
+    }).done(function(results)
+    {
+        var myPieChart = new Chart(membersByHandicapCategoryChartCtx, {
+            type: 'pie',
+            data: results,
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: true
+                },
+                cutoutPercentage: 0
+            }
+        });
+    });
+    
+    var membersByTimePeriodChartCtx = document.getElementById("membersByTimePeriodChart");
+
+    $.ajax({
+        url: "GetMembersByTimePeriodAsJson",
+        type: "POST",
+        dataType: 'json'
+    }).done(function(results)
+    {
+        var myPieChart = new Chart(membersByTimePeriodChartCtx, {
+            type: 'line',
+            data: results,
+            options: {
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25,
+                        top: 25,
+                        bottom: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        time: {
+                            unit: 'date'
+                        },
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            maxTicksLimit: 7
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            maxTicksLimit: 5,
+                            padding: 10,
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    intersect: false,
+                    mode: 'index',
+                    caretPadding: 10,
+                }
+            }
+        });
+    });
+
+    //var refreshTimePeriodChart = function()
+    //{
+    //    debugger;
+    //    var timePeriod = document.getElementById("timePeriod").value;
+    //    var membersByTimePeriodChartCtx = document.getElementById("membersByTimePeriodChart");
+
+    //$.ajax({
+    //    url: "GetMembersByTimePeriodAsJson?timePeriod=" + timePeriod,
+    //    type: "POST",
+    //    dataType: 'json'
+    //}).done(function(results)
+    //{
+    //    var myPieChart = new Chart(membersByTimePeriodChartCtx, {
+    //        type: 'line',
+    //        data: results,
+    //        options: {
+    //            maintainAspectRatio: false,
+    //            layout: {
+    //                padding: {
+    //                    left: 10,
+    //                    right: 25,
+    //                    top: 25,
+    //                    bottom: 0
+    //                }
+    //            },
+    //            scales: {
+    //                xAxes: [{
+    //                    time: {
+    //                        unit: 'date'
+    //                    },
+    //                    gridLines: {
+    //                        display: false,
+    //                        drawBorder: false
+    //                    },
+    //                    ticks: {
+    //                        maxTicksLimit: 7
+    //                    }
+    //                }],
+    //                yAxes: [{
+    //                    ticks: {
+    //                        maxTicksLimit: 5,
+    //                        padding: 10,
+    //                    },
+    //                    gridLines: {
+    //                        color: "rgb(234, 236, 244)",
+    //                        zeroLineColor: "rgb(234, 236, 244)",
+    //                        drawBorder: false,
+    //                        borderDash: [2],
+    //                        zeroLineBorderDash: [2]
+    //                    }
+    //                }],
+    //            },
+    //            legend: {
+    //                display: false
+    //            },
+    //            tooltips: {
+    //                backgroundColor: "rgb(255,255,255)",
+    //                bodyFontColor: "#858796",
+    //                titleMarginBottom: 10,
+    //                titleFontColor: '#6e707e',
+    //                titleFontSize: 14,
+    //                borderColor: '#dddfeb',
+    //                borderWidth: 1,
+    //                xPadding: 15,
+    //                yPadding: 15,
+    //                displayColors: false,
+    //                intersect: false,
+    //                mode: 'index',
+    //                caretPadding: 10,
+    //            }
+    //        }
+    //    });
+    //});
+    //}
+</script>

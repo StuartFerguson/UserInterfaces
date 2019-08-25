@@ -4,9 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Reflection;
+    using System.Security.Claims;
     using System.Threading;
     using System.Threading.Tasks;
+    using Common;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HomeController"/> class.
+        /// Initializes a new instance of the <see cref="HomeController" /> class.
         /// </summary>
         /// <param name="apiClient">The API client.</param>
         public HomeController(IClient apiClient)
@@ -84,6 +85,45 @@
         }
 
         /// <summary>
+        /// Creates the match secretary user.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> CreateMatchSecretaryUser(CancellationToken cancellationToken)
+        {
+            CreateGolfClubUserViewModel model = new CreateGolfClubUserViewModel();
+
+            return this.View(model);
+        }
+
+        /// <summary>
+        /// Creates the match secretary user.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> CreateMatchSecretaryUser(CreateGolfClubUserViewModel model,
+                                                                  CancellationToken cancellationToken)
+        {
+            //// Validate the model
+            if (this.ValidateModel(model))
+            {
+                String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+
+                // All good with model, call the client to create the golf club
+                await this.ApiClient.CreateMatchSecretary(accessToken, this.User.Identity as ClaimsIdentity, model, cancellationToken);
+
+                // GOlf Club Created, redirect to the Club Details screen
+                return this.RedirectToAction(nameof(this.GetUsersList));
+            }
+
+            // If we got this far, something failed, redisplay form
+            return this.View(model);
+        }
+
+        /// <summary>
         /// Edits the golf club.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
@@ -93,7 +133,7 @@
         {
             String accessToken = await this.HttpContext.GetTokenAsync("access_token");
 
-            UpdateGolfClubViewModel golfClubDetails = await this.ApiClient.GetGolfClub(accessToken, cancellationToken);
+            UpdateGolfClubViewModel golfClubDetails = await this.ApiClient.GetGolfClub(accessToken, this.User.Identity as ClaimsIdentity, cancellationToken);
 
             return this.View(golfClubDetails);
         }
@@ -126,7 +166,8 @@
             String accessToken = await this.HttpContext.GetTokenAsync("access_token");
             Logger.LogDebug("got access token");
 
-            List<MeasuredCourseListViewModel> measuredCourseList = await this.ApiClient.GetMeasuredCourses(accessToken, cancellationToken);
+            List<MeasuredCourseListViewModel> measuredCourseList =
+                await this.ApiClient.GetMeasuredCourses(accessToken, this.User.Identity as ClaimsIdentity, cancellationToken);
             Logger.LogDebug($"course list count is {measuredCourseList.Count}");
 
             Expression<Func<MeasuredCourseListViewModel, Boolean>> whereClause = m => m.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
@@ -140,12 +181,79 @@
             return this.Json(this.GetDataForDataTable(measuredCourseList, whereClause));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetUsersList(CancellationToken cancellationToken)
+        /// <summary>
+        /// Gets the members by age category as json.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetMembersByAgeCategoryAsJson")]
+        public async Task<IActionResult> GetMembersByAgeCategoryAsJson(CancellationToken cancellationToken)
         {
-            return this.View();
+            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+
+            ChartJsPieChartDataViewModel viewModel =
+                await this.ApiClient.GetMembersByAgeCategoryReport(accessToken, this.User.Identity as ClaimsIdentity, cancellationToken);
+
+            return this.Json(viewModel);
         }
 
+        /// <summary>
+        /// Gets the members by handicap category as json.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetMembersByHandicapCategoryAsJson")]
+        public async Task<IActionResult> GetMembersByHandicapCategoryAsJson(CancellationToken cancellationToken)
+        {
+            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+
+            ChartJsPieChartDataViewModel viewModel =
+                await this.ApiClient.GetNumberOfMembersByHandicapCategoryReport(accessToken, this.User.Identity as ClaimsIdentity, cancellationToken);
+
+            return this.Json(viewModel);
+        }
+
+        /// <summary>
+        /// Gets the members by time period as json.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetMembersByTimePeriodAsJson")]
+        public async Task<IActionResult> GetMembersByTimePeriodAsJson(CancellationToken cancellationToken)
+        {
+            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+
+            ChartJsLineChartDataViewModel viewModel =
+                await this.ApiClient.GetNumberOfMembersByTimePeriodReport(accessToken, "Year", this.User.Identity as ClaimsIdentity, cancellationToken);
+
+            return this.Json(viewModel);
+        }
+
+        /// <summary>
+        /// Gets the number of members as json.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetNumberOfMembersAsJson")]
+        public async Task<IActionResult> GetNumberOfMembersAsJson(CancellationToken cancellationToken)
+        {
+            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+
+            NumberOfMembersReportViewModel viewModel =
+                await this.ApiClient.GetNumberOfMembersReport(accessToken, this.User.Identity as ClaimsIdentity, cancellationToken);
+
+            return this.Json(viewModel);
+        }
+
+        /// <summary>
+        /// Gets the user list as json.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> GetUserListAsJson(CancellationToken cancellationToken)
         {
@@ -158,15 +266,14 @@
             String accessToken = await this.HttpContext.GetTokenAsync("access_token");
             Logger.LogDebug("got access token");
 
-            List<GetGolfClubUserListViewModel> userList = await this.ApiClient.GetUserList(accessToken, cancellationToken);
+            List<GetGolfClubUserListViewModel> userList = await this.ApiClient.GetUserList(accessToken, this.User.Identity as ClaimsIdentity, cancellationToken);
             Logger.LogDebug($"user list count is {userList.Count}");
 
             Expression<Func<GetGolfClubUserListViewModel, Boolean>> whereClause = m => m.PhoneNumber.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
-                                                                                  m.Email.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
-                                                                                  m.UserType.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
-                                                                                  m.FullName.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
-                                                                                  m.UserName.Contains(searchValue, StringComparison.OrdinalIgnoreCase);
-
+                                                                                       m.Email.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                                                                                       m.UserType.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                                                                                       m.FullName.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                                                                                       m.UserName.Contains(searchValue, StringComparison.OrdinalIgnoreCase);
 
             DataTablesResult<GetGolfClubUserListViewModel> dataTableResult = this.GetDataForDataTable(userList, whereClause);
 
@@ -174,6 +281,17 @@
             Logger.LogDebug(jsonResult);
 
             return this.Json(this.GetDataForDataTable(userList, whereClause));
+        }
+
+        /// <summary>
+        /// Gets the users list.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetUsersList(CancellationToken cancellationToken)
+        {
+            return this.View();
         }
 
         /// <summary>
@@ -199,7 +317,7 @@
             String accessToken = await this.HttpContext.GetTokenAsync("access_token");
 
             // Check if the golf club is already created (if not redirect to create page)
-            if (await this.ApiClient.IsGolfClubCreated(accessToken, cancellationToken))
+            if (await this.ApiClient.IsGolfClubCreated(accessToken, this.User.Identity as ClaimsIdentity, cancellationToken))
             {
                 // Redirect to the Edit action as we have found the golf club
                 result = this.RedirectToAction(nameof(this.EditGolfClub));
@@ -243,7 +361,7 @@
                 String accessToken = await this.HttpContext.GetTokenAsync("access_token");
 
                 // All good with model, call the client to create the golf club
-                await this.ApiClient.CreateMeasuredCourse(accessToken, model, cancellationToken);
+                await this.ApiClient.CreateMeasuredCourse(accessToken, this.User.Identity as ClaimsIdentity, model, cancellationToken);
 
                 // GOlf Club Created, redirect to the Club Details screen
                 return this.RedirectToAction(nameof(this.GetMeasuredCourseList));
@@ -347,144 +465,15 @@
             return this.ModelState.IsValid;
         }
 
+        /// <summary>
+        /// Validates the model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         private Boolean ValidateModel(CreateGolfClubUserViewModel model)
         {
             return this.ModelState.IsValid;
         }
-
-        [HttpGet]
-        public async Task<IActionResult> CreateMatchSecretaryUser(CancellationToken cancellationToken)
-        {
-            CreateGolfClubUserViewModel model = new CreateGolfClubUserViewModel();
-
-            return this.View(model);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> CreateMatchSecretaryUser(CreateGolfClubUserViewModel model, CancellationToken cancellationToken)
-        {
-            //// Validate the model
-            if (this.ValidateModel(model))
-            {
-                String accessToken = await this.HttpContext.GetTokenAsync("access_token");
-
-                // All good with model, call the client to create the golf club
-                await this.ApiClient.CreateMatchSecretary(accessToken, model, cancellationToken);
-
-                // GOlf Club Created, redirect to the Club Details screen
-                return this.RedirectToAction(nameof(this.GetUsersList));
-            }
-
-            // If we got this far, something failed, redisplay form
-            return this.View(model);
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public static class Extensions
-    {
-        #region Methods
-
-        /// <summary>
-        /// Orders the by.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="enumerable">The enumerable.</param>
-        /// <param name="orderByColumn">The order by column.</param>
-        /// <param name="orderByDirection">The order by direction.</param>
-        /// <returns></returns>
-        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> enumerable,
-                                                String orderByColumn,
-                                                String orderByDirection)
-        {
-            var gimp = typeof(T).GetProperty(orderByColumn, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-
-            if (orderByDirection == "asc")
-            {
-                return enumerable.OrderBy(x => gimp.GetValue(x, null));
-            }
-
-            return enumerable.OrderByDescending(x => gimp.GetValue(x, null));
-        }
-
-        /// <summary>
-        /// Thens the by.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="enumerable">The enumerable.</param>
-        /// <param name="orderByColumn">The order by column.</param>
-        /// <param name="orderByDirection">The order by direction.</param>
-        /// <returns></returns>
-        public static IEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> enumerable,
-                                               String orderByColumn,
-                                               String orderByDirection)
-        {
-            var gimp = typeof(T).GetProperty(orderByColumn, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-
-            if (orderByDirection == "asc")
-            {
-                return enumerable.ThenBy(x => gimp.GetValue(x, null));
-            }
-
-            return enumerable.ThenByDescending(x => gimp.GetValue(x, null));
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class DataTablesResult<T>
-    {
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the data.
-        /// </summary>
-        /// <value>
-        /// The data.
-        /// </value>
-        [JsonProperty("data")]
-        public IEnumerable<T> Data { get; set; }
-
-        /// <summary>
-        /// Gets or sets the draw.
-        /// </summary>
-        /// <value>
-        /// The draw.
-        /// </value>
-        [JsonProperty("draw")]
-        public Int32 Draw { get; set; }
-
-        /// <summary>
-        /// Gets or sets the records filtered.
-        /// </summary>
-        /// <value>
-        /// The records filtered.
-        /// </value>
-        [JsonProperty("recordsFiltered")]
-        public Int32 RecordsFiltered { get; set; }
-
-        /// <summary>
-        /// Gets or sets the records total.
-        /// </summary>
-        /// <value>
-        /// The records total.
-        /// </value>
-        [JsonProperty("recordsTotal")]
-        public Int32 RecordsTotal { get; set; }
 
         #endregion
     }

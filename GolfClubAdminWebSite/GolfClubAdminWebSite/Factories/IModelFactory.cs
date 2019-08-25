@@ -77,6 +77,34 @@
         /// <returns></returns>
         List<GetTournamentListViewModel> ConvertFrom(GetTournamentListResponse apiResponse);
 
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        ChartJsLineChartDataViewModel ConvertFrom(GetNumberOfMembersByTimePeriodReportResponse apiResponse);
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        ChartJsPieChartDataViewModel ConvertFrom(GetNumberOfMembersByHandicapCategoryReportResponse apiResponse);
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        ChartJsPieChartDataViewModel ConvertFrom(GetNumberOfMembersByAgeCategoryReportResponse apiResponse);
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        NumberOfMembersReportViewModel ConvertFrom(GetNumberOfMembersReportResponse apiResponse);
+
         #endregion
     }
 }

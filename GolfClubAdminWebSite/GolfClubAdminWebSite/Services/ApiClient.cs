@@ -2,7 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Security.Claims;
     using System.Threading;
     using System.Threading.Tasks;
     using Areas.Account.Models;
@@ -33,6 +36,11 @@
         private readonly IModelFactory ModelFactory;
 
         /// <summary>
+        /// The reporting client
+        /// </summary>
+        private readonly IReportingClient ReportingClient;
+
+        /// <summary>
         /// The tournament client
         /// </summary>
         private readonly ITournamentClient TournamentClient;
@@ -46,13 +54,16 @@
         /// </summary>
         /// <param name="golfClubClient">The golf club client.</param>
         /// <param name="tournamentClient">The tournament client.</param>
+        /// <param name="reportingClient">The reporting client.</param>
         /// <param name="modelFactory">The model factory.</param>
         public ApiClient(IGolfClubClient golfClubClient,
                          ITournamentClient tournamentClient,
+                         IReportingClient reportingClient,
                          IModelFactory modelFactory)
         {
             this.GolfClubClient = golfClubClient;
             this.TournamentClient = tournamentClient;
+            this.ReportingClient = reportingClient;
             this.ModelFactory = modelFactory;
         }
 
@@ -64,11 +75,12 @@
         /// Cancels the tournament.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
         /// <param name="tournamentId">The tournament identifier.</param>
         /// <param name="cancellationReason">The cancellation reason.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task CancelTournament(String accessToken,
+                                           ClaimsIdentity claimsIdentity,
                                            Guid tournamentId,
                                            String cancellationReason,
                                            CancellationToken cancellationToken)
@@ -76,35 +88,24 @@
             CancelTournamentRequest request = new CancelTournamentRequest();
             request.CancellationReason = cancellationReason;
 
-            await this.TournamentClient.CancelTournament(accessToken, tournamentId, request, cancellationToken);
-        }
-
-        /// <summary>
-        /// Produces the tournament result.
-        /// </summary>
-        /// <param name="accessToken">The access token.</param>
-        /// <param name="tournamentId">The tournament identifier.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
-        public async Task ProduceTournamentResult(String accessToken,
-                                                  Guid tournamentId,
-                                                  CancellationToken cancellationToken)
-        {
-            await this.TournamentClient.ProduceTournamentResult(accessToken, tournamentId, cancellationToken);
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+            await this.TournamentClient.CancelTournament(accessToken, golfClubId, tournamentId, request, cancellationToken);
         }
 
         /// <summary>
         /// Completes the tournament.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
         /// <param name="tournamentId">The tournament identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task CompleteTournament(String accessToken,
+                                             ClaimsIdentity claimsIdentity,
                                              Guid tournamentId,
                                              CancellationToken cancellationToken)
         {
-            await this.TournamentClient.CompleteTournament(accessToken, tournamentId, cancellationToken);
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+            await this.TournamentClient.CompleteTournament(accessToken, golfClubId, tournamentId, cancellationToken);
         }
 
         /// <summary>
@@ -113,7 +114,6 @@
         /// <param name="accessToken">The access token.</param>
         /// <param name="viewModel">The view model.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task CreateGolfClub(String accessToken,
                                          CreateGolfClubViewModel viewModel,
                                          CancellationToken cancellationToken)
@@ -128,60 +128,73 @@
         /// Creates the match secretary.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
         /// <param name="viewModel">The view model.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task CreateMatchSecretary(String accessToken,
+                                               ClaimsIdentity claimsIdentity,
                                                CreateGolfClubUserViewModel viewModel,
                                                CancellationToken cancellationToken)
         {
             CreateMatchSecretaryRequest createMatchSecretaryRequest = this.ModelFactory.ConvertFrom(viewModel);
 
-            await this.GolfClubClient.CreateMatchSecretary(accessToken, createMatchSecretaryRequest, cancellationToken);
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+
+            await this.GolfClubClient.CreateMatchSecretary(accessToken, golfClubId, createMatchSecretaryRequest, cancellationToken);
         }
 
         /// <summary>
         /// Creates the measured course.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
         /// <param name="viewModel">The view model.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task CreateMeasuredCourse(String accessToken,
+                                               ClaimsIdentity claimsIdentity,
                                                MeasuredCourseViewModel viewModel,
                                                CancellationToken cancellationToken)
         {
             AddMeasuredCourseToClubRequest addMeasuredCourseToClubRequest = this.ModelFactory.ConvertFrom(viewModel);
 
-            await this.GolfClubClient.AddMeasuredCourseToGolfClub(accessToken, addMeasuredCourseToClubRequest, cancellationToken);
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+
+            await this.GolfClubClient.AddMeasuredCourseToGolfClub(accessToken, golfClubId, addMeasuredCourseToClubRequest, cancellationToken);
         }
 
         /// <summary>
         /// Creates the tournament.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
         /// <param name="viewModel">The view model.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task CreateTournament(String accessToken,
+                                           ClaimsIdentity claimsIdentity,
                                            CreateTournamentViewModel viewModel,
                                            CancellationToken cancellationToken)
         {
             CreateTournamentRequest request = this.ModelFactory.ConvertFrom(viewModel);
 
-            await this.TournamentClient.CreateTournament(accessToken, request, cancellationToken);
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+
+            await this.TournamentClient.CreateTournament(accessToken, golfClubId, request, cancellationToken);
         }
 
         /// <summary>
         /// Gets the golf club.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         public async Task<UpdateGolfClubViewModel> GetGolfClub(String accessToken,
+                                                               ClaimsIdentity claimsIdentity,
                                                                CancellationToken cancellationToken)
         {
-            GetGolfClubResponse getGolfClubResponse = await this.GolfClubClient.GetSingleGolfClub(accessToken, cancellationToken);
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+
+            GetGolfClubResponse getGolfClubResponse = await this.GolfClubClient.GetSingleGolfClub(accessToken, golfClubId, cancellationToken);
 
             return this.ModelFactory.ConvertFrom(getGolfClubResponse);
         }
@@ -190,15 +203,19 @@
         /// Gets the measured courses.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         public async Task<List<MeasuredCourseListViewModel>> GetMeasuredCourses(String accessToken,
+                                                                                ClaimsIdentity claimsIdentity,
                                                                                 CancellationToken cancellationToken)
         {
             List<MeasuredCourseListViewModel> result = new List<MeasuredCourseListViewModel>();
             try
             {
-                GetMeasuredCourseListResponse measuredCoursesResponse = await this.GolfClubClient.GetMeasuredCourses(accessToken, cancellationToken);
+                Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+
+                GetMeasuredCourseListResponse measuredCoursesResponse = await this.GolfClubClient.GetMeasuredCourses(accessToken, golfClubId, cancellationToken);
 
                 result = this.ModelFactory.ConvertFrom(measuredCoursesResponse);
             }
@@ -220,18 +237,95 @@
         }
 
         /// <summary>
+        /// Gets the members by age category report.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task<ChartJsPieChartDataViewModel> GetMembersByAgeCategoryReport(String accessToken,
+                                                                                                       ClaimsIdentity claimsIdentity,
+                                                                                                       CancellationToken cancellationToken)
+        {
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+
+            GetNumberOfMembersByAgeCategoryReportResponse getNumberOfMembersByAgeCategoryReportResponse = await this.ReportingClient.GetNumberOfMembersByAgeCategoryReport(accessToken, golfClubId, cancellationToken);
+
+            return this.ModelFactory.ConvertFrom(getNumberOfMembersByAgeCategoryReportResponse);
+        }
+
+        /// <summary>
+        /// Gets the number of members by handicap category report.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task<ChartJsPieChartDataViewModel> GetNumberOfMembersByHandicapCategoryReport(String accessToken,
+                                                                                                                         ClaimsIdentity claimsIdentity,
+                                                                                                                         CancellationToken cancellationToken)
+        {
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+
+            GetNumberOfMembersByHandicapCategoryReportResponse getNumberOfMembersByHandicapCategoryReportResponse = await this.ReportingClient.GetNumberOfMembersByHandicapCategoryReport(accessToken, golfClubId, cancellationToken);
+
+            return this.ModelFactory.ConvertFrom(getNumberOfMembersByHandicapCategoryReportResponse);
+        }
+
+        /// <summary>
+        /// Gets the number of members by time period report.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="timePeriod">The time period.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task<ChartJsLineChartDataViewModel> GetNumberOfMembersByTimePeriodReport(String accessToken,
+                                                                                                             String timePeriod,
+                                                                                                             ClaimsIdentity claimsIdentity,
+                                                                                                             CancellationToken cancellationToken)
+        {
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+
+            GetNumberOfMembersByTimePeriodReportResponse getNumberOfMembersByTimePeriodReportResponse = await this.ReportingClient.GetNumberOfMembersByTimePeriodReport(accessToken, golfClubId, timePeriod, cancellationToken);
+
+            return this.ModelFactory.ConvertFrom(getNumberOfMembersByTimePeriodReportResponse);
+        }
+
+        /// <summary>
+        /// Gets the number of members report.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task<NumberOfMembersReportViewModel> GetNumberOfMembersReport(String accessToken,
+                                                                                     ClaimsIdentity claimsIdentity,
+                                                                                     CancellationToken cancellationToken)
+        {
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+
+            GetNumberOfMembersReportResponse getNumberOfMembersReportResponse = await this.ReportingClient.GetNumberOfMembersReport(accessToken, golfClubId, cancellationToken);
+
+            return this.ModelFactory.ConvertFrom(getNumberOfMembersReportResponse);
+        }
+
+        /// <summary>
         /// Gets the tournament list.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         public async Task<List<GetTournamentListViewModel>> GetTournamentList(String accessToken,
+                                                                              ClaimsIdentity claimsIdentity,
                                                                               CancellationToken cancellationToken)
         {
             List<GetTournamentListViewModel> result = new List<GetTournamentListViewModel>();
             try
             {
-                GetTournamentListResponse tournamentListResponse = await this.TournamentClient.GetTournamentList(accessToken, cancellationToken);
+                Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+                GetTournamentListResponse tournamentListResponse = await this.TournamentClient.GetTournamentList(accessToken, golfClubId, cancellationToken);
 
                 result = this.ModelFactory.ConvertFrom(tournamentListResponse);
             }
@@ -256,12 +350,16 @@
         /// Gets the user list.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         public async Task<List<GetGolfClubUserListViewModel>> GetUserList(String accessToken,
+                                                                          ClaimsIdentity claimsIdentity,
                                                                           CancellationToken cancellationToken)
         {
-            GetGolfClubUserListResponse userList = await this.GolfClubClient.GetGolfClubUserList(accessToken, cancellationToken);
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+
+            GetGolfClubUserListResponse userList = await this.GolfClubClient.GetGolfClubUserList(accessToken, golfClubId, cancellationToken);
 
             List<GetGolfClubUserListViewModel> result = this.ModelFactory.ConvertFrom(userList);
 
@@ -272,16 +370,19 @@
         /// Determines whether [is golf club created] [the specified access token].
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         public async Task<Boolean> IsGolfClubCreated(String accessToken,
+                                                     ClaimsIdentity claimsIdentity,
                                                      CancellationToken cancellationToken)
         {
             Boolean result = false;
 
             try
             {
-                await this.GolfClubClient.GetSingleGolfClub(accessToken, cancellationToken);
+                Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+                await this.GolfClubClient.GetSingleGolfClub(accessToken, golfClubId, cancellationToken);
                 result = true;
             }
             catch(Exception ex)
@@ -302,11 +403,26 @@
         }
 
         /// <summary>
+        /// Produces the tournament result.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
+        /// <param name="tournamentId">The tournament identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        public async Task ProduceTournamentResult(String accessToken,
+                                                  ClaimsIdentity claimsIdentity,
+                                                  Guid tournamentId,
+                                                  CancellationToken cancellationToken)
+        {
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+            await this.TournamentClient.ProduceTournamentResult(accessToken, golfClubId, tournamentId, cancellationToken);
+        }
+
+        /// <summary>
         /// Registers the golf club administrator.
         /// </summary>
         /// <param name="viewModel">The view model.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task RegisterGolfClubAdministrator(RegisterClubAdministratorViewModel viewModel,
                                                         CancellationToken cancellationToken)
         {
@@ -314,6 +430,26 @@
             RegisterClubAdministratorRequest registerRegisterClubAdministratorRequest = this.ModelFactory.ConvertFrom(viewModel);
 
             await this.GolfClubClient.RegisterGolfClubAdministrator(registerRegisterClubAdministratorRequest, cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets the claim value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="claimsIdentity">The claims identity.</param>
+        /// <param name="claimType">Type of the claim.</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">User {claimsIdentity.Name} does not have Claim [{claimType}]</exception>
+        private static T GetClaimValue<T>(ClaimsIdentity claimsIdentity,
+                                          String claimType)
+        {
+            if (!claimsIdentity.HasClaim(x => x.Type == claimType))
+            {
+                throw new InvalidOperationException($"User {claimsIdentity.Name} does not have Claim [{claimType}]");
+            }
+
+            Claim claim = claimsIdentity.Claims.Single(x => x.Type == claimType);
+            return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(claim.Value);
         }
 
         #endregion

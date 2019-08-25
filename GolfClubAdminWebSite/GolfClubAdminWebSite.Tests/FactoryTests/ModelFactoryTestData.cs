@@ -5,6 +5,7 @@
     using Areas.Account.Models;
     using Areas.GolfClubAdministrator.Models;
     using Areas.MatchSecretary.Models;
+    using ManagementAPI.Service.DataTransferObjects.Requests;
     using ManagementAPI.Service.DataTransferObjects.Responses;
 
     public class ModelFactoryTestData
@@ -202,6 +203,47 @@
 
         private static String TournamentName = "Test Tournament";
 
+        private static Boolean TournamentHasBeenCancelled = false;
+
+        private static Boolean TournamentHasBeenCompleted = true;
+
+        private static Boolean HasResultBeenProduced = true;
+
+        private static String MeasuredCourseName = "Measured Course 1";
+
+        private static Int32 MeasuredCourseSSS = 70;
+
+        private static String MeasuredCourseTeeColour = "White";
+
+        private static PlayerCategory PlayerCategory = PlayerCategory.Gents;
+
+        private static Int32 PlayersScoresRecordedCount = 25;
+
+        private static Int32 PlayersSignedUpCount = 25;
+
+        private static Guid TournamentId = Guid.Parse("59C2F76A-0080-42D7-B32E-99832B4E696A");
+
+        public static GetNumberOfMembersByHandicapCategoryReportResponse GetNumberOfMembersByHandicapCategoryReportResponse()
+        {
+            return new GetNumberOfMembersByHandicapCategoryReportResponse
+                   {
+                       GolfClubId = ModelFactoryTestData.GolfClubId,
+                       MembersByHandicapCategoryResponse = new List<MembersByHandicapCategoryResponse>
+                                                           {
+                                                               new MembersByHandicapCategoryResponse
+                                                               {
+                                                                   HandicapCategory = 1,
+                                                                   NumberOfMembers = 15
+                                                               },
+                                                               new MembersByHandicapCategoryResponse
+                                                               {
+                                                                   HandicapCategory = 2,
+                                                                   NumberOfMembers = 25
+                                                               }
+                                                           }
+                   };
+        }
+
         public static MeasuredCourseViewModel GetMeasuredCourseViewModel()
         {
             return new MeasuredCourseViewModel
@@ -330,6 +372,85 @@
                 TournamentDate = ModelFactoryTestData.TournamentDate,
                 Name = ModelFactoryTestData.TournamentName
             };
+        }
+
+        public static GetTournamentListResponse GetTournamentListResponse()
+        {
+            return new GetTournamentListResponse()
+            {
+                Tournaments = new List<GetTournamentResponse>()
+                              {
+                    new GetTournamentResponse()
+                    {
+                        HasBeenCancelled = ModelFactoryTestData.TournamentHasBeenCancelled,
+                        HasBeenCompleted = ModelFactoryTestData.TournamentHasBeenCompleted,
+                        HasResultBeenProduced = ModelFactoryTestData.HasResultBeenProduced,
+                        MeasuredCourseId = ModelFactoryTestData.MeasuredCourseId,
+                        MeasuredCourseName = ModelFactoryTestData.MeasuredCourseName,
+                        MeasuredCourseSSS = ModelFactoryTestData.MeasuredCourseSSS,
+                        MeasuredCourseTeeColour = ModelFactoryTestData.MeasuredCourseTeeColour,
+                        PlayerCategory = ModelFactoryTestData.PlayerCategory,
+                        PlayersScoresRecordedCount = ModelFactoryTestData.PlayersScoresRecordedCount,
+                        PlayersSignedUpCount = ModelFactoryTestData.PlayersSignedUpCount,
+                        TournamentDate = ModelFactoryTestData.TournamentDate.Value,
+                        TournamentFormat = (TournamentFormat)ModelFactoryTestData.TournamentFormat,
+                        TournamentId = ModelFactoryTestData.TournamentId,
+                        TournamentName = ModelFactoryTestData.TournamentName
+                    }
+                              }
+            };
+        }
+
+        public static GetNumberOfMembersByTimePeriodReportResponse GetNumberOfMembersByTimePeriodReportResponse()
+        {
+            return new GetNumberOfMembersByTimePeriodReportResponse
+                   {
+                        GolfClubId = ModelFactoryTestData.GolfClubId,
+                        TimePeriod = TimePeriod.Year,
+                        MembersByTimePeriodResponse = new List<MembersByTimePeriodResponse>
+                                                      {
+                                                          new MembersByTimePeriodResponse()
+                                                          {
+                                                              NumberOfMembers = 15,
+                                                              Period = "2018"
+                                                          },
+                                                          new MembersByTimePeriodResponse()
+                                                          {
+                                                              NumberOfMembers = 25,
+                                                              Period = "2019"
+                                                          }
+                                                      }
+                   };
+        }
+
+        public static GetNumberOfMembersByAgeCategoryReportResponse GetNumberOfMembersByAgeCategoryReportResponse()
+        {
+            return new GetNumberOfMembersByAgeCategoryReportResponse
+                   {
+                GolfClubId = ModelFactoryTestData.GolfClubId,
+                MembersByAgeCategoryResponse = new List<MembersByAgeCategoryResponse>
+                                               {
+                                                   new MembersByAgeCategoryResponse
+                                                   {
+                                                       AgeCategory = "Junior",
+                                                       NumberOfMembers = 5
+                                                   },
+                                                   new MembersByAgeCategoryResponse
+                                                   {
+                                                       AgeCategory = "Adult",
+                                                       NumberOfMembers = 35
+                                                   }
+                                               }
+                   };
+        }
+
+        public static GetNumberOfMembersReportResponse GetNumberOfMembersReportResponse()
+        {
+            return new GetNumberOfMembersReportResponse
+                   {
+                       GolfClubId = ModelFactoryTestData.GolfClubId,
+                       NumberOfMembers = 55
+                   };
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Security.Claims;
     using GolfClubAdminWebSite.Bootstrapper;
     using IdentityModel;
     using Microsoft.AspNetCore.Authentication;
@@ -195,7 +196,7 @@
                                                                             options.Scope.Add("email");
                                                                             options.Scope.Add("offline_access");
                                                                             options.Scope.Add("managementapi");
-
+                                                                            
                                                                             options.ClaimActions.MapAllExcept("iss", "nbf", "exp", "aud", "nonce", "iat", "c_hash");
                                                                             options.GetClaimsFromUserInfoEndpoint = true;
                                                                             options.SaveTokens = true;

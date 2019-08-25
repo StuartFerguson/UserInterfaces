@@ -2,9 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using Areas.Account.Models;
+    using Areas.GolfClubAdministrator.Controllers;
     using Areas.GolfClubAdministrator.Models;
     using Areas.MatchSecretary.Models;
+    using Common;
     using ManagementAPI.Service.DataTransferObjects.Requests;
     using ManagementAPI.Service.DataTransferObjects.Responses;
 
@@ -346,6 +349,123 @@
             }
 
             return viewModels;
+        }
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        public ChartJsLineChartDataViewModel ConvertFrom(GetNumberOfMembersByTimePeriodReportResponse apiResponse)
+        {
+            ChartJsLineChartDataViewModel viewModel = new ChartJsLineChartDataViewModel();
+
+            ChartJsLineChartDataDataSet dataSet = new ChartJsLineChartDataDataSet();
+
+            foreach (MembersByTimePeriodResponse membersByTimePeriodResponse in apiResponse.MembersByTimePeriodResponse)
+            {
+                dataSet.Label = "Number Of Members";
+                dataSet.Data.Add(membersByTimePeriodResponse.NumberOfMembers);
+                dataSet.LineTension = 0.4;
+                dataSet.BackgroundColor = Color.CadetBlue.ToHex();
+                dataSet.PointBackgroundColor = Color.Coral.ToHex();
+                dataSet.PointRadius = 3;
+                dataSet.PointBorderWidth = 2;
+                dataSet.PointHitRadius = 10;
+
+                viewModel.Labels.Add(membersByTimePeriodResponse.Period);
+            }
+
+            viewModel.Datasets.Add(dataSet);
+
+            return viewModel;
+        }
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        public ChartJsPieChartDataViewModel ConvertFrom(GetNumberOfMembersByHandicapCategoryReportResponse apiResponse)
+        {
+            List<Color> chartColors = new List<Color>();
+
+            chartColors = new List<Color>();
+            chartColors.Add(Color.Aqua);
+            chartColors.Add(Color.YellowGreen);
+            chartColors.Add(Color.BlueViolet);
+            chartColors.Add(Color.Coral);
+            chartColors.Add(Color.CadetBlue);
+            chartColors.Add(Color.Crimson);
+            chartColors.Add(Color.DeepSkyBlue);
+
+            ChartJsPieChartDataViewModel viewModel = new ChartJsPieChartDataViewModel();
+
+            ChartJsPieChartDataDataSet dataSet = new ChartJsPieChartDataDataSet();
+
+            Int32 counter = 0;
+            foreach (MembersByHandicapCategoryResponse membersByHandicapCategoryResponse in apiResponse.MembersByHandicapCategoryResponse)
+            {
+                Color backgroundColour = chartColors[counter];
+
+                dataSet.BackgroundColor.Add(backgroundColour.ToHex());
+                dataSet.Data.Add(membersByHandicapCategoryResponse.NumberOfMembers);
+                viewModel.Labels.Add($"Category {membersByHandicapCategoryResponse.HandicapCategory}");
+                counter++;
+            }
+            viewModel.Datasets.Add(dataSet);
+
+            return viewModel;
+        }
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        public ChartJsPieChartDataViewModel ConvertFrom(GetNumberOfMembersByAgeCategoryReportResponse apiResponse)
+        {
+            List<Color> chartColors = new List<Color>();
+
+            chartColors = new List<Color>();
+            chartColors.Add(Color.Aqua);
+            chartColors.Add(Color.YellowGreen);
+            chartColors.Add(Color.BlueViolet);
+            chartColors.Add(Color.Coral);
+            chartColors.Add(Color.CadetBlue);
+            chartColors.Add(Color.Crimson);
+            chartColors.Add(Color.DeepSkyBlue);
+
+            ChartJsPieChartDataViewModel viewModel = new ChartJsPieChartDataViewModel();
+
+            ChartJsPieChartDataDataSet dataSet = new ChartJsPieChartDataDataSet();
+
+            Int32 counter = 0;
+            foreach (MembersByAgeCategoryResponse membersByAgeCategoryResponse in apiResponse.MembersByAgeCategoryResponse)
+            {
+                Color backgroundColour = chartColors[counter];
+                dataSet.BackgroundColor.Add(backgroundColour.ToHex());
+                dataSet.Data.Add(membersByAgeCategoryResponse.NumberOfMembers);
+                viewModel.Labels.Add(membersByAgeCategoryResponse.AgeCategory);
+                counter++;
+            }
+
+            viewModel.Datasets.Add(dataSet);
+
+            return viewModel;
+        }
+
+        /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        public NumberOfMembersReportViewModel ConvertFrom(GetNumberOfMembersReportResponse apiResponse)
+        {
+            NumberOfMembersReportViewModel viewModel = new NumberOfMembersReportViewModel();
+            viewModel.NumberOfMembers = apiResponse.NumberOfMembers;
+
+            return viewModel;
         }
 
         /// <summary>
