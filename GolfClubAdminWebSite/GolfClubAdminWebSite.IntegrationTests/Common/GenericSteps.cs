@@ -57,42 +57,46 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
 
         protected async Task RunSystem(String testFolder)
         {
-                Logging.Enabled();
+            Logging.Enabled();
 
-                Guid testGuid = Guid.NewGuid();
-                this.TestId = testGuid;
+            Guid testGuid = Guid.NewGuid();
+            this.TestId = testGuid;
 
             // Setup the container names
             this.ManagementAPIContainerName = $"rest{testGuid:N}";
-                this.EventStoreContainerName = $"eventstore{testGuid:N}";
-                this.SubscriberServiceId = testGuid;
-                this.SubscriptionServiceContainerName = $"subService{testGuid:N}";
-                this.GolfClubAdminUIContainerName = $"golfclubadminui{testGuid:N}";
+            this.EventStoreContainerName = $"eventstore{testGuid:N}";
+            this.SubscriberServiceId = testGuid;
+            this.SubscriptionServiceContainerName = $"subService{testGuid:N}";
+            this.GolfClubAdminUIContainerName = $"golfclubadminui{testGuid:N}";
 
-                this.EventStoreConnectionString =
-                    $"EventStoreSettings:ConnectionString=ConnectTo=tcp://admin:changeit@{this.EventStoreContainerName}:1113;VerboseLogging=true;";
-                this.SecurityServiceAddress = $"AppSettings:SecurityService=http://192.168.1.132:55001";
-                this.AuthorityAddress = $"SecurityConfiguration:Authority=http://192.168.1.132:55001";
-                this.SubscriptionServiceConnectionString =
-                    $"\"ConnectionStrings:SubscriptionServiceConfigurationContext={Setup.GetConnectionString("SubscriptionServiceConfiguration")}\"";
-                this.ManagementAPIReadModelConnectionString = $"\"ConnectionStrings:ManagementAPIReadModel={Setup.GetConnectionString($"ManagementAPIReadModel{testGuid:N}")}\"";
-                this.ManagementAPISeedingType = "SeedingType=IntegrationTest";
-                this.ManagementAPIAddress = $"AppSettings:ManagementAPI=http://{this.ManagementAPIContainerName}:5000";
+            this.EventStoreConnectionString =
+                $"EventStoreSettings:ConnectionString=ConnectTo=tcp://admin:changeit@{this.EventStoreContainerName}:1113;VerboseLogging=true;";
+            this.SecurityServiceAddress = $"AppSettings:SecurityService=http://192.168.1.132:55001";
+            this.AuthorityAddress = $"SecurityConfiguration:Authority=http://192.168.1.132:55001";
+            this.SubscriptionServiceConnectionString =
+                $"\"ConnectionStrings:SubscriptionServiceConfigurationContext={Setup.GetConnectionString("SubscriptionServiceConfiguration")}\"";
+            this.ManagementAPIReadModelConnectionString =
+                $"\"ConnectionStrings:ManagementAPIReadModel={Setup.GetConnectionString($"ManagementAPIReadModel{testGuid:N}")}\"";
+            this.ManagementAPISeedingType = "SeedingType=IntegrationTest";
+            this.ManagementAPIAddress = $"AppSettings:ManagementAPI=http://{this.ManagementAPIContainerName}:5000";
 
-                this.SetupTestNetwork();
-                this.SetupManagementAPIContainer(testFolder);
-                this.SetupEventStoreContainer(testFolder);
-                this.SetupGolfClubAdminUIContainer(testFolder);
+            this.SetupTestNetwork();
+            this.SetupEventStoreContainer(testFolder);
+            this.SetupGolfClubAdminUIContainer(testFolder);
 
-                // Cache the ports
-                this.GolfClubAdminUIPort = this.GolfClubAdminUIContainer.ToHostExposedEndpoint("5005/tcp").Port;
+            // TODO: Temporary hack until code in API for creating roles on start up more resiliant
+            Thread.Sleep(10000);
 
-                this.SetupSubscriptionServiceConfig();
-                this.SetupSubscriptionServiceContainer(testFolder);
+            this.SetupManagementAPIContainer(testFolder);
 
-                this.UpdateClientRedirectUris("golfhandicap.adminwebsite", $"http://localhost:{this.GolfClubAdminUIPort}");
-                this.DeleteAllRegisteredUsers();
+            // Cache the ports
+            this.GolfClubAdminUIPort = this.GolfClubAdminUIContainer.ToHostExposedEndpoint("5005/tcp").Port;
 
+            this.SetupSubscriptionServiceConfig();
+            this.SetupSubscriptionServiceContainer(testFolder);
+
+            this.UpdateClientRedirectUris("golfhandicap.adminwebsite", $"http://localhost:{this.GolfClubAdminUIPort}");
+            this.DeleteAllRegisteredUsers();
         }
 
         private void DeleteAllRegisteredUsers()
