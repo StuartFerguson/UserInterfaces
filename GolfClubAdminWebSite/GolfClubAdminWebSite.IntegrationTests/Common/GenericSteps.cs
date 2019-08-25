@@ -16,7 +16,6 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
     using Ductus.FluentDocker.Services;
     using Ductus.FluentDocker.Services.Extensions;
     using Gherkin;
-    using ManagementAPI.Database;
     using Microsoft.Extensions.Primitives;
     using MySql.Data.MySqlClient;
     using Newtonsoft.Json;
@@ -139,7 +138,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
         {
             try
             {
-                IPEndPoint mysqlEndpoint = Setup.DatabaseServerContainer.ToHostExposedEndpoint("3306/tcp");
+               IPEndPoint mysqlEndpoint = Setup.DatabaseServerContainer.ToHostExposedEndpoint("3306/tcp");
 
                 String server = "127.0.0.1";
                 String database = $"ManagementAPIReadModel{this.TestId:N}";
@@ -150,8 +149,15 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
 
                 String connectionString = $"server={server};port={port};user id={user}; password={password}; database={database}; SslMode={sslM}";
 
-                ManagementAPI.Database.ManagementAPIReadModel context = new ManagementAPIReadModel(connectionString);
-                context.Database.EnsureDeleted();
+                MySqlConnection connection = new MySqlConnection(connectionString);
+
+                connection.Open();
+
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = $"DROP DATABASE [IF EXISTS] {database};";
+                command.ExecuteNonQuery();
+
+                connection.Close();
 
                 if (this.GolfClubAdminUIContainer != null)
                 {

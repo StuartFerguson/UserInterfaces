@@ -24,12 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="ManagementAPI.Database">
-      <HintPath>..\..\..\GolfHandicapCalculatorAPI\API\ManagementAPI\ManagementAPI.Database\bin\Debug\netcoreapp2.2\ManagementAPI.Database.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <SpecFlowFeatureFiles Update="Features\AddMeasuredCourse.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AddMeasuredCourse.feature.cs</LastGenOutput>
