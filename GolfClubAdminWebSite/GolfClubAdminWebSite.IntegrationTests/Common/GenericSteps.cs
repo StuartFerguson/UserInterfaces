@@ -16,6 +16,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
     using Ductus.FluentDocker.Services;
     using Ductus.FluentDocker.Services.Extensions;
     using Gherkin;
+    using ManagementAPI.Database;
     using Microsoft.Extensions.Primitives;
     using MySql.Data.MySqlClient;
     using Newtonsoft.Json;
@@ -42,6 +43,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
         private String GolfClubAdminUIContainerName;
 
         private String EventStoreConnectionString;
+        private String ManagementAPIReadModelConnectionString;
         private String SecurityServiceAddress;
         private String AuthorityAddress;
         private String SubscriptionServiceConnectionString;
@@ -58,9 +60,10 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
                 Logging.Enabled();
 
                 Guid testGuid = Guid.NewGuid();
+                this.TestId = testGuid;
 
-                // Setup the container names
-                this.ManagementAPIContainerName = $"rest{testGuid:N}";
+            // Setup the container names
+            this.ManagementAPIContainerName = $"rest{testGuid:N}";
                 this.EventStoreContainerName = $"eventstore{testGuid:N}";
                 this.SubscriberServiceId = testGuid;
                 this.SubscriptionServiceContainerName = $"subService{testGuid:N}";
@@ -72,6 +75,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
                 this.AuthorityAddress = $"SecurityConfiguration:Authority=http://192.168.1.132:55001";
                 this.SubscriptionServiceConnectionString =
                     $"\"ConnectionStrings:SubscriptionServiceConfigurationContext={Setup.GetConnectionString("SubscriptionServiceConfiguration")}\"";
+                this.ManagementAPIReadModelConnectionString = $"\"ConnectionStrings:ManagementAPIReadModel={Setup.GetConnectionString($"ManagementAPIReadModel{testGuid:N}")}\"";
                 this.ManagementAPISeedingType = "SeedingType=IntegrationTest";
                 this.ManagementAPIAddress = $"AppSettings:ManagementAPI=http://{this.ManagementAPIContainerName}:5000";
 
@@ -125,10 +129,26 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
                                           .Start().WaitForPort("5005/tcp", 30000);            
         }
 
+        public Guid TestId;
+
         protected void StopSystem()
         {
             try
             {
+                IPEndPoint mysqlEndpoint = Setup.DatabaseServerContainer.ToHostExposedEndpoint("3306/tcp");
+
+                String server = "127.0.0.1";
+                String database = $"ManagementAPIReadModel{this.TestId:N}";
+                String user = "root";
+                String password = "Pa55word";
+                String port = mysqlEndpoint.Port.ToString();
+                String sslM = "none";
+
+                String connectionString = $"server={server};port={port};user id={user}; password={password}; database={database}; SslMode={sslM}";
+
+                ManagementAPI.Database.ManagementAPIReadModel context = new ManagementAPIReadModel(connectionString);
+                context.Database.EnsureDeleted();
+
                 if (this.GolfClubAdminUIContainer != null)
                 {
                     this.GolfClubAdminUIContainer.StopOnDispose = true;
@@ -290,6 +310,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
                 .WithName(this.ManagementAPIContainerName)
                 .WithEnvironment("ASPNETCORE_ENVIRONMENT=IntegrationTest",
                     this.EventStoreConnectionString,
+                    this.ManagementAPIReadModelConnectionString,
                     this.SecurityServiceAddress,
                     this.ManagementAPISeedingType,
                     this.AuthorityAddress,
