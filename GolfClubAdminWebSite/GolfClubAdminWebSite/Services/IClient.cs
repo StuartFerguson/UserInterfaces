@@ -218,6 +218,17 @@
         Task RegisterGolfClubAdministrator(RegisterClubAdministratorViewModel viewModel,
                                            CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Gets the member list.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="claimsIdentity">The claims identity.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task<List<MemberListViewModel>> GetMemberList(String accessToken,
+                                                      ClaimsIdentity claimsIdentity,
+                                                      CancellationToken cancellationToken);
+
         #endregion
     }
 }

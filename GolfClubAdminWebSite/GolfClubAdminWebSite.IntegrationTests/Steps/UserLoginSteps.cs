@@ -12,7 +12,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
     using Shouldly;
-
+/*
     [Binding]
     [Scope(Tag = "userlogin")]
     public class UserLoginSteps : GenericSteps
@@ -219,7 +219,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
             ElementScope logoutButton = this.BrowserSession.FindButton("Logout");
             logoutButton.Click();
         }
-
+        */
 
     }
 }

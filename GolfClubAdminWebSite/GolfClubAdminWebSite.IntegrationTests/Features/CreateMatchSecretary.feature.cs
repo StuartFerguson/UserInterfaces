@@ -17,6 +17,10 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [Xunit.TraitAttribute("Category", "base")]
+    [Xunit.TraitAttribute("Category", "registration")]
+    [Xunit.TraitAttribute("Category", "creategolfclub")]
+    [Xunit.TraitAttribute("Category", "getgolfclubuserlist")]
     [Xunit.TraitAttribute("Category", "creatematchsecretary")]
     public partial class CreateMatchSecretaryFeature : Xunit.IClassFixture<CreateMatchSecretaryFeature.FixtureData>, System.IDisposable
     {
@@ -38,6 +42,10 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "CreateMatchSecretary", null, ProgrammingLanguage.CSharp, new string[] {
+                        "base",
+                        "registration",
+                        "creategolfclub",
+                        "getgolfclubuserlist",
                         "creatematchsecretary"});
             testRunner.OnFeatureStart(featureInfo);
         }

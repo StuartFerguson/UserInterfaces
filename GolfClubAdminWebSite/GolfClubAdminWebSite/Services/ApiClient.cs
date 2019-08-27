@@ -432,6 +432,18 @@
             await this.GolfClubClient.RegisterGolfClubAdministrator(registerRegisterClubAdministratorRequest, cancellationToken);
         }
 
+        public async Task<List<MemberListViewModel>> GetMemberList(String accessToken,
+                                        ClaimsIdentity claimsIdentity,
+                                        CancellationToken cancellationToken)
+        {
+            Guid golfClubId = ApiClient.GetClaimValue<Guid>(claimsIdentity, "GolfClubId");
+            List<GetGolfClubMembershipDetailsResponse> membershipList = await this.GolfClubClient.GetGolfClubMembershipList(accessToken, golfClubId, cancellationToken);
+
+            List<MemberListViewModel> result = this.ModelFactory.ConvertFrom(membershipList);
+
+            return result;
+        }
+
         /// <summary>
         /// Gets the claim value.
         /// </summary>

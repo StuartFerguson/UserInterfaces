@@ -1,4 +1,4 @@
-﻿@createtournament
+﻿@base @registration @creategolfclub @addmeasuredcourse @creatematchsecretary @getgolfclubuserlist @createtournament
 Feature: CreateTournament
 
 Background: 

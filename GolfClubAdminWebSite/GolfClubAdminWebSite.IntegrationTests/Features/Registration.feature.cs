@@ -17,6 +17,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [Xunit.TraitAttribute("Category", "base")]
     [Xunit.TraitAttribute("Category", "registration")]
     public partial class RegistrationFeature : Xunit.IClassFixture<RegistrationFeature.FixtureData>, System.IDisposable
     {
@@ -38,6 +39,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Registration", null, ProgrammingLanguage.CSharp, new string[] {
+                        "base",
                         "registration"});
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -94,14 +96,14 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
  testRunner.Then("I should be displayed the registration form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table26 = new TechTalk.SpecFlow.Table(new string[] {
                         "FirstName",
                         "LastName",
                         "Email",
                         "TelephoneNumber",
                         "Password",
                         "ConfirmPassword"});
-            table22.AddRow(new string[] {
+            table26.AddRow(new string[] {
                         "Test",
                         "User",
                         "testuser@testgolfclub.co.uk",
@@ -109,7 +111,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "123456",
                         "123456"});
 #line 9
- testRunner.When("I use the follwing details to register", ((string)(null)), table22, "When ");
+ testRunner.When("I use the follwing details to register", ((string)(null)), table26, "When ");
 #line 12
  testRunner.And("I click the register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 13

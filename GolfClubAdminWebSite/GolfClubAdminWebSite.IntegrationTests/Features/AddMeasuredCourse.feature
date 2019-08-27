@@ -1,4 +1,4 @@
-﻿@addmeasuredcourse
+﻿@base @registration @creategolfclub @addmeasuredcourse
 Feature: AddMeasuredCourse
 
 Background:

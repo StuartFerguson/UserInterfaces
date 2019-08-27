@@ -8,14 +8,12 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
     using Common;
     using Coypu;
     using Shouldly;
-
-    [Binding]
-    [Scope(Tag= "getmeasuredcourselist")]
-    public class GetMeasuredCourseListSteps : GenericSteps
+    /*
+    public class CreateMatchSecretarySteps_orig : GenericSteps
     {
         private readonly BrowserSession BrowserSession;
 
-        public GetMeasuredCourseListSteps(ScenarioContext scenarioContext, BrowserSession browserSession) : base(scenarioContext)
+        public CreateMatchSecretarySteps(ScenarioContext scenarioContext, BrowserSession browserSession) : base(scenarioContext)
         {
             this.BrowserSession = browserSession;
         }
@@ -116,45 +114,10 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
             this.BrowserSession.ClickButton("Create Club");
         }
 
-        [When(@"I click on the Measured Courses sidebar option")]
-        public void WhenIClickOnTheMeasuredCoursesSidebarOption()
+        [When(@"I click on the Users sidebar option")]
+        public void WhenIClickOnTheUsersSidebarOption()
         {
-            this.BrowserSession.ClickLink("Measured Courses");
-        }
-
-        [When(@"I click on the New Measured Course button")]
-        public void WhenIClickOnTheNewMeasuredCourseButton()
-        {
-            this.BrowserSession.ClickButton("New Measured Course");
-        }
-
-        [When(@"I add the following details for the new measured course")]
-        public void WhenIAddTheFollowingDetailsForTheNewMeasuredCourse(Table table)
-        {
-            var tableRow = table.Rows.First();
-
-            this.BrowserSession.FillIn("Name").With(tableRow["Name"]);
-            this.BrowserSession.FillIn("TeeColour").With(tableRow["TeeColour"]);
-            this.BrowserSession.FillIn("StandardScratchScore").With(tableRow["SSS"]);
-        }
-
-        [When(@"I add the following hole information for the new measured course")]
-        public void WhenIAddTheFollowingHoleInformationForTheNewMeasuredCourse(Table table)
-        {
-            Int32 holeCounter = 0;
-            foreach (TableRow tableRow in table.Rows)
-            {
-                holeCounter++;
-                this.BrowserSession.FillIn($"HoleNumber{holeCounter}Yards").With(tableRow["Yardage"]);
-                this.BrowserSession.FillIn($"HoleNumber{holeCounter}Par").With(tableRow["Par"]);
-                this.BrowserSession.FillIn($"HoleNumber{holeCounter}StrokeIndex").With(tableRow["StrokeIndex"]);
-            }
-        }
-
-        [When(@"I click the Create Measured Course")]
-        public void WhenIClickTheCreateMeasuredCourse()
-        {
-            this.BrowserSession.ClickButton("Create Measured Course");
+            this.BrowserSession.ClickLink("Users");
         }
 
         [Then(@"I should be displayed the registration form")]
@@ -195,28 +158,47 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
             this.BrowserSession.Title.ShouldBe("Edit Golf Club");
         }
 
-        [Then(@"I am presented with the list of measured courses")]
-        public void ThenIAmPresentedWithTheListOfMeasuredCourses()
+        [Then(@"I am presented with the list of golf club users")]
+        public void ThenIAmPresentedWithTheListOfGolfClubUsers()
         {
-            this.BrowserSession.Title.ShouldBe("Measured Courses");
+            this.BrowserSession.Title.ShouldBe("Users");
         }
 
-        [Then(@"I am presented with the New Measured Course screen")]
-        public void ThenIAmPresentedWithTheNewMeasuredCourseScreen()
+        [Then(@"a user with the name ""(.*)"" should be in the list")]
+        public void ThenAUserWithTheNameShouldBeInTheList(String username)
         {
-            this.BrowserSession.Title.ShouldBe("New Measured Course");
-        }
-
-        [Then(@"a measured course with the name ""(.*)"" should be in the list")]
-        public void ThenAMeasuredCourseWithTheNameShouldBeInTheList(String golfClubName)
-        {
-            Boolean hasContent = this.BrowserSession.HasContent(golfClubName, new Options
-                                                                              {
-                                                                                  Timeout = TimeSpan.FromSeconds(30),
-                                                                                  RetryInterval = TimeSpan.FromSeconds(1)
-                                                                              });
+            Boolean hasContent = this.BrowserSession.HasContent(username, new Options
+            {
+                Timeout = TimeSpan.FromSeconds(30),
+                RetryInterval = TimeSpan.FromSeconds(1)
+            });
             hasContent.ShouldBeTrue();
         }
 
+        [When(@"I click on the New Match Secretary Button")]
+        public void WhenIClickOnTheNewMatchSecretaryButton()
+        {
+            this.BrowserSession.ClickLink("New Match Secretary");
+        }
+
+        [When(@"I use the following details to create a match secretary")]
+        public void WhenIUseTheFollowingDetailsToCreateAMatchSecretary(Table table)
+        {
+            TableRow tableRow = table.Rows.First();
+
+            this.BrowserSession.FillIn("GivenName").With(tableRow["FirstName"]);
+            this.BrowserSession.FillIn("FamilyName").With(tableRow["LastName"]);
+            this.BrowserSession.FindId("TelephoneNumber").FillInWith(tableRow["TelephoneNumber"]);
+            this.BrowserSession.FindId("Email").FillInWith(tableRow["Email"]);
+        }
+
+        [When(@"I click on the create user button")]
+        public void WhenIClickOnTheCreateUserButton()
+        {
+            ElementScope section = this.BrowserSession.FindButton("Create User");
+            section.Click();
+            //this.BrowserSession.ClickLink("Create User");
+        }
+*/
     }
 }

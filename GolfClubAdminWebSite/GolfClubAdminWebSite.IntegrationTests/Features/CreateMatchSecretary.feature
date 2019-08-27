@@ -1,4 +1,4 @@
-﻿@creatematchsecretary
+﻿@base @registration @creategolfclub @getgolfclubuserlist @creatematchsecretary
 Feature: CreateMatchSecretary
 
 Background: 
