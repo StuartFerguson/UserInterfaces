@@ -17,7 +17,10 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [Xunit.TraitAttribute("Category", "getmeasuredcourselist")]
+    [Xunit.TraitAttribute("Category", "base")]
+    [Xunit.TraitAttribute("Category", "registration")]
+    [Xunit.TraitAttribute("Category", "creategolfclub")]
+    [Xunit.TraitAttribute("Category", "addmeasuredcourse")]
     public partial class GetMeasuredCourseListFeature : Xunit.IClassFixture<GetMeasuredCourseListFeature.FixtureData>, System.IDisposable
     {
         
@@ -38,7 +41,10 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "GetMeasuredCourseList", null, ProgrammingLanguage.CSharp, new string[] {
-                        "getmeasuredcourselist"});
+                        "base",
+                        "registration",
+                        "creategolfclub",
+                        "addmeasuredcourse"});
             testRunner.OnFeatureStart(featureInfo);
         }
         

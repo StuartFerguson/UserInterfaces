@@ -1,4 +1,4 @@
-﻿@registration
+﻿@base @registration
 
 Feature: Registration
 

@@ -1,4 +1,4 @@
-﻿@getgolfclubuserlist
+﻿@base @registration @creategolfclub @getgolfclubuserlist
 Feature: GetGolfClubUserList
 
 Background: 

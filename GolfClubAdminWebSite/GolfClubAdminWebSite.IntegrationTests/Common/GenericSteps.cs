@@ -9,7 +9,6 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
     using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
-    using BoDi;
     using Coypu;
     using Ductus.FluentDocker.Builders;
     using Ductus.FluentDocker.Model.Builders;
@@ -17,11 +16,108 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
     using Ductus.FluentDocker.Services.Extensions;
     using Gherkin;
     using Microsoft.Extensions.Primitives;
-    using MySql.Data.MySqlClient;
     using Newtonsoft.Json;
+    using Shouldly;
     using TechTalk.SpecFlow;
 
     [Binding]
+    [Scope(Tag = "base")]
+    public class GenericSteps
+    {
+        private readonly ScenarioContext ScenarioContext;
+
+        private readonly TestingContext TestingContext;
+
+        private readonly BrowserSession BrowserSession;
+
+        public GenericSteps(ScenarioContext scenarioContext,
+                            TestingContext testingContext,
+                            BrowserSession browserSession)
+        {
+            this.ScenarioContext = scenarioContext;
+            this.TestingContext = testingContext;
+            this.BrowserSession = browserSession;
+        }
+
+        [BeforeScenario(Order = 1)]
+        public async Task StartSystem()
+        {
+            String scenarioName = this.ScenarioContext.ScenarioInfo.Title.Replace(" ", "");
+            this.TestingContext.DockerHelper = new DockerHelper();
+            await this.TestingContext.DockerHelper.StartContainersForScenarioRun(scenarioName).ConfigureAwait(false);
+        }
+
+        [AfterScenario(Order = 1)]
+        public async Task StopSystem()
+        {
+            await this.TestingContext.DockerHelper.StopContainersForScenarioRun().ConfigureAwait(false);
+        }
+
+        [Given(@"I am on the home page")]
+        public void GivenIAmOnTheHomePage()
+        {
+            this.BrowserSession.Visit($"http://localhost:{this.TestingContext.DockerHelper.GolfClubAdminUIPort}");
+            this.BrowserSession.Title.ShouldBe("Welcome");
+        }
+
+        [Given(@"I click on the login button")]
+        public void GivenIClickOnTheLoginButton()
+        {
+            this.BrowserSession.ClickButton("loginButton");
+        }
+
+        [When(@"I enter the username '(.*)'")]
+        public void WhenIEnterTheUsername(String userName)
+        {
+            this.BrowserSession.FillIn("Username").With(userName);
+        }
+
+        [When(@"I enter the password '(.*)'")]
+        public void WhenIEnterThePassword(String password)
+        {
+            this.BrowserSession.FillIn("Password").With(password);
+        }
+
+        [When(@"I click on the forms login button")]
+        public void WhenIClickOnTheFormsLoginButton()
+        {
+            this.BrowserSession.ClickButton("Login");
+        }
+
+        [Then(@"I am presented with the login screen")]
+        public void ThenIAmPresentedWithTheLoginScreen()
+        {
+            ElementScope section = this.BrowserSession.FindSection("Local Login");
+            section.ShouldNotBeNull();
+        }
+
+        [Then(@"I should be presented with the logged in screen")]
+        public void ThenIShouldBePresentedWithTheLoggedInScreen()
+        {
+            this.BrowserSession.Title.ShouldBe("Dashboard");
+        }
+
+        [Then(@"I have logged out of the application")]
+        public void ThenIHaveLoggedOutOfTheApplication()
+        {
+            ElementScope userDropdown = this.BrowserSession.FindId("userDropdown");
+            userDropdown.Click();
+
+            ElementScope logout = this.BrowserSession.FindId("logout");
+            logout.Click();
+
+            ElementScope logoutButton = this.BrowserSession.FindButton("Logout");
+            logoutButton.Click();
+        }
+    }
+
+    public class TestingContext
+    {
+        public DockerHelper DockerHelper { get; set; }
+    }
+
+    /*
+     [Binding]
     public abstract class GenericSteps
     {
         protected ScenarioContext ScenarioContext;
@@ -34,7 +130,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
 
         protected Int32 GolfClubAdminUIPort;
         protected Guid SubscriberServiceId;
-        
+
 
         private String ManagementAPIContainerName;
         private String EventStoreContainerName;
@@ -179,7 +275,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
                     this.EventStoreContainer.RemoveOnDispose = true;
                     this.EventStoreContainer.Dispose();
                 }
-                
+
                 if (this.SubscriptionServiceContainer != null)
                 {
                     this.SubscriptionServiceContainer.StopOnDispose = true;
@@ -305,13 +401,13 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
 
             return result;
         }
-        
+
         private void SetupTestNetwork()
         {
             // Build a network
             this.TestNetwork = new Builder().UseNetwork($"testnetwork{Guid.NewGuid()}").Build();
         }
-        
+
         private void SetupManagementAPIContainer(String testFolder)
         {
             // Management API Container
@@ -334,7 +430,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
                 .Build()
                 .Start().WaitForPort("5000/tcp", 30000);
         }
-        
+
         private void SetupEventStoreContainer(String testFolder)
         {
             // Event Store Container
@@ -399,83 +495,5 @@ namespace GolfClubAdminWebSite.IntegrationTests.Common
             connection.Close();
         }
     }
-
-    public static class SecurityServiceHelper
-    {
-        public static Int32 GetClientId(MySqlConnection connection,
-                                       String clientId)
-        {
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = $"SELECT Id FROM Clients WHERE ClientId = '{clientId}'";
-            Object result = command.ExecuteScalar();
-
-            if (result != null)
-            {
-                return Convert.ToInt32(result);
-            }
-
-            return -1;
-        }
-
-        public static void UpdateClientRedirectUri(MySqlConnection connection,
-                                                   Int32 clientIdentifier,
-                                                   String redirectUri)
-        {
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = $"DELETE FROM ClientRedirectUris WHERE ClientId = {clientIdentifier}; " +
-                                  $"INSERT INTO ClientRedirectUris(RedirectUri, ClientId) SELECT '{redirectUri}', {clientIdentifier}";
-            command.ExecuteNonQuery();
-        }
-
-        public static void UpdateClientPostLogoutRedirectUri(MySqlConnection connection,
-                                                   Int32 clientIdentifier,
-                                                   String postLogoutRedirectUri)
-        {
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = $"DELETE FROM ClientPostLogoutRedirectUris WHERE ClientId = {clientIdentifier}; " +
-                                  $"INSERT INTO ClientPostLogoutRedirectUris(PostLogoutRedirectUri, ClientId) SELECT '{postLogoutRedirectUri}', {clientIdentifier}";
-            command.ExecuteNonQuery();
-        }
-
-        public static void DeleteAllUsers(MySqlConnection connection)
-        {
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = $"DELETE FROM AspNetUsers;";
-            command.ExecuteNonQuery();
-        }
-    }
-
-    [Binding]
-    public class Hooks
-    {
-        private readonly IObjectContainer ObjectContainer;
-        private BrowserSession BrowserSession;
-
-        public Hooks(IObjectContainer objectContainer)
-        {
-            this.ObjectContainer = objectContainer;
-        }
-
-        [BeforeScenario(Order = 0)]
-        public async Task BeforeScenario()
-        {
-            SessionConfiguration sessionConfiguration = new SessionConfiguration
-                                                        {
-                                                            AppHost = "localhost",
-                                                            SSL = false,
-                                                        };
-
-            sessionConfiguration.Driver = Type.GetType("Coypu.Drivers.Selenium.SeleniumWebDriver, Coypu");
-            sessionConfiguration.Browser = Coypu.Drivers.Browser.Parse("chrome");
-
-            this.BrowserSession = new BrowserSession(sessionConfiguration);
-            this.ObjectContainer.RegisterInstanceAs(this.BrowserSession);
-        }
-        
-        [AfterScenario(Order = 0)]
-        public void AfterScenario()
-        {
-            this.BrowserSession.Dispose();
-        }
-    }
+    */
 }

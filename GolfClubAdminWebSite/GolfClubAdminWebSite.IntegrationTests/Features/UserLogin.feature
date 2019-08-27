@@ -1,4 +1,4 @@
-﻿@userlogin
+﻿@base @registration @creategolfclub @getgolfclubuserlist @creatematchsecretary
 Feature: UserLogin
 
 Background:

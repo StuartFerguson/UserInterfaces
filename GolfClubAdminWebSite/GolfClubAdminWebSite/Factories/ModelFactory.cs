@@ -469,6 +469,31 @@
         }
 
         /// <summary>
+        /// Converts from.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns></returns>
+        public List<MemberListViewModel> ConvertFrom(List<GetGolfClubMembershipDetailsResponse> apiResponse)
+        {
+            List<MemberListViewModel> viewModels = new List<MemberListViewModel>();
+
+            foreach (GetGolfClubMembershipDetailsResponse response in apiResponse)
+            {
+                viewModels.Add(new MemberListViewModel
+                               {
+                    DateOfBirth = response.PlayerDateOfBirth,
+                    Gender = response.PlayerGender,
+                    Id = response.PlayerId,
+                    MembershipNumber = response.MembershipNumber,
+                    Name = response.PlayerFullName,
+                    Status = response.MembershipStatus.ToString()
+                });
+            }
+
+            return viewModels;
+        }
+
+        /// <summary>
         /// Translates the tournament status.
         /// </summary>
         /// <param name="apiResponseTournament">The API response tournament.</param>

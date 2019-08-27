@@ -1,5 +1,5 @@
-﻿@base @registration @creategolfclub
-Feature: CreateGolfClub
+﻿@base @registration @creategolfclub @getmemberslist
+Feature: GetMembersList
 
 Background:
 	Given I am on the home page
@@ -17,9 +17,6 @@ Background:
 	And I enter the password '123456'
 	And I click on the forms login button
 	Then I should be presented with the logged in screen
-
-@EndToEnd
-Scenario: Create a New Golf Club
 	When I click on the Manage Golf Club sidebar option
 	Then I am presented with the Create Golf Club Screen
 	When I use the following details to create a new golf club
@@ -27,3 +24,13 @@ Scenario: Create a New Golf Club
 	| Test Golf Club | Address Line 1 |                | TestTown | TestRegion | TE57 1NG | 1234567890      | testclub@testclub.co.uk | www.testclub.co.uk |
 	And I click the Create Club button
 	Then I should be presented with the Edit Golf Club screen
+	And the following players have registered and requested membership of 'Test Golf Club'
+	| PlayerNumber | EmailAddress              | GivenName | MiddleName | FamilyName | Age | Gender | ExactHandicap |
+	| 1            | testplayer1@players.co.uk | Test      |            | Player1    | 25  | M      | 2             |
+
+	Scenario: Get Members List
+	When I click on the Members sidebar option
+	Then I am presented with the Members List Screen
+	And a member with the following details should be in the list
+	| Name          | Age | Gender | MembershipStatus | MembershipNumber |
+	| Test Player1 | 25  | M      | Rejected         | 000002           |

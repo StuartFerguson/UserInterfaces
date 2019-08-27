@@ -223,6 +223,18 @@
 
         private static Guid TournamentId = Guid.Parse("59C2F76A-0080-42D7-B32E-99832B4E696A");
 
+        private static String PlayerFullName = "Test Player 1";
+
+        private static MembershipStatus MembershipStatus = MembershipStatus.Accepted;
+
+        private static String PlayerGender ="M";
+
+        private static String PlayerDateOfBirth = "19-01-1990";
+
+        private static String MembershipNumber = "000001";
+
+        private static Guid PlayerId = Guid.Parse("256A2FE2-B859-46F2-9628-4D1DA4046452");
+
         public static GetNumberOfMembersByHandicapCategoryReportResponse GetNumberOfMembersByHandicapCategoryReportResponse()
         {
             return new GetNumberOfMembersByHandicapCategoryReportResponse
@@ -450,6 +462,24 @@
                    {
                        GolfClubId = ModelFactoryTestData.GolfClubId,
                        NumberOfMembers = 55
+                   };
+        }
+
+        public static List<GetGolfClubMembershipDetailsResponse> GetGolfClubMembershipDetailsResponseList()
+        {
+            return new List<GetGolfClubMembershipDetailsResponse>
+                   {
+                       new GetGolfClubMembershipDetailsResponse()
+                       {
+                           PlayerFullName = ModelFactoryTestData.PlayerFullName,
+                           MembershipStatus = ModelFactoryTestData.MembershipStatus,
+                           GolfClubId = ModelFactoryTestData.GolfClubId,
+                           PlayerGender = ModelFactoryTestData.PlayerGender,
+                           PlayerDateOfBirth = ModelFactoryTestData.PlayerDateOfBirth,
+                           MembershipNumber = ModelFactoryTestData.MembershipNumber,
+                           PlayerId = ModelFactoryTestData.PlayerId,
+                           Name = ModelFactoryTestData.ClubName
+                       }
                    };
         }
     }

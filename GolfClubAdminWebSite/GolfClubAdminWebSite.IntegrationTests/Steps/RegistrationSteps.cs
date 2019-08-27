@@ -11,34 +11,17 @@ namespace GolfClubAdminWebSite.IntegrationTests.Steps
 
     [Binding]
     [Scope(Tag = "registration")]
-    public class RegistrationSteps : GenericSteps
+    public class RegistrationSteps
     {
         private readonly BrowserSession BrowserSession;
+        private readonly TestingContext TestingContext;
 
-        public RegistrationSteps(ScenarioContext scenarioContext, BrowserSession browserSession) : base(scenarioContext)
+        public RegistrationSteps(TestingContext testingContext, BrowserSession browserSession)
         {
+            this.TestingContext = testingContext;
             this.BrowserSession = browserSession;
         }
-
-        [BeforeScenario(Order = 1)]
-        public async Task BeforeScenario()
-        {
-            await this.RunSystem(this.ScenarioContext.ScenarioInfo.Title).ConfigureAwait(false);
-        }
-
-        [AfterScenario(Order = 1)]
-        public void AfterScenario()
-        {
-            this.StopSystem();
-        }
-
-        [Given(@"I am on the home page")]
-        public void GivenIAmOnTheHomePage()
-        {
-            this.BrowserSession.Visit($"http://localhost:{this.GolfClubAdminUIPort}");
-            this.BrowserSession.Title.ShouldBe("Welcome");
-        }
-
+        
         [Given(@"I click on the register golf club administrator button")]
         public void GivenIClickOnTheRegisterGolfClubAdministratorButton()
         {

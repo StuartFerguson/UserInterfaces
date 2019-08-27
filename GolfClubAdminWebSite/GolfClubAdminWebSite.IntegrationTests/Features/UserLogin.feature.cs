@@ -17,7 +17,11 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [Xunit.TraitAttribute("Category", "userlogin")]
+    [Xunit.TraitAttribute("Category", "base")]
+    [Xunit.TraitAttribute("Category", "registration")]
+    [Xunit.TraitAttribute("Category", "creategolfclub")]
+    [Xunit.TraitAttribute("Category", "getgolfclubuserlist")]
+    [Xunit.TraitAttribute("Category", "creatematchsecretary")]
     public partial class UserLoginFeature : Xunit.IClassFixture<UserLoginFeature.FixtureData>, System.IDisposable
     {
         
@@ -38,7 +42,11 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "UserLogin", null, ProgrammingLanguage.CSharp, new string[] {
-                        "userlogin"});
+                        "base",
+                        "registration",
+                        "creategolfclub",
+                        "getgolfclubuserlist",
+                        "creatematchsecretary"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -83,14 +91,14 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
 #line 7
  testRunner.Then("I should be displayed the registration form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table23 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table27 = new TechTalk.SpecFlow.Table(new string[] {
                         "FirstName",
                         "LastName",
                         "Email",
                         "TelephoneNumber",
                         "Password",
                         "ConfirmPassword"});
-            table23.AddRow(new string[] {
+            table27.AddRow(new string[] {
                         "Test",
                         "User",
                         "testuser@testgolfclub.co.uk",
@@ -98,7 +106,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
                         "123456",
                         "123456"});
 #line 8
- testRunner.When("I use the follwing details to register", ((string)(null)), table23, "When ");
+ testRunner.When("I use the follwing details to register", ((string)(null)), table27, "When ");
 #line 11
  testRunner.And("I click the register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
@@ -122,7 +130,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
 #line 21
  testRunner.Then("I am presented with the Create Golf Club Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table24 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table28 = new TechTalk.SpecFlow.Table(new string[] {
                         "GolfClubName",
                         "AddressLine1",
                         "AddressLine2",
@@ -132,7 +140,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
                         "TelephoneNumber",
                         "EmailAddress",
                         "Website"});
-            table24.AddRow(new string[] {
+            table28.AddRow(new string[] {
                         "Test Golf Club",
                         "Address Line 1",
                         "",
@@ -143,7 +151,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
                         "testclub@testclub.co.uk",
                         "www.testclub.co.uk"});
 #line 22
- testRunner.When("I use the following details to create a new golf club", ((string)(null)), table24, "When ");
+ testRunner.When("I use the following details to create a new golf club", ((string)(null)), table28, "When ");
 #line 25
  testRunner.And("I click the Create Club button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 26
@@ -161,18 +169,18 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
 #line 32
  testRunner.When("I click on the New Match Secretary Button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-            TechTalk.SpecFlow.Table table25 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table29 = new TechTalk.SpecFlow.Table(new string[] {
                         "FirstName",
                         "LastName",
                         "Email",
                         "TelephoneNumber"});
-            table25.AddRow(new string[] {
+            table29.AddRow(new string[] {
                         "Test",
                         "Match Secretary",
                         "testmatchsecretary@testgolfclub.co.uk",
                         "1234567890"});
 #line 33
- testRunner.And("I use the following details to create a match secretary", ((string)(null)), table25, "And ");
+ testRunner.And("I use the following details to create a match secretary", ((string)(null)), table29, "And ");
 #line 36
  testRunner.And("I click on the create user button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 37

@@ -322,5 +322,24 @@ namespace GolfClubAdminWebSite.Tests.FactoryTests
 
             viewModel.NumberOfMembers.ShouldBe(apiResponse.NumberOfMembers);
         }
+
+        [Fact]
+        public void ModelFactory_ConvertFrom_GetGolfClubMembershipDetailsResponseList_ConvertedSuccessfully()
+        {
+            ModelFactory factory = new ModelFactory();
+
+            List<GetGolfClubMembershipDetailsResponse> apiResponse = ModelFactoryTestData.GetGolfClubMembershipDetailsResponseList();
+
+            List<MemberListViewModel> viewModel = factory.ConvertFrom(apiResponse);
+
+            viewModel.Count.ShouldBe(apiResponse.Count);
+            viewModel.First().DateOfBirth.ShouldBe(apiResponse.First().PlayerDateOfBirth);
+            viewModel.First().Gender.ShouldBe(apiResponse.First().PlayerGender);
+            viewModel.First().MembershipNumber.ShouldBe(apiResponse.First().MembershipNumber);
+            viewModel.First().Status.ShouldBe(apiResponse.First().MembershipStatus.ToString());
+            viewModel.First().Id.ShouldBe(apiResponse.First().PlayerId);
+            viewModel.First().Name.ShouldBe(apiResponse.First().PlayerFullName);
+
+        }
     }
 }

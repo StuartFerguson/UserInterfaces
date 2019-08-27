@@ -20,17 +20,18 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
     [Xunit.TraitAttribute("Category", "base")]
     [Xunit.TraitAttribute("Category", "registration")]
     [Xunit.TraitAttribute("Category", "creategolfclub")]
-    public partial class CreateGolfClubFeature : Xunit.IClassFixture<CreateGolfClubFeature.FixtureData>, System.IDisposable
+    [Xunit.TraitAttribute("Category", "getmemberslist")]
+    public partial class GetMembersListFeature : Xunit.IClassFixture<GetMembersListFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "CreateGolfClub.feature"
+#line 1 "GetMembersList.feature"
 #line hidden
         
-        public CreateGolfClubFeature(CreateGolfClubFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public GetMembersListFeature(GetMembersListFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -39,10 +40,11 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "CreateGolfClub", null, ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "GetMembersList", null, ProgrammingLanguage.CSharp, new string[] {
                         "base",
                         "registration",
-                        "creategolfclub"});
+                        "creategolfclub",
+                        "getmemberslist"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -87,14 +89,14 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
 #line 7
  testRunner.Then("I should be displayed the registration form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
                         "FirstName",
                         "LastName",
                         "Email",
                         "TelephoneNumber",
                         "Password",
                         "ConfirmPassword"});
-            table5.AddRow(new string[] {
+            table22.AddRow(new string[] {
                         "Test",
                         "User",
                         "testuser@testgolfclub.co.uk",
@@ -102,7 +104,7 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
                         "123456",
                         "123456"});
 #line 8
- testRunner.When("I use the follwing details to register", ((string)(null)), table5, "When ");
+ testRunner.When("I use the follwing details to register", ((string)(null)), table22, "When ");
 #line 11
  testRunner.And("I click the register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
@@ -121,33 +123,12 @@ namespace GolfClubAdminWebSite.IntegrationTests.Features
  testRunner.And("I click on the forms login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 19
  testRunner.Then("I should be presented with the logged in screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-        }
-        
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Create a New Golf Club")]
-        [Xunit.TraitAttribute("FeatureTitle", "CreateGolfClub")]
-        [Xunit.TraitAttribute("Description", "Create a New Golf Club")]
-        [Xunit.TraitAttribute("Category", "EndToEnd")]
-        public virtual void CreateANewGolfClub()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a New Golf Club", null, new string[] {
-                        "EndToEnd"});
-#line 22
-this.ScenarioInitialize(scenarioInfo);
-            this.ScenarioStart();
-#line 4
-this.FeatureBackground();
-#line 23
+#line 20
  testRunner.When("I click on the Manage Golf Club sidebar option", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 24
+#line 21
  testRunner.Then("I am presented with the Create Golf Club Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table23 = new TechTalk.SpecFlow.Table(new string[] {
                         "GolfClubName",
                         "AddressLine1",
                         "AddressLine2",
@@ -157,7 +138,7 @@ this.FeatureBackground();
                         "TelephoneNumber",
                         "EmailAddress",
                         "Website"});
-            table6.AddRow(new string[] {
+            table23.AddRow(new string[] {
                         "Test Golf Club",
                         "Address Line 1",
                         "",
@@ -167,12 +148,72 @@ this.FeatureBackground();
                         "1234567890",
                         "testclub@testclub.co.uk",
                         "www.testclub.co.uk"});
+#line 22
+ testRunner.When("I use the following details to create a new golf club", ((string)(null)), table23, "When ");
 #line 25
- testRunner.When("I use the following details to create a new golf club", ((string)(null)), table6, "When ");
-#line 28
  testRunner.And("I click the Create Club button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 29
+#line 26
  testRunner.Then("I should be presented with the Edit Golf Club screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table24 = new TechTalk.SpecFlow.Table(new string[] {
+                        "PlayerNumber",
+                        "EmailAddress",
+                        "GivenName",
+                        "MiddleName",
+                        "FamilyName",
+                        "Age",
+                        "Gender",
+                        "ExactHandicap"});
+            table24.AddRow(new string[] {
+                        "1",
+                        "testplayer1@players.co.uk",
+                        "Test",
+                        "",
+                        "Player1",
+                        "25",
+                        "M",
+                        "2"});
+#line 27
+ testRunner.And("the following players have registered and requested membership of \'Test Golf Club" +
+                    "\'", ((string)(null)), table24, "And ");
+#line hidden
+        }
+        
+        void System.IDisposable.Dispose()
+        {
+            this.ScenarioTearDown();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Get Members List")]
+        [Xunit.TraitAttribute("FeatureTitle", "GetMembersList")]
+        [Xunit.TraitAttribute("Description", "Get Members List")]
+        public virtual void GetMembersList()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get Members List", null, ((string[])(null)));
+#line 31
+ this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line 32
+ testRunner.When("I click on the Members sidebar option", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 33
+ testRunner.Then("I am presented with the Members List Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table25 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "Age",
+                        "Gender",
+                        "MembershipStatus",
+                        "MembershipNumber"});
+            table25.AddRow(new string[] {
+                        "Test Player1",
+                        "25",
+                        "M",
+                        "Rejected",
+                        "000002"});
+#line 34
+ testRunner.And("a member with the following details should be in the list", ((string)(null)), table25, "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -184,12 +225,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                CreateGolfClubFeature.FeatureSetup();
+                GetMembersListFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                CreateGolfClubFeature.FeatureTearDown();
+                GetMembersListFeature.FeatureTearDown();
             }
         }
     }

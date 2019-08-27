@@ -106,5 +106,7 @@
         NumberOfMembersReportViewModel ConvertFrom(GetNumberOfMembersReportResponse apiResponse);
 
         #endregion
+
+        List<MemberListViewModel> ConvertFrom(List<GetGolfClubMembershipDetailsResponse> apiResponse);
     }
 }

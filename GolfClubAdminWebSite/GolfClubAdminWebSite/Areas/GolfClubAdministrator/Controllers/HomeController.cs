@@ -149,6 +149,41 @@
             return this.View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetMembersList(CancellationToken cancellationToken)
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetMembersListAsJson(CancellationToken cancellationToken)
+        {
+            Logger.LogDebug("In method GetMembersListAsJson");
+
+            // Search Value from (Search box)  
+            String searchValue = this.HttpContext.Request.Form["search[value]"].FirstOrDefault();
+            Logger.LogDebug($"searchvalue is {searchValue}");
+
+            String accessToken = await this.HttpContext.GetTokenAsync("access_token");
+            Logger.LogDebug("got access token");
+
+            List<MemberListViewModel> membersList =
+                await this.ApiClient.GetMemberList(accessToken, this.User.Identity as ClaimsIdentity, cancellationToken);
+            Logger.LogDebug($"members list count is {membersList.Count}");
+
+            Expression<Func<MemberListViewModel, Boolean>> whereClause = m => m.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                                                                              m.MembershipNumber.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                                                                              m.DateOfBirth.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                                                                              m.Gender.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                                                                              m.Status.Contains(searchValue, StringComparison.OrdinalIgnoreCase);
+            DataTablesResult<MemberListViewModel> dataTableResult = this.GetDataForDataTable(membersList, whereClause);
+
+            String jsonResult = JsonConvert.SerializeObject(dataTableResult);
+            Logger.LogDebug(jsonResult);
+
+            return this.Json(this.GetDataForDataTable(membersList, whereClause));
+        }
+
         /// <summary>
         /// Gets the measured course list as json.
         /// </summary>
