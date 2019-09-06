@@ -4,9 +4,12 @@
     using System.Globalization;
     using System.Text.RegularExpressions;
     using Pages;
+    using Plugin.Toast;
+    using Syncfusion.XForms.TextInputLayout;
     using ViewModels;
     using Xamarin.Forms;
     using Xamarin.Forms.Xaml;
+    using SelectionChangedEventArgs = Syncfusion.XForms.ComboBox.SelectionChangedEventArgs;
 
     /// <summary>
     /// 
@@ -56,16 +59,15 @@
         public void Init(RegistrationViewModel viewModel)
         {
             this.ViewModel = viewModel;
+            
             this.FirstName.TextChanged += this.FirstName_TextChanged;
             this.FirstName.Completed += this.FirstName_OnCompleted;
 
             this.LastName.TextChanged += this.LastName_TextChanged;
             this.LastName.Completed += this.LastName_OnCompleted;
 
-            this.Gender.SelectedIndexChanged += this.Gender_OnSelectedIndexChanged;
-
-            this.DateOfBirth.Completed += this.DateOfBirth_OnCompleted;
-
+            this.Gender.SelectionChanged += this.GenderOnSelectionChanged;
+            
             this.ExactHandicap.TextChanged += this.ExactHandicap_TextChanged;
             this.ExactHandicap.Completed += this.ExactHandicap_OnCompleted;
 
@@ -124,6 +126,16 @@
         }
 
         /// <summary>
+        /// Clears the error.
+        /// </summary>
+        /// <param name="sfTextInputLayout">The sf text input layout.</param>
+        private void ClearError(SfTextInputLayout sfTextInputLayout)
+        {
+            sfTextInputLayout.ErrorText = string.Empty;
+            sfTextInputLayout.HasError = false;
+        }
+
+        /// <summary>
         /// Handles the OnCompleted event of the Age control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -133,7 +145,7 @@
         {
             this.ExactHandicap.Focus();
         }
-
+        
         /// <summary>
         /// Handles the OnCompleted event of the EmailAddress control.
         /// </summary>
@@ -202,16 +214,15 @@
         }
 
         /// <summary>
-        /// Handles the OnSelectedIndexChanged event of the Gender control.
+        /// Genders the on selection changed.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        private void Gender_OnSelectedIndexChanged(Object sender,
-                                                   EventArgs e)
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="SelectionChangedEventArgs" /> instance containing the event data.</param>
+        private void GenderOnSelectionChanged(Object sender,
+                                              SelectionChangedEventArgs e)
         {
             this.ViewModel.Gender = this.Gender.SelectedIndex;
 
-            this.DateOfBirth.Focus();
         }
 
         /// <summary>
@@ -268,22 +279,36 @@
         }
 
         /// <summary>
+        /// Sets the error.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="sfTextInputLayout">The sf text input layout.</param>
+        /// <param name="errorMessage">The error message.</param>
+        private void SetError(View control,
+                              SfTextInputLayout sfTextInputLayout,
+                              String errorMessage)
+        {
+            sfTextInputLayout.ErrorText = errorMessage;
+            sfTextInputLayout.HasError = true;
+            control.Focus();
+        }
+        
+        /// <summary>
         /// Validates the date of birth.
         /// </summary>
         /// <returns></returns>
         private Boolean ValidateDateOfBirth()
         {
-            if (string.IsNullOrEmpty(this.DateOfBirth.Text))
+            if (this.DateOfBirth.Value == null || String.IsNullOrEmpty(this.DateOfBirth.Value.ToString()))
             {
-                this.SetError(this.DateOfBirth, this.DateOfBirthError, "A date of birth is required to register");
+                this.SetError(this.DateOfBirth, this.DateOfBirthLayout, "A date of birth is required to register");
                 return false;
             }
 
             // Validate a valid date has been entered
-            if (!DateTime.TryParseExact(this.DateOfBirth.Text, "dd-MM-yy", null, DateTimeStyles.None, out DateTime dateCodePickerDate))
+            if (!DateTime.TryParseExact(this.DateOfBirth.Value.ToString(), "dd/MM/yyyy", null, DateTimeStyles.None, out DateTime dateCodePickerDate))
             {
-                // TODO: Handle the error
-                this.SetError(this.DateOfBirth, this.DateOfBirthError, "A valid date of birth is required to register");
+                this.SetError(this.DateOfBirth, this.DateOfBirthLayout, "A valid date of birth is required to register");
                 return false;
             }
 
@@ -295,7 +320,7 @@
                                                       dateCodePickerDate.Second,
                                                       DateTimeKind.Unspecified);
 
-            this.ClearError(this.DateOfBirthError);
+            this.ClearError(this.DateOfBirthLayout);
             return true;
         }
 
@@ -307,7 +332,7 @@
         {
             if (string.IsNullOrEmpty(this.EmailAddress.Text))
             {
-                this.SetError(this.EmailAddress, this.EmailAddressError, "An email address is required to register");
+                this.SetError(this.EmailAddress, this.EmailAddressLayout, "An email address is required to register");
                 return false;
             }
 
@@ -318,11 +343,11 @@
 
             if (validEmailAddress == false)
             {
-                this.SetError(this.EmailAddress, this.EmailAddressError, "A valid email address is required to register");
+                this.SetError(this.EmailAddress, this.EmailAddressLayout, "A valid email address is required to register");
                 return false;
             }
 
-            this.ClearError(this.EmailAddressError);
+            this.ClearError(this.EmailAddressLayout);
             return true;
         }
 
@@ -334,7 +359,7 @@
         {
             if (string.IsNullOrEmpty(this.ExactHandicap.Text))
             {
-                this.SetError(this.ExactHandicap, this.ExactHandicapError, "An exact handicap is required to register");
+                this.SetError(this.ExactHandicap, this.ExactHandicapLayout, "An exact handicap is required to register");
                 return false;
             }
 
@@ -342,17 +367,17 @@
 
             if (isValidDecimal == false)
             {
-                this.SetError(this.ExactHandicap, this.ExactHandicapError, "A numeric value must be provided for exact handicap to register");
+                this.SetError(this.ExactHandicap, this.ExactHandicapLayout, "A numeric value must be provided for exact handicap to register");
                 return false;
             }
 
             if (exactHandicap < -10.0m || exactHandicap > 36.0m)
             {
-                this.SetError(this.ExactHandicap, this.ExactHandicapError, "Exact handicap must be between -10.0 and 36.0 to register");
+                this.SetError(this.ExactHandicap, this.ExactHandicapLayout, "Exact handicap must be between -10.0 and 36.0 to register");
                 return false;
             }
 
-            this.ClearError(this.ExactHandicapError);
+            this.ClearError(this.ExactHandicapLayout);
             return true;
         }
 
@@ -364,12 +389,11 @@
         {
             if (string.IsNullOrEmpty(this.FirstName.Text))
             {
-                this.SetError(this.FirstName, this.FirstNameError, "A first name is required to register");
-                this.FirstNameError.IsVisible = true;
+                this.SetError(this.FirstName, this.FirstNameLayout, "A first name is required to register");
                 return false;
             }
 
-            this.ClearError(this.FirstNameError);
+            this.ClearError(this.FirstNameLayout);
             return true;
         }
 
@@ -381,11 +405,11 @@
         {
             if (this.Gender.SelectedIndex == -1)
             {
-                this.SetError(this.Gender, this.GenderError, "A gender must be selected to register");
+                this.SetError(this.Gender, this.GenderLayout, "A gender must be selected to register");
                 return false;
             }
 
-            this.ClearError(this.GenderError);
+            this.ClearError(this.GenderLayout);
             return true;
         }
 
@@ -397,11 +421,11 @@
         {
             if (string.IsNullOrEmpty(this.LastName.Text))
             {
-                this.SetError(this.LastName, this.LastNameError, "A last name is required to register");
+                this.SetError(this.LastName, this.LastNameLayout, "A last name is required to register");
                 return false;
             }
 
-            this.ClearError(this.LastNameError);
+            this.ClearError(this.LastNameLayout);
             return true;
         }
 

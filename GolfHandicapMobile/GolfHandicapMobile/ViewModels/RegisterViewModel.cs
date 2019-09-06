@@ -1,6 +1,8 @@
 ﻿namespace GolfHandicapMobile.ViewModels
 {
     using System;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
     using Xamarin.Forms;
 
     /// <summary>
@@ -15,6 +17,11 @@
         /// The date of birth
         /// </summary>
         private DateTime dateOfBirth;
+
+        /// <summary>
+        /// The default date of birth
+        /// </summary>
+        private ObservableCollection<Object> defaultDateOfBirth;
 
         /// <summary>
         /// The email address
@@ -66,6 +73,25 @@
             {
                 this.dateOfBirth = value;
                 this.OnPropertyChanged(nameof(this.DateOfBirth));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the default date of birth.
+        /// </summary>
+        /// <value>
+        /// The default date of birth.
+        /// </value>
+        public ObservableCollection<Object> DefaultDateOfBirth
+        {
+            get
+            {
+                return this.defaultDateOfBirth;
+            }
+            set
+            {
+                this.defaultDateOfBirth = value;
+                this.OnPropertyChanged(nameof(this.DefaultDateOfBirth));
             }
         }
 
@@ -198,6 +224,21 @@
         /// The registration failed message.
         /// </value>
         public String RegistrationFailedMessage { get; set; }
+
+        public RegistrationViewModel()
+        {
+            ObservableCollection<object> todaycollection = new ObservableCollection<object>();
+
+            //Select today dates
+            todaycollection.Add(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Now.Date.Month).Substring(0, 3));
+            if (DateTime.Now.Date.Day < 10)
+                todaycollection.Add("0" + DateTime.Now.Date.Day);
+            else
+                todaycollection.Add(DateTime.Now.Date.Day.ToString());
+            todaycollection.Add(DateTime.Now.Date.Year.ToString());
+
+            this.DefaultDateOfBirth = todaycollection;
+        }
 
         #endregion
     }

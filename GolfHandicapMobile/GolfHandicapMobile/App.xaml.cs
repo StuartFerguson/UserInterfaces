@@ -38,6 +38,8 @@
         /// </summary>
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTM2Nzk0QDMxMzcyZTMyMmUzMG81LzgzTS9KaEpOWVYwTXpRZytTY09yYWpiYTkwNDJzZGIzbmRoZUszZWs9");
+
             this.InitializeComponent();
 
             App.Container = Bootstrapper.Run();

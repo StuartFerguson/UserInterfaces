@@ -3,31 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:listView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:controls="clr-namespace:GolfHandicapMobile.Controls;assembly=GolfHandicapMobile"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              mc:Ignorable="d"
              x:Class="GolfHandicapMobile.Views.MyMembershipsPage"
              Title="My Club Memberships">
     <ContentPage.Content>
         <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
-            <ListView x:Name="EmployeeView" ItemsSource="{Binding Memberships}" SelectionMode="Single">
-                <ListView.ItemTemplate>
+            <listView:SfListView x:Name="MembershipsView" ItemsSource="{Binding Memberships}" ItemSize="60"  ItemSpacing="0,5,0,0" SelectionMode="Single">
+                <listView:SfListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <StackLayout BackgroundColor="#eee"
-                                         Orientation="Vertical">
+                        <Frame x:Name="FrameExtContainer" Padding="1,1,1,1" HasShadow="False" HorizontalOptions="FillAndExpand" CornerRadius="5" OutlineColor="SkyBlue" BackgroundColor="SkyBlue" >
+                            <StackLayout Orientation="Vertical" VerticalOptions="Center" Style="{StaticResource StandardStackLayoutStyle}">
                                 <Label Text="{Binding GolfClubName}" FontSize="12" FontAttributes="Bold" ></Label>
                                 <StackLayout Orientation="Horizontal">
                                     <Label Text="Membership Number:" FontSize="10" FontAttributes="Bold" />
                                     <Label Text="{Binding MembershipNumber}" FontSize="10" FontAttributes="None" />
                                     <Label Text="Date Joined:"  FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="{Binding DateJoined, StringFormat='{0: dd/MM/yy}'}" HorizontalOptions="EndAndExpand" FontSize="10" FontAttributes="None"/>
+                                    <Label Text="{Binding DateJoined, StringFormat='{0: dd/MM/yy}'}" FontSize="10" FontAttributes="None"/>
                                 </StackLayout>
                             </StackLayout>
-                        </ViewCell>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Button x:Name="RequestClubMembershipButton" Text="Request Club Membership"/>
-            <Button x:Name="HomeButton" Text="Home"/>
+                </listView:SfListView.ItemTemplate>
+            </listView:SfListView>
+
+            <buttons:SfButton x:Name="RequestClubMembershipButton" Text="Request Club Membership"/>
+            <buttons:SfButton x:Name="HomeButton" Text="Home"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

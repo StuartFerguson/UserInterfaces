@@ -116,7 +116,7 @@ namespace GolfHandicapMobile.IntegrationTests.Features
 #line 19
  testRunner.And("I select \"Male\" from the Gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 20
- testRunner.And("I enter the Date Of Birth as \"13/12/80\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 21
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22

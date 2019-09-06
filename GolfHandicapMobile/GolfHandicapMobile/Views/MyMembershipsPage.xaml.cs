@@ -1,8 +1,10 @@
 ﻿namespace GolfHandicapMobile.Views
 {
     using System;
+    using System.Linq;
     using Pages;
     using Plugin.Toast;
+    using Syncfusion.ListView.XForms;
     using ViewModels;
     using Xamarin.Forms;
     using Xamarin.Forms.Xaml;
@@ -54,19 +56,20 @@
             this.BindingContext = viewModel;
             this.HomeButton.Clicked += this.HomeButton_Clicked;
             this.RequestClubMembershipButton.Clicked += this.RequestClubMembershipButton_Clicked;
-            this.EmployeeView.ItemSelected += this.EmployeeView_ItemSelected;
+            this.MembershipsView.SelectionChanged += MembershipsView_SelectionChanged;
         }
 
         /// <summary>
-        /// Handles the ItemSelected event of the EmployeeView control.
+        /// Handles the SelectionChanged event of the MembershipsView control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="SelectedItemChangedEventArgs"/> instance containing the event data.</param>
-        private void EmployeeView_ItemSelected(Object sender,
-                                               SelectedItemChangedEventArgs e)
+        /// <param name="e">The <see cref="ItemSelectionChangedEventArgs"/> instance containing the event data.</param>
+        private void MembershipsView_SelectionChanged(object sender, ItemSelectionChangedEventArgs e)
         {
+            MembershipViewModel m = (MembershipViewModel)e.AddedItems.First();
+            
             // TODO: This will show the membership details
-            CrossToastPopUp.Current.ShowToastSuccess($"Item {e.SelectedItemIndex} selected");
+            CrossToastPopUp.Current.ShowToastSuccess($"Item {m.GolfClubName} selected");
         }
 
         /// <summary>

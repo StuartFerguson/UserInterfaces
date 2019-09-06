@@ -23,7 +23,7 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
         public void WhenITapOnRegister()
         {
             this.App.WaitForElement(c => c.Marked("Register"));
-            this.App.Tap(c => c.Marked("Register"));
+            this.App.Tap("Register");
         }
         
         [When(@"I enter the First Name ""(.*)""")]
@@ -89,8 +89,10 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
         [When(@"I tap the Register button")]
         public void WhenITapTheRegisterButton()
         {
-            this.App.WaitForElement(c => c.Marked("Register"));
-            this.App.Tap(c => c.Marked("Register"));
+            this.App.DismissKeyboard();
+
+            var g = this.App.WaitForElement(c => c.Marked("Register"));
+            this.App.Tap("Register");
         }
         
         [Then(@"I should be on the Register Player screen")]
@@ -109,84 +111,66 @@ namespace GolfHandicapMobile.IntegrationTests.Steps
         [Then(@"an error indicating first name is required will be displayed")]
         public void ThenAnErrorIndicatingFirstNameIsRequiredWillBeDisplayed()
         {
-            AppResult[] elements = this.App.WaitForElement(x => x.Marked("FirstNameError"), timeout: TimeSpan.FromSeconds(15));
+            AppResult[] elements = this.App.WaitForElement(x => x.Text("A first name is required to register"), timeout: TimeSpan.FromSeconds(15));
 
-            // Get the first element
-            elements.First().Text.ShouldBe("A first name is required to register");
+            elements.Length.ShouldBe(1);
         }
 
         [Then(@"an error indicating last name is required will be displayed")]
         public void ThenAnErrorIndicatingLastNameIsRequiredWillBeDisplayed()
         {
-            AppResult[] elements = this.App.WaitForElement(x => x.Marked("LastNameError"), timeout: TimeSpan.FromSeconds(15));
+            AppResult[] elements = this.App.WaitForElement(x => x.Text("A last name is required to register"), timeout: TimeSpan.FromSeconds(15));
 
-            // Get the first element
-            elements.First().Text.ShouldBe("A last name is required to register");
+            elements.Length.ShouldBe(1);
         }
 
         [Then(@"an error indicating gender is required will be displayed")]
         public void ThenAnErrorIndicatingGenderIsRequiredWillBeDisplayed()
         {
-            AppResult[] elements = this.App.WaitForElement(x => x.Marked("GenderError"), timeout: TimeSpan.FromSeconds(15));
-
-            // Get the first element
-            elements.First().Text.ShouldBe("A gender must be selected to register");
+            AppResult[] elements = this.App.WaitForElement(x => x.Text("A gender must be selected to register"), timeout: TimeSpan.FromSeconds(15));
+            elements.Length.ShouldBe(1);
         }
 
         [Then(@"an error indicating date of birth is required will be displayed")]
         public void ThenAnErrorIndicatingDateOfBirthIsRequiredWillBeDisplayed()
         {
-            AppResult[] elements = this.App.WaitForElement(x => x.Marked("DateOfBirthError"), timeout: TimeSpan.FromSeconds(15));
-
-            // Get the first element
-            elements.First().Text.ShouldBe("A date of birth is required to register");
+            AppResult[] elements = this.App.WaitForElement(x => x.Text("A date of birth is required to register"), timeout: TimeSpan.FromSeconds(15));
+            elements.Length.ShouldBe(1);
         }
 
         [Then(@"an error indicating date of birth is invalid will be displayed")]
         public void ThenAnErrorIndicatingDateOfBirthIsInvalidWillBeDisplayed()
         {
-            AppResult[] elements = this.App.WaitForElement(x => x.Marked("DateOfBirthError"), timeout: TimeSpan.FromSeconds(15));
-
-            // Get the first element
-            elements.First().Text.ShouldBe("A valid date of birth is required to register");
+            AppResult[] elements = this.App.WaitForElement(x => x.Text("A valid date of birth is required to register"), timeout: TimeSpan.FromSeconds(15));
+            elements.Length.ShouldBe(1);
         }
 
         [Then(@"an error indicating exact handicap is required will be displayed")]
         public void ThenAnErrorIndicatingExactHandicapIsRequiredWillBeDisplayed()
         {
-            AppResult[] elements = this.App.WaitForElement(x => x.Marked("ExactHandicapError"), timeout: TimeSpan.FromSeconds(15));
-
-            // Get the first element
-            elements.First().Text.ShouldBe("An exact handicap is required to register");
+            AppResult[] elements = this.App.WaitForElement(x => x.Text("An exact handicap is required to register"), timeout: TimeSpan.FromSeconds(15));
+            elements.Length.ShouldBe(1);
         }
 
         [Then(@"an error indicating exact handicap is outwith the valid range will be displayed")]
         public void ThenAnErrorIndicatingExactHandicapIsOutwithTheValidRangeWillBeDisplayed()
         {
-            AppResult[] elements = this.App.WaitForElement(x => x.Marked("ExactHandicapError"), timeout: TimeSpan.FromSeconds(15));
-
-            // Get the first element
-            elements.First().Text.ShouldBe("Exact handicap must be between -10.0 and 36.0 to register");
+            AppResult[] elements = this.App.WaitForElement(x => x.Text("Exact handicap must be between -10.0 and 36.0 to register"), timeout: TimeSpan.FromSeconds(15));
+            elements.Length.ShouldBe(1);
         }
 
         [Then(@"an error indicating email adddress is required will be displayed")]
         public void ThenAnErrorIndicatingEmailAdddressIsRequiredWillBeDisplayed()
         {
-            AppResult[] elements = this.App.WaitForElement(x => x.Marked("EmailAddressError"), timeout: TimeSpan.FromSeconds(15));
-
-            // Get the first element
-            elements.First().Text.ShouldBe("An email address is required to register");
+            AppResult[] elements = this.App.WaitForElement(x => x.Text("An email address is required to register"), timeout: TimeSpan.FromSeconds(15));
+            elements.Length.ShouldBe(1);
         }
 
         [Then(@"an error indicating email address is invalid is required will be displayed")]
         public void ThenAnErrorIndicatingEmailAddressIsInvalidIsRequiredWillBeDisplayed()
         {
-            AppResult[] elements = this.App.WaitForElement(x => x.Marked("EmailAddressError"), timeout: TimeSpan.FromSeconds(15));
-
-            // Get the first element
-            elements.First().Text.ShouldBe("A valid email address is required to register");
+            AppResult[] elements = this.App.WaitForElement(x => x.Text("A valid email address is required to register"), timeout: TimeSpan.FromSeconds(15));
+            elements.Length.ShouldBe(1);
         }
-
-
     }
 }
