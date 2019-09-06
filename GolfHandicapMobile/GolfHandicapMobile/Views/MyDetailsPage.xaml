@@ -2,34 +2,84 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-             x:Class="GolfHandicapMobile.Views.MyDetailsPage" Title="My Details">
+             x:Class="GolfHandicapMobile.Views.MyDetailsPage" 
+             Title="My Details"
+             xmlns:accordion="clr-namespace:Syncfusion.XForms.Accordion;assembly=Syncfusion.Expander.XForms"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms">
+
     <ContentPage.Content>
         <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
-            <Entry x:Name="FirstName" AutomationId="FirstName" Placeholder="First Name" Text="{Binding FirstName}"
-                   IsReadOnly="True"/>
-            <Entry x:Name="LastName" AutomationId="LastName" Placeholder="Last Name" Text="{Binding LastName}"
-                   IsReadOnly="True"/>
-            <Picker x:Name="Gender" Title="Gender" IsEnabled="False" SelectedIndex="{Binding Gender}">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Male</x:String>
-                        <x:String>Female</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
-            <Entry x:Name="DateOfBirth" AutomationId="DateOfBirth" Placeholder="Date of Birth"
-                   Text="{Binding DateOfBirth, StringFormat='{0:dd-MM-yy}'}" WidthRequest="120" Keyboard="Numeric"
-                   IsReadOnly="True"/>
-            <StackLayout Orientation="Horizontal">
-                <Entry x:Name="ExactHandicap" AutomationId="ExactHandicap"
-                       Text="{Binding ExactHandicap, StringFormat='{0:F1}'}" WidthRequest="75" IsReadOnly="True"/>
-                <Entry x:Name="PlayingHandicap" AutomationId="PlayingHandicap"
-                       Text="{Binding PlayingHandicap, StringFormat='{0:N0}'}" WidthRequest="75" IsReadOnly="True"/>
-                <Entry x:Name="HandicapCategory" AutomationId="HandicapCategory"
-                       Text="{Binding HandicapCategory, StringFormat='{0:N0}'}" WidthRequest="75" IsReadOnly="True"/>
-            </StackLayout>
-            <Entry x:Name="EmailAddress" AutomationId="EmailAddress" Placeholder="Email" Keyboard="Email"
-                   IsReadOnly="True" Text="{Binding EmailAddress}"/>
+            <accordion:SfAccordion ExpandMode="SingleOrNone">
+                <accordion:SfAccordion.Items>
+                    <!-- Personal Details -->
+                    <accordion:AccordionItem> 
+                        <accordion:AccordionItem.Header>
+                            <Label TextColor="#495F6E" Text="Personal Details" HeightRequest="50" VerticalTextAlignment="Center"/>
+                        </accordion:AccordionItem.Header>
+                        <accordion:AccordionItem.Content>
+                            <StackLayout Orientation="Vertical" Style="{StaticResource StandardStackLayoutStyle}">
+                                <inputLayout:SfTextInputLayout
+                                    Hint="First Name" ContainerType="Outlined">
+                                    <Entry x:Name="FirstName" AutomationId="FirstName" Text="{Binding FirstName}" IsReadOnly="True"/>
+                                </inputLayout:SfTextInputLayout>
+                                <inputLayout:SfTextInputLayout
+                                    Hint="LastName" ContainerType="Outlined">
+                                    <Entry x:Name="LastName" AutomationId="LastName" Text="{Binding LastName}" IsReadOnly="True"/>
+                                </inputLayout:SfTextInputLayout>
+                                <inputLayout:SfTextInputLayout 
+                                    Hint="Gender" ContainerType="Outlined">
+                                    <Entry x:Name="Gender" AutomationId="Gender" Text="{Binding GenderDescription}" IsReadOnly="True"/>
+                                </inputLayout:SfTextInputLayout>
+                                <inputLayout:SfTextInputLayout 
+                                    Hint="Date Of Birth" ContainerType="Outlined">
+                                    <Entry x:Name="DateOfBirth" AutomationId="DateOfBirth" Text="{Binding DateOfBirth, StringFormat='{0:dd-MM-yy}'}" WidthRequest="120" Keyboard="Numeric" IsReadOnly="True"/>
+                                </inputLayout:SfTextInputLayout>
+                            </StackLayout>
+                        </accordion:AccordionItem.Content>
+                    </accordion:AccordionItem>
+                    <!-- Contact Details -->
+                    <accordion:AccordionItem> 
+                        <accordion:AccordionItem.Header>
+                            <Label TextColor="#495F6E" Text="Contact Details" HeightRequest="50" VerticalTextAlignment="Center"/>
+                        </accordion:AccordionItem.Header>
+                        <accordion:AccordionItem.Content>
+                            <inputLayout:SfTextInputLayout
+                                Hint="Email Address" ContainerType="Outlined">
+                                <Entry x:Name="EmailAddress" AutomationId="EmailAddress" Placeholder="Email" Keyboard="Email"
+                                       IsReadOnly="True" Text="{Binding EmailAddress}"/>
+                            </inputLayout:SfTextInputLayout>
+                        </accordion:AccordionItem.Content>
+                    </accordion:AccordionItem>
+                    <!-- Handicap Details -->
+                    <accordion:AccordionItem>
+                        <accordion:AccordionItem.Header>
+                            <Label TextColor="#495F6E" Text="Handicap Details" HeightRequest="50" VerticalTextAlignment="Center"/>
+                        </accordion:AccordionItem.Header>
+                        <accordion:AccordionItem.Content>
+                            <StackLayout Orientation="Vertical" Style="{StaticResource StandardStackLayoutStyle}">
+                                <inputLayout:SfTextInputLayout
+                                    Hint="Handicap Category" ContainerType="Outlined">
+                                <Entry x:Name="HandicapCategory" AutomationId="HandicapCategory"
+                                   Text="{Binding HandicapCategory, StringFormat='{0:N0}'}" WidthRequest="75" IsReadOnly="True"/>
+                                </inputLayout:SfTextInputLayout>
+
+                                <inputLayout:SfTextInputLayout
+                                    Hint="Exact Handicap" ContainerType="Outlined">
+                                    <Entry x:Name="ExactHandicap" AutomationId="ExactHandicap"
+                                           Text="{Binding ExactHandicap, StringFormat='{0:F1}'}" WidthRequest="75" IsReadOnly="True"/>
+                                </inputLayout:SfTextInputLayout>
+
+                                <inputLayout:SfTextInputLayout
+                                    Hint="Playing Handicap" ContainerType="Outlined">
+                                    <Entry x:Name="PlayingHandicap" AutomationId="PlayingHandicap"
+                                           Text="{Binding PlayingHandicap, StringFormat='{0:N0}'}" WidthRequest="75" IsReadOnly="True"/>
+                                </inputLayout:SfTextInputLayout>
+
+                            </StackLayout>
+                        </accordion:AccordionItem.Content>
+                    </accordion:AccordionItem>
+                </accordion:SfAccordion.Items>
+            </accordion:SfAccordion>
             <Button x:Name="HomeButton" Text="Home"/>
         </StackLayout>
     </ContentPage.Content>

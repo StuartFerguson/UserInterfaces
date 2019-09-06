@@ -3,13 +3,22 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
              x:Class="GolfHandicapMobile.Views.SignInPage"
-             Title="Golf Handicap">
+             Title="Golf Handicap"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms">
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="50" VerticalOptions="Center">
-            <Entry x:Name="EmailAddress" Placeholder="Email Address" AutomationId="EmailAddress"/>
-            <Entry x:Name="Password" Placeholder="Password" IsPassword="True" AutomationId="Password"/>
-            <Button x:Name="SignIn" Text="Sign In"/>
-            <Button x:Name="Register" Text="Register"/>
+            <inputLayout:SfTextInputLayout
+                Hint="Email Address" HelperText="Enter your email address" ContainerType="Outlined">
+                <Entry x:Name="EmailAddress" AutomationId="EmailAddress"/>
+            </inputLayout:SfTextInputLayout>
+            <inputLayout:SfTextInputLayout
+                Hint="Password" HelperText="Enter your password" ContainerType="Outlined">
+                <Entry x:Name="Password" IsPassword="True" AutomationId="Password"/>
+            </inputLayout:SfTextInputLayout>
+            
+            <buttons:SfButton x:Name="SignIn" Text="Sign In"/>
+            <buttons:SfButton x:Name="Register" Text="Register"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

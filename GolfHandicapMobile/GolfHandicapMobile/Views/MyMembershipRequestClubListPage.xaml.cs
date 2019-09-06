@@ -49,7 +49,7 @@
         public void Init(MyMembershipRequestClubListViewModel viewModel)
         {
             this.BindingContext = viewModel;
-
+            
             this.RequestMembershipButton.Clicked += this.RequestMembershipButton_Clicked;
             this.HomeButton.Clicked += this.HomeButton_Clicked;
         }

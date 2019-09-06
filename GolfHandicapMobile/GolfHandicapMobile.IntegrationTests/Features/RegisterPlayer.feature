@@ -15,7 +15,7 @@ Scenario: Register Player
 	And I enter the Last Name "Ferguson"
 	And I open the gender picker
 	And I select "Male" from the Gender picker
-	And I enter the Date Of Birth as "13/12/80"
+	And I enter the Date Of Birth as "13/12/1980"
 	And I enter the Exact Handicap as "6.7"
 	And I enter the Email Address as "stuart.ferguson@hotmail.co.uk"
 	And I tap the Register button
@@ -28,7 +28,7 @@ Scenario: Register Player without a first name
 	When I enter the Last Name "Ferguson"
 	And I open the gender picker
 	And I select "Male" from the Gender picker
-	And I enter the Date Of Birth as "13/12/80"
+	And I enter the Date Of Birth as "13/12/1980"
 	And I enter the Exact Handicap as "6.7"
 	And I enter the Email Address as "stuart.ferguson@hotmail.co.uk"
 	And I tap the Register button
@@ -41,7 +41,7 @@ Scenario: Register Player without a last name
 	When I enter the First Name "Stuart"
 	And I open the gender picker
 	And I select "Male" from the Gender picker
-	And I enter the Date Of Birth as "13/12/80"
+	And I enter the Date Of Birth as "13/12/1980"
 	And I enter the Exact Handicap as "6.7"
 	And I enter the Email Address as "stuart.ferguson@hotmail.co.uk"
 	And I tap the Register button
@@ -53,7 +53,7 @@ Scenario: Register Player without a gender
 	Then I should be on the Register Player screen
 	When I enter the First Name "Stuart"
 	When I enter the Last Name "Ferguson"
-	And I enter the Date Of Birth as "13/12/80"
+	And I enter the Date Of Birth as "13/12/1980"
 	And I enter the Exact Handicap as "6.7"
 	And I enter the Email Address as "stuart.ferguson@hotmail.co.uk"
 	And I tap the Register button
@@ -80,7 +80,7 @@ Scenario: Register Player with an invalid date of birth
 	And I enter the Last Name "Ferguson"
 	And I open the gender picker
 	And I select "Male" from the Gender picker
-	And I enter the Date Of Birth as "99/99/99"
+	And I enter the Date Of Birth as "99/99/9999"
 	And I enter the Exact Handicap as "6.7"
 	And I enter the Email Address as "stuart.ferguson@hotmail.co.uk"
 	And I tap the Register button
@@ -94,7 +94,7 @@ Scenario: Register Player without an exact handicap
 	And I enter the Last Name "Ferguson"
 	And I open the gender picker
 	And I select "Male" from the Gender picker
-	And I enter the Date Of Birth as "13/12/80"
+	And I enter the Date Of Birth as "13/12/1980"
 	And I enter the Email Address as "stuart.ferguson@hotmail.co.uk"
 	And I tap the Register button
 	Then an error indicating exact handicap is required will be displayed
@@ -107,7 +107,7 @@ Scenario: Register Player with an exact handicap less than -10.0
 	And I enter the Last Name "Ferguson"
 	And I open the gender picker
 	And I select "Male" from the Gender picker
-	And I enter the Date Of Birth as "13/12/80"
+	And I enter the Date Of Birth as "13/12/1980"
 	And I enter the Exact Handicap as "-10.1"
 	And I enter the Email Address as "stuart.ferguson@hotmail.co.uk"
 	And I tap the Register button
@@ -121,7 +121,7 @@ Scenario: Register Player with an exact handicap greater than 36.0
 	And I enter the Last Name "Ferguson"
 	And I open the gender picker
 	And I select "Male" from the Gender picker
-	And I enter the Date Of Birth as "13/12/80"
+	And I enter the Date Of Birth as "13/12/1980"
 	And I enter the Exact Handicap as "36.1"
 	And I enter the Email Address as "stuart.ferguson@hotmail.co.uk"
 	And I tap the Register button
@@ -135,7 +135,7 @@ Scenario: Register Player without an email address
 	And I enter the Last Name "Ferguson"
 	And I open the gender picker
 	And I select "Male" from the Gender picker
-	And I enter the Date Of Birth as "13/12/80"
+	And I enter the Date Of Birth as "13/12/1980"
 	And I enter the Exact Handicap as "6.7"
 	And I tap the Register button
 	Then an error indicating email adddress is required will be displayed
@@ -148,7 +148,7 @@ Scenario: Register Player with an invalid email address
 	And I enter the Last Name "Ferguson"
 	And I open the gender picker
 	And I select "Male" from the Gender picker
-	And I enter the Date Of Birth as "13/12/80"
+	And I enter the Date Of Birth as "13/12/1980"
 	And I enter the Exact Handicap as "6.7"
 	And I enter the Email Address as "stuart.fergusonhotmail.co.uk"
 	And I tap the Register button

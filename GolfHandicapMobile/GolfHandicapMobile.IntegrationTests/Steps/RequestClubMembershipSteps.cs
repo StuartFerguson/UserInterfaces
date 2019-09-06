@@ -88,8 +88,10 @@
         [When(@"I click on the Request Membership button")]
         public void WhenIClickOnTheRequestMembershipButton()
         {
-            this.App.WaitForElement(c => c.Button("Request Membership"));
-            this.App.Tap(c => c.Button("Request Membership"));
+            this.App.DismissKeyboard();
+
+            var g = this.App.WaitForElement("Request Membership");
+            this.App.Tap("Request Membership");
         }
 
         [Then(@"the membership request success message should be displayed for '(.*)'")]

@@ -107,7 +107,7 @@ this.FeatureBackground();
 #line 17
  testRunner.And("I select \"Male\" from the Gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 18
- testRunner.And("I enter the Date Of Birth as \"13/12/80\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 19
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 20
@@ -143,7 +143,7 @@ this.FeatureBackground();
 #line 30
  testRunner.And("I select \"Male\" from the Gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 31
- testRunner.And("I enter the Date Of Birth as \"13/12/80\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 32
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 33
@@ -179,7 +179,7 @@ this.FeatureBackground();
 #line 43
  testRunner.And("I select \"Male\" from the Gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 44
- testRunner.And("I enter the Date Of Birth as \"13/12/80\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 45
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 46
@@ -213,7 +213,7 @@ this.FeatureBackground();
 #line 55
  testRunner.When("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 56
- testRunner.And("I enter the Date Of Birth as \"13/12/80\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 57
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 58
@@ -287,7 +287,7 @@ this.FeatureBackground();
 #line 82
  testRunner.And("I select \"Male\" from the Gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 83
- testRunner.And("I enter the Date Of Birth as \"99/99/99\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"99/99/9999\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 84
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 85
@@ -325,7 +325,7 @@ this.FeatureBackground();
 #line 96
  testRunner.And("I select \"Male\" from the Gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 97
- testRunner.And("I enter the Date Of Birth as \"13/12/80\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 98
  testRunner.And("I enter the Email Address as \"stuart.ferguson@hotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 99
@@ -361,7 +361,7 @@ this.FeatureBackground();
 #line 109
  testRunner.And("I select \"Male\" from the Gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 110
- testRunner.And("I enter the Date Of Birth as \"13/12/80\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 111
  testRunner.And("I enter the Exact Handicap as \"-10.1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 112
@@ -399,7 +399,7 @@ this.FeatureBackground();
 #line 123
  testRunner.And("I select \"Male\" from the Gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 124
- testRunner.And("I enter the Date Of Birth as \"13/12/80\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 125
  testRunner.And("I enter the Exact Handicap as \"36.1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 126
@@ -437,7 +437,7 @@ this.FeatureBackground();
 #line 137
  testRunner.And("I select \"Male\" from the Gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 138
- testRunner.And("I enter the Date Of Birth as \"13/12/80\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 139
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 140
@@ -473,7 +473,7 @@ this.FeatureBackground();
 #line 150
  testRunner.And("I select \"Male\" from the Gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 151
- testRunner.And("I enter the Date Of Birth as \"13/12/80\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 152
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 153

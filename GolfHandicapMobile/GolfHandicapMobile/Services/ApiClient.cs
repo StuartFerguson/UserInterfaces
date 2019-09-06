@@ -72,6 +72,7 @@
             viewModel.ExactHandicap = apiResponse.ExactHandicap;
             viewModel.FullName = apiResponse.FullName;
             viewModel.Gender = apiResponse.Gender == "M" ? 0 : 1;
+            viewModel.GenderDescription = apiResponse.Gender == "M" ? "Male" : "Female";
             viewModel.HandicapCategory = apiResponse.HandicapCategory;
         }
 

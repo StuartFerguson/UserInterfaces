@@ -17,7 +17,7 @@ Background:
 	And I enter the Last Name "Ferguson"
 	And I open the gender picker
 	And I select "Male" from the Gender picker
-	And I enter the Date Of Birth as "13/12/80"
+	And I enter the Date Of Birth as "13/12/1980"
 	And I enter the Exact Handicap as "6.7"
 	And I enter the Email Address as "stuart.ferguson@hotmail.co.uk"
 	And I tap the Register button

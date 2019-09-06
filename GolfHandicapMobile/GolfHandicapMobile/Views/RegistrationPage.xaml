@@ -2,48 +2,101 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
-             xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=netstandard"
              mc:Ignorable="d"
              x:Class="GolfHandicapMobile.Views.RegistrationPage"
              xmlns:behaviors="clr-namespace:GolfHandicapMobile.Behaviors;assembly=GolfHandicapMobile"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:maskededit="clr-namespace:Syncfusion.XForms.MaskedEdit;assembly=Syncfusion.SfMaskedEdit.XForms"
              Title="Registration">
     <ContentPage.Content>
         <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
             <StackLayout>
-                <Entry x:Name="FirstName" AutomationId="FirstName" Placeholder="First Name" Text="{Binding FirstName}"/>
-                <Label x:Name="FirstNameError" AutomationId="FirstNameError" IsVisible="False"/>
-                <Entry x:Name="LastName" AutomationId="LastName" Placeholder="Last Name" Text="{Binding LastName}"/>
-                <Label x:Name="LastNameError" AutomationId="LastNameError" IsVisible="False"/>
-                <Picker x:Name="Gender" Title="Gender">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
+
+                <inputLayout:SfTextInputLayout
+                    Hint="First Name" 
+                    HelperText="Enter your first name"
+                    ContainerType="Outlined"
+                    x:Name="FirstNameLayout"
+                    AutomationId="FirstNameLayout">
+                    <Entry x:Name="FirstName" AutomationId="FirstName" Text="{Binding FirstName}"/>
+                </inputLayout:SfTextInputLayout>
+                <inputLayout:SfTextInputLayout
+                    Hint="Last Name" 
+                    HelperText="Enter your last name"
+                    ContainerType="Outlined"
+                    x:Name="LastNameLayout"
+                    AutomationId="LastNameLayout">
+                    <Entry x:Name="LastName" AutomationId="LastName" Text="{Binding LastName}"/>
+                </inputLayout:SfTextInputLayout>
+
+                <inputLayout:SfTextInputLayout 
+                    Hint="Gender"
+                    HelperText="Select your gender"
+                    ContainerType="Outlined"
+                    x:Name="GenderLayout"
+                    AutomationId="GenderLayout">
+                    <combobox:SfComboBox HeightRequest="60" x:Name="Gender" MultiSelectMode="None">
+                    <combobox:SfComboBox.ComboBoxSource>
+                        <ListCollection:List x:TypeArguments="x:String">
                             <x:String>Male</x:String>
                             <x:String>Female</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
-                <Label x:Name="GenderError" AutomationId="GenderError" IsVisible="False"/>
-                <StackLayout Orientation="Horizontal">
-                    <StackLayout Orientation="Vertical">
-                        <Entry x:Name="DateOfBirth" AutomationId="DateOfBirth" Placeholder="Date of Birth" Text="{Binding DateOfBirth}" WidthRequest="120" Keyboard="Numeric">
-                            <Entry.Behaviors>
-                                <behaviors:MaskedBehavior Mask="XX-XX-XX" />
-                            </Entry.Behaviors>
-                        </Entry>
-                        <Label x:Name="DateOfBirthError" AutomationId="DateOfBirthError" IsVisible="False"/>
-                    </StackLayout>
-                    <StackLayout Orientation="Vertical">
-                        <Entry x:Name="ExactHandicap" AutomationId="ExactHandicap" Placeholder="Exact H/cap" Keyboard="Numeric"
-                           Text="{Binding ExactHandicap}" WidthRequest="110">
-                        </Entry>
-                        <Label x:Name="ExactHandicapError" AutomationId="ExactHandicapError" IsVisible="False"/>
-                    </StackLayout>
-                </StackLayout>
-                <Entry x:Name="EmailAddress" AutomationId="EmailAddress" Placeholder="Email" Keyboard="Email"
-                       Text="{Binding EmailAddress}"></Entry>
-                <Label x:Name="EmailAddressError" AutomationId="EmailAddressError" IsVisible="False"/>
-                <Button x:Name="Register" Text="Register"/>
+                        </ListCollection:List>
+                    </combobox:SfComboBox.ComboBoxSource>
+                </combobox:SfComboBox>
+                </inputLayout:SfTextInputLayout>
+
+                <inputLayout:SfTextInputLayout
+                    Hint="Date Of Birth" 
+                    HelperText="Enter your date of birth"
+                    ContainerType="Outlined"
+                    x:Name="DateOfBirthLayout"
+                    AutomationId="DateOfBirthLayout">
+                    <!--<Entry x:Name="DateOfBirth" AutomationId="DateOfBirth" Text="{Binding DateOfBirth}" WidthRequest="110" IsReadOnly="True"/>
+                    <inputLayout:SfTextInputLayout.TrailingView>
+                        <buttons:SfButton x:Name="ShowDate" AutomationId="ShowDate" Text="" BackgroundColor="Transparent" ImageSource="date.png" ShowIcon="True" Clicked="ShowDatePicker_OnClicked" ImageWidth="50" ImageAlignment="Start">
+                        </buttons:SfButton>
+                    </inputLayout:SfTextInputLayout.TrailingView>-->
+                    <maskededit:SfMaskedEdit x:Name="DateOfBirth" Mask="00/00/0000" Completed="DateOfBirth_OnCompleted" AutomationId="DateOfBirth"/>
+                </inputLayout:SfTextInputLayout>
+
+                <!--<controls:CustomDatePicker 
+                    ShowHeader="false"
+                    PickerMode="Dialog"
+                    Margin="2" 
+                    BorderColor="Gray"
+                    ShowColumnHeader="true"
+                    ColumnHeaderHeight="50"
+                    HeaderText="Date Of Birth"
+                    x:Name="DatePicker" 
+                    ItemHeight="45" 
+                    ShowFooter="True"
+                    SelectedItem="{Binding DefaultDateOfBirth}"
+                    AutomationId="DatePicker">
+                </controls:CustomDatePicker>-->
+
+                <inputLayout:SfTextInputLayout
+                    Hint="Exact Handicap" 
+                    HelperText="Enter your current exact handicap"
+                    ContainerType="Outlined"
+                    x:Name="ExactHandicapLayout"
+                    AutomationId="ExactHandicapLayout">
+                    <Entry x:Name="ExactHandicap" AutomationId="ExactHandicap" Placeholder="Exact H/cap" Keyboard="Numeric"
+                           Text="{Binding ExactHandicap}" WidthRequest="110"/>
+                </inputLayout:SfTextInputLayout>
+
+                <inputLayout:SfTextInputLayout
+                    Hint="Email Address" 
+                    HelperText="Enter your email address"
+                    ContainerType="Outlined"
+                    x:Name="EmailAddressLayout"
+                    AutomationId="EmailAddressLayout">
+                    <Entry x:Name="EmailAddress" AutomationId="EmailAddress" Keyboard="Email" Text="{Binding EmailAddress}"></Entry>
+                </inputLayout:SfTextInputLayout>
+
+                <buttons:SfButton x:Name="Register" Text="Register" AutomationId="Register"/>
             </StackLayout>
             <StackLayout>
                 <Label x:Name="RegistrationStatus" AutomationId="RegistrationStatus" IsVisible="False"/>

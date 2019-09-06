@@ -42,6 +42,11 @@
         private Int32 gender;
 
         /// <summary>
+        /// The genderdescription
+        /// </summary>
+        private String genderdescription;
+
+        /// <summary>
         /// The handicap category
         /// </summary>
         private Int32 handicapCategory;
@@ -180,6 +185,25 @@
             set
             {
                 this.gender = value;
+                this.OnPropertyChanged(nameof(this.Gender));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the gender description.
+        /// </summary>
+        /// <value>
+        /// The gender description.
+        /// </value>
+        public String GenderDescription
+        {
+            get
+            {
+                return this.genderdescription;
+            }
+            set
+            {
+                this.genderdescription = value;
                 this.OnPropertyChanged(nameof(this.Gender));
             }
         }
