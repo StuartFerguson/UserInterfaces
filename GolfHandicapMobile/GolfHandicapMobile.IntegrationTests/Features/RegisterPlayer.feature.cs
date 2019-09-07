@@ -99,9 +99,9 @@ this.FeatureBackground();
 #line 13
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 14
- testRunner.When("I enter the First Name \"Stuart\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the First Name \"Test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 15
- testRunner.And("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Last Name \"Player\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 16
  testRunner.And("I open the gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 17
@@ -111,7 +111,7 @@ this.FeatureBackground();
 #line 19
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 20
- testRunner.And("I enter the Email Address as \"stuart.ferguson@hotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Email Address as \"testplayer@playerstore.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 21
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22
@@ -137,7 +137,7 @@ this.FeatureBackground();
 #line 27
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 28
- testRunner.When("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the Last Name \"Player\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 29
  testRunner.And("I open the gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 30
@@ -147,7 +147,7 @@ this.FeatureBackground();
 #line 32
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 33
- testRunner.And("I enter the Email Address as \"stuart.ferguson@hotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Email Address as \"testplayer@playerstore.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 34
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 35
@@ -173,7 +173,7 @@ this.FeatureBackground();
 #line 40
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 41
- testRunner.When("I enter the First Name \"Stuart\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the First Name \"Test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 42
  testRunner.And("I open the gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 43
@@ -183,7 +183,7 @@ this.FeatureBackground();
 #line 45
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 46
- testRunner.And("I enter the Email Address as \"stuart.ferguson@hotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Email Address as \"testplayer@playerstore.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 47
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 48
@@ -209,15 +209,15 @@ this.FeatureBackground();
 #line 53
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 54
- testRunner.When("I enter the First Name \"Stuart\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the First Name \"Test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 55
- testRunner.When("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the Last Name \"Player\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 56
  testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 57
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 58
- testRunner.And("I enter the Email Address as \"stuart.ferguson@hotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Email Address as \"testplayer@playerstore.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 59
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 60
@@ -243,9 +243,9 @@ this.FeatureBackground();
 #line 65
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 66
- testRunner.When("I enter the First Name \"Stuart\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the First Name \"Test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 67
- testRunner.And("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Last Name \"Player\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 68
  testRunner.And("I open the gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 69
@@ -253,7 +253,7 @@ this.FeatureBackground();
 #line 70
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 71
- testRunner.And("I enter the Email Address as \"stuart.ferguson@hotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Email Address as \"testplayer@playerstore.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 72
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 73
@@ -279,9 +279,9 @@ this.FeatureBackground();
 #line 78
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 79
- testRunner.When("I enter the First Name \"Stuart\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the First Name \"Test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 80
- testRunner.And("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Last Name \"Player\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 81
  testRunner.And("I open the gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 82
@@ -291,7 +291,7 @@ this.FeatureBackground();
 #line 84
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 85
- testRunner.And("I enter the Email Address as \"stuart.ferguson@hotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Email Address as \"testplayer@playerstore.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 86
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 87
@@ -317,9 +317,9 @@ this.FeatureBackground();
 #line 92
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 93
- testRunner.When("I enter the First Name \"Stuart\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the First Name \"Test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 94
- testRunner.And("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Last Name \"Player\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 95
  testRunner.And("I open the gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 96
@@ -327,7 +327,7 @@ this.FeatureBackground();
 #line 97
  testRunner.And("I enter the Date Of Birth as \"13/12/1980\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 98
- testRunner.And("I enter the Email Address as \"stuart.ferguson@hotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Email Address as \"testplayer@playerstore.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 99
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 100
@@ -353,9 +353,9 @@ this.FeatureBackground();
 #line 105
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 106
- testRunner.When("I enter the First Name \"Stuart\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the First Name \"Test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 107
- testRunner.And("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Last Name \"Player\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 108
  testRunner.And("I open the gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 109
@@ -365,7 +365,7 @@ this.FeatureBackground();
 #line 111
  testRunner.And("I enter the Exact Handicap as \"-10.1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 112
- testRunner.And("I enter the Email Address as \"stuart.ferguson@hotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Email Address as \"testplayer@playerstore.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 113
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 114
@@ -391,9 +391,9 @@ this.FeatureBackground();
 #line 119
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 120
- testRunner.When("I enter the First Name \"Stuart\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the First Name \"Test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 121
- testRunner.And("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Last Name \"Player\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 122
  testRunner.And("I open the gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 123
@@ -403,7 +403,7 @@ this.FeatureBackground();
 #line 125
  testRunner.And("I enter the Exact Handicap as \"36.1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 126
- testRunner.And("I enter the Email Address as \"stuart.ferguson@hotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Email Address as \"testplayer@playerstore.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 127
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 128
@@ -429,9 +429,9 @@ this.FeatureBackground();
 #line 133
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 134
- testRunner.When("I enter the First Name \"Stuart\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the First Name \"Test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 135
- testRunner.And("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Last Name \"Player\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 136
  testRunner.And("I open the gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 137
@@ -465,9 +465,9 @@ this.FeatureBackground();
 #line 146
  testRunner.Then("I should be on the Register Player screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 147
- testRunner.When("I enter the First Name \"Stuart\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I enter the First Name \"Test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 148
- testRunner.And("I enter the Last Name \"Ferguson\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Last Name \"Player\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 149
  testRunner.And("I open the gender picker", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 150
@@ -477,7 +477,7 @@ this.FeatureBackground();
 #line 152
  testRunner.And("I enter the Exact Handicap as \"6.7\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 153
- testRunner.And("I enter the Email Address as \"stuart.fergusonhotmail.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter the Email Address as \"testplayerplayerstore.co.uk\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 154
  testRunner.And("I tap the Register button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 155
