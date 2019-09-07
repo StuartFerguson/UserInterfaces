@@ -46,6 +46,7 @@
     <AndroidEnableSGenConcurrent>false</AndroidEnableSGenConcurrent>
     <BundleAssemblies>false</BundleAssemblies>
     <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
