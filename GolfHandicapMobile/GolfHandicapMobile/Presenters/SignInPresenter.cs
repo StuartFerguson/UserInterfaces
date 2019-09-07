@@ -25,6 +25,11 @@
         private readonly IClient ApiClient;
 
         /// <summary>
+        /// The device
+        /// </summary>
+        private readonly IDevice Device;
+
+        /// <summary>
         /// The registration page
         /// </summary>
         private readonly IRegistrationPage RegistrationPage;
@@ -67,7 +72,8 @@
                                IRegistrationPage registrationPage,
                                RegistrationViewModel registrationViewModel,
                                ISecurityServiceClient securityServiceClient,
-                               IClient apiClient)
+                               IClient apiClient,
+                               IDevice device)
         {
             this.SignInPage = signInPage;
             this.SignInViewModel = signInViewModel;
@@ -75,6 +81,7 @@
             this.RegistrationViewModel = registrationViewModel;
             this.SecurityServiceClient = securityServiceClient;
             this.ApiClient = apiClient;
+            this.Device = device;
         }
 
         #endregion
@@ -173,6 +180,8 @@
             {
                 // Store the player id claim
                 App.PlayerId = Guid.Parse(userInformation.PlayerId);
+
+                this.Device.SetInstabugUserDetails(userInformation.UserName, userInformation.EmailAddress);
 
                 // Go to signed in page
                 Application.Current.MainPage = new AppShell();
