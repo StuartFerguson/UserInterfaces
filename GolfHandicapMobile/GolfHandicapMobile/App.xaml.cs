@@ -4,6 +4,7 @@
     using Common;
     using Presenters;
     using Unity;
+    using Unity.Lifetime;
     using Xamarin.Forms;
 
     /// <summary>
@@ -12,6 +13,8 @@
     /// <seealso cref="Xamarin.Forms.Application" />
     public partial class App : Application
     {
+        private readonly IDevice Device;
+
         #region Fields
 
         /// <summary>
@@ -36,13 +39,16 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="App" /> class.
         /// </summary>
-        public App()
+        public App(IDevice device)
         {
+            this.Device = device;
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTM2Nzk0QDMxMzcyZTMyMmUzMG81LzgzTS9KaEpOWVYwTXpRZytTY09yYWpiYTkwNDJzZGIzbmRoZUszZWs9");
 
             this.InitializeComponent();
 
             App.Container = Bootstrapper.Run();
+
+            App.Container.RegisterInstance(this.Device, new ContainerControlledLifetimeManager());
         }
 
         #endregion
