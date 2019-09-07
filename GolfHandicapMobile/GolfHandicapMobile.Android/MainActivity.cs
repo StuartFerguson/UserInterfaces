@@ -8,6 +8,7 @@
     using Com.Instabug.Library;
     using Com.Instabug.Library.Core;
     using Com.Instabug.Library.Invocation;
+    using Com.Instabug.Library.UI.Onboarding;
     using Com.Instabug.Survey;
     using Common;
     using Xamarin.Forms;
@@ -61,6 +62,8 @@
             new Instabug.Builder(this.Application, "3ac80e1f493e5c7daf51d3b79e117104")
                 .SetInvocationEvents(InstabugInvocationEvent.FloatingButton, InstabugInvocationEvent.Shake)
                 .Build();
+
+            Instabug.SetWelcomeMessageState(WelcomeMessage.State.Disabled);
 
             base.OnCreate(savedInstanceState);
 
