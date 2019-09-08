@@ -53,14 +53,15 @@
         /// Gets the player.
         /// </summary>
         /// <param name="passwordToken">The password token.</param>
+        /// <param name="playerId">The player identifier.</param>
         /// <param name="viewModel">The view model.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task GetPlayer(String passwordToken,
+                                    Guid playerId,
                                     MyDetailsViewModel viewModel,
                                     CancellationToken cancellationToken)
         {
-            GetPlayerDetailsResponse apiResponse = await this.PlayerClient.GetPlayer(passwordToken, cancellationToken);
+            GetPlayerDetailsResponse apiResponse = await this.PlayerClient.GetPlayer(passwordToken, playerId, cancellationToken);
 
             viewModel.FirstName = apiResponse.FirstName;
             viewModel.HasBeenRegistered = apiResponse.HasBeenRegistered;
@@ -93,8 +94,9 @@
                                                    EmailAddress = viewModel.EmailAddress,
                                                    MiddleName = viewModel.MiddleName,
                                                    ExactHandicap = decimal.Parse(viewModel.ExactHandicap),
-                                                   FirstName = viewModel.FirstName,
-                                                   LastName = viewModel.LastName
+                                                   FamilyName = viewModel.LastName,
+                                                   GivenName = viewModel.FirstName
+
                                                };
 
             RegisterPlayerResponse apiResponse = await this.PlayerClient.RegisterPlayer(apiRequest, cancellationToken);
@@ -107,28 +109,30 @@
         /// Requests the club membership.
         /// </summary>
         /// <param name="passwordToken">The password token.</param>
+        /// <param name="playerId">The player identifier.</param>
         /// <param name="golfClubId">The golf club identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task RequestClubMembership(String passwordToken,
+                                                Guid playerId,
                                                 Guid golfClubId,
                                                 CancellationToken cancellationToken)
         {
-            await this.GolfClubClient.RequestClubMembership(passwordToken, golfClubId, cancellationToken);
+            await this.PlayerClient.RequestClubMembership(passwordToken, playerId, golfClubId, cancellationToken);
         }
 
         /// <summary>
         /// Gets the golf club list.
         /// </summary>
         /// <param name="passwordToken">The password token.</param>
+        /// <param name="playerId">The player identifier.</param>
         /// <param name="viewModel">The view model.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task GetGolfClubList(String passwordToken,
+                                          Guid playerId,
                                           MyMembershipRequestClubListViewModel viewModel,
                                           CancellationToken cancellationToken)
         {
-            List<GetGolfClubResponse> apiResponse = await this.GolfClubClient.GetGolfClubList(passwordToken, cancellationToken);
+            List<GetGolfClubResponse> apiResponse = await this.PlayerClient.GetGolfClubList(passwordToken, playerId, cancellationToken);
 
             foreach (GetGolfClubResponse getGolfClubResponse in apiResponse)
             {
@@ -147,16 +151,17 @@
         /// Gets the player memberships.
         /// </summary>
         /// <param name="passwordToken">The password token.</param>
+        /// <param name="playerId">The player identifier.</param>
         /// <param name="viewModel">The view model.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns></returns>
         public async Task GetPlayerMemberships(String passwordToken,
+                                               Guid playerId,
                                                MyMembershipsListViewModel viewModel,
                                                CancellationToken cancellationToken)
         {
             try
             {
-                List<ClubMembershipResponse> apiResponse = await this.PlayerClient.GetPlayerMemberships(passwordToken, cancellationToken);
+                List<ClubMembershipResponse> apiResponse = await this.PlayerClient.GetPlayerMemberships(passwordToken, playerId, cancellationToken);
 
                 foreach (ClubMembershipResponse clubMembershipResponse in apiResponse)
                 {

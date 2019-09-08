@@ -78,7 +78,7 @@
         public async Task Start()
         {
             // Get the players membership details
-            await this.ApiClient.GetPlayerMemberships(App.AccessToken, this.MyMembershipsListViewModel, CancellationToken.None);
+            await this.ApiClient.GetPlayerMemberships(App.AccessToken, App.PlayerId, this.MyMembershipsListViewModel, CancellationToken.None);
 
             this.MyMembershipsPage.HomeButtonClick += this.MyMembershipsPage_HomeButtonClick;
             this.MyMembershipsPage.RequestClubMembershipButtonClick += this.MyMembershipsPage_RequestClubMembershipButtonClick;
@@ -106,7 +106,7 @@
         private async void MembershipRequestClubListPage_RequestMembershipButtonClick(Object sender,
                                                                                       EventArgs e)
         {
-            await this.ApiClient.RequestClubMembership(App.AccessToken, this.MyMembershipRequestClubListViewModel.SelectedGolfClub.GolfClubId, CancellationToken.None);
+            await this.ApiClient.RequestClubMembership(App.AccessToken, App.PlayerId, this.MyMembershipRequestClubListViewModel.SelectedGolfClub.GolfClubId, CancellationToken.None);
 
             CrossToastPopUp.Current.ShowToastSuccess($"Membership Requested for Golf Club {this.MyMembershipRequestClubListViewModel.SelectedGolfClub.GolfClubName}");
 
@@ -137,7 +137,7 @@
             this.MembershipRequestClubListPage.HomeButtonClick += this.MembershipRequestClubListPage_HomeButtonClick;
 
             // Get the Club List
-            await this.ApiClient.GetGolfClubList(App.AccessToken, this.MyMembershipRequestClubListViewModel, CancellationToken.None);
+            await this.ApiClient.GetGolfClubList(App.AccessToken, App.PlayerId, this.MyMembershipRequestClubListViewModel, CancellationToken.None);
 
             this.MembershipRequestClubListPage.Init(this.MyMembershipRequestClubListViewModel);
 

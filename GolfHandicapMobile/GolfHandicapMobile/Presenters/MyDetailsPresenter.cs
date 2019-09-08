@@ -61,7 +61,7 @@
         public async Task Start()
         {
             // Get the players details
-            await this.ApiClient.GetPlayer(App.AccessToken, this.MyDetailsViewModel, CancellationToken.None);
+            await this.ApiClient.GetPlayer(App.AccessToken, App.PlayerId, this.MyDetailsViewModel, CancellationToken.None);
 
             this.MyDetailsPage.HomeButtonClick += this.MyDetailsPage_HomeButtonClick;
             this.MyDetailsPage.Init(this.MyDetailsViewModel);
