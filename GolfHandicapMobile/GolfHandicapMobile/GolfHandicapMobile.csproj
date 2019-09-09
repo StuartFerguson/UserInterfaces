@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ManagementAPI.Service.Client" Version="1.0.29" />
+    <PackageReference Include="ManagementAPI.Service.Client" Version="1.0.33" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Plugin.Toast" Version="2.1.2" />
     <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="17.2.0.49" />

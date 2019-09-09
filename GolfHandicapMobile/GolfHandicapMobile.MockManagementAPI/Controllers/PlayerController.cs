@@ -10,6 +10,7 @@ namespace GolfHandicapMobile.MockAPI.Controllers
     using HandicapMobile.MockAPI.Database;
     using HandicapMobile.MockAPI.Database.Models;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Primitives;
     using MockDatabase.Database.Models;
 
@@ -65,22 +66,11 @@ namespace GolfHandicapMobile.MockAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPlayer()
+        [Route("{playerId}")]
+        public async Task<IActionResult> GetPlayer([FromRoute] Guid playerId)
         {
             List<KeyValuePair<String, StringValues>> headers = this.Request.Headers.ToList();
-            String authHeader = headers.Where(x => x.Key == "Authorization").Select(x => x.Value).SingleOrDefault().SingleOrDefault();
-
-            if (authHeader == null)
-            {
-                return this.Unauthorized();
-            }
-
-            // Parse the token
-            String[] tokenValues = authHeader.Split('|');
-
-            // Get the player id
-            Guid playerId = Guid.Parse(tokenValues[2]);
-
+            
             using(MockDatabaseDbContext context = this.MockDatabaseDbContextResolver())
             {
                 // Find the player
@@ -110,8 +100,8 @@ namespace GolfHandicapMobile.MockAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Memberships")]
-        public async Task<IActionResult> GetPlayerMemberships(CancellationToken cancellationToken)
+        [Route("{playerId}/Memberships")]
+        public async Task<IActionResult> GetPlayerMemberships([FromRoute] Guid playerId, CancellationToken cancellationToken)
         {
             List<KeyValuePair<String, StringValues>> headers = this.Request.Headers.ToList();
             String authHeader = headers.Where(x => x.Key == "Authorization").Select(x => x.Value).SingleOrDefault().SingleOrDefault();
@@ -120,13 +110,7 @@ namespace GolfHandicapMobile.MockAPI.Controllers
             {
                 return this.Unauthorized();
             }
-
-            // Parse the token
-            String[] tokenValues = authHeader.Split('|');
-
-            // Get the player id
-            Guid playerId = Guid.Parse(tokenValues[2]);
-
+            
             using(MockDatabaseDbContext context = this.MockDatabaseDbContextResolver())
             {
                 IQueryable<GolfClubMembership> playerMemberships = context.GolfClubMemberships.Where(m => m.PlayerId == playerId);
@@ -152,6 +136,103 @@ namespace GolfHandicapMobile.MockAPI.Controllers
 
                 return this.Ok(membershipResponses);
             }
+        }
+
+        [HttpGet]
+        [Route("GolfClubList")]
+        public async Task<IActionResult> GetGolfClubList(CancellationToken cancellationToken)
+        {
+            List<KeyValuePair<String, StringValues>> headers = this.Request.Headers.ToList();
+            String authHeader = headers.Where(x => x.Key == "Authorization").Select(x => x.Value).SingleOrDefault().SingleOrDefault();
+
+            if (authHeader == null)
+            {
+                return this.Unauthorized();
+            }
+
+            using (MockDatabaseDbContext context = this.MockDatabaseDbContextResolver())
+            {
+                // Find the clubs
+                List<GolfClub> golfClubs = await context.GolfClubs.ToListAsync(cancellationToken);
+
+                if (!golfClubs.Any())
+                {
+                    return this.NotFound();
+                }
+                else
+                {
+                    List<GetGolfClubResponse> response = new List<GetGolfClubResponse>();
+
+                    foreach (GolfClub golfClub in golfClubs)
+                    {
+                        response.Add(new GetGolfClubResponse
+                        {
+                            AddressLine1 = golfClub.AddressLine1,
+                            AddressLine2 = golfClub.AddressLine2,
+                            EmailAddress = golfClub.EmailAddress,
+                            Id = golfClub.GolfClubId,
+                            Name = golfClub.Name,
+                            PostalCode = golfClub.PostalCode,
+                            Region = golfClub.Region,
+                            TelephoneNumber = golfClub.TelephoneNumber,
+                            Town = golfClub.Town,
+                            Website = golfClub.Website
+                        });
+                    }
+
+                    return this.Ok(response);
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("{playerId}/GolfClub/{golfClubId}/RequestMembership")]
+        public async Task<IActionResult> RequestClubMembership([FromRoute] Guid playerId,
+                                                               [FromRoute] Guid golfClubId,
+                                                               CancellationToken cancellationToken)
+        {
+            List<KeyValuePair<String, StringValues>> headers = this.Request.Headers.ToList();
+            String authHeader = headers.Where(x => x.Key == "Authorization").Select(x => x.Value).SingleOrDefault().SingleOrDefault();
+
+            if (authHeader == null)
+            {
+                return this.Unauthorized();
+            }
+
+            using (MockDatabaseDbContext context = this.MockDatabaseDbContextResolver())
+            {
+                Player player = context.Players.SingleOrDefault(p => p.PlayerId == playerId);
+
+                if (player == null)
+                {
+                    return this.BadRequest();
+                }
+
+                GolfClub golfClub = context.GolfClubs.SingleOrDefault(c => c.GolfClubId == golfClubId);
+
+                if (golfClub == null)
+                {
+                    return this.BadRequest();
+                }
+
+                GolfClubMembership membership = new GolfClubMembership
+                {
+                    PlayerId = playerId,
+                    AcceptedDateTime = DateTime.Now,
+                    GolfClubId = golfClubId,
+                    GolfClubName = golfClub.Name,
+                    MembershipId = Guid.NewGuid(),
+                    PlayerDateOfBirth = player.DateOfBirth,
+                    PlayerFullName = $"{player.FirstName} {player.LastName}",
+                    PlayerGender = player.Gender,
+                };
+
+                context.GolfClubMemberships.Add(membership);
+
+                await context.SaveChangesAsync(cancellationToken);
+            }
+
+            return this.NoContent();
         }
 
         private Int32 CalculatePlayingHandicap(Decimal exactHandicap)
