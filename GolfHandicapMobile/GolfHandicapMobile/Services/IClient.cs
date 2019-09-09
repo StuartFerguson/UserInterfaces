@@ -65,6 +65,11 @@
                                    Guid golfClubId,
                                    CancellationToken cancellationToken);
 
+        Task GetTopPlayerScores(String passwordToken,
+                                Guid playerId,
+                                MyTournamentsViewModel viewModel,
+                                CancellationToken cancellationToken);
+        
         #endregion
     }
 }

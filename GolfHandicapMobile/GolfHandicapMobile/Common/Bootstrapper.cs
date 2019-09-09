@@ -54,6 +54,7 @@
             unityContainer.RegisterType<ISignInPresenter, SignInPresenter>(new TransientLifetimeManager());
             unityContainer.RegisterType<IMyDetailsPresenter, MyDetailsPresenter>(new TransientLifetimeManager());
             unityContainer.RegisterType<IMyMembershipsPresenter, MyMembershipsPresenter>(new TransientLifetimeManager());
+            unityContainer.RegisterType<IMyTournamentsPresenter, MyTournamentsPresenter>(new TransientLifetimeManager());
 
             // View registrations
             unityContainer.RegisterType<IRegistrationPage, RegistrationPage>(new TransientLifetimeManager());
@@ -61,6 +62,7 @@
             unityContainer.RegisterType<IMyDetailsPage, MyDetailsPage>(new TransientLifetimeManager());
             unityContainer.RegisterType<IMyMembershipsPage, MyMembershipsPage>(new TransientLifetimeManager());
             unityContainer.RegisterType<IMyMembershipRequestClubListPage, MyMembershipRequestClubListPage>(new TransientLifetimeManager());
+            unityContainer.RegisterType<IMyTournamentsPage, MyTournamentsPage>(new TransientLifetimeManager());
 
             // View model registrations
             unityContainer.RegisterType<RegistrationViewModel>(new TransientLifetimeManager());
@@ -68,6 +70,7 @@
             unityContainer.RegisterType<MyDetailsViewModel>(new TransientLifetimeManager());
             unityContainer.RegisterType<MyMembershipsListViewModel>(new TransientLifetimeManager());
             unityContainer.RegisterType<MyMembershipRequestClubListViewModel>(new TransientLifetimeManager());
+            unityContainer.RegisterType<MyTournamentsViewModel>(new TransientLifetimeManager());
 
             // Other registrations
             unityContainer.RegisterType<IClient, ApiClient>(new SingletonLifetimeManager());
