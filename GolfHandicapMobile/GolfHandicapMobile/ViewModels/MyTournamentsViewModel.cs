@@ -1,18 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GolfHandicapMobile.ViewModels
+﻿namespace GolfHandicapMobile.ViewModels
 {
     using System.Collections.ObjectModel;
     using Xamarin.Forms;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Xamarin.Forms.BindableObject" />
     public class MyTournamentsViewModel : BindableObject
     {
-        private ObservableCollection<TournamentScoreViewModel> tournamentScores;
+        #region Fields
 
+        /// <summary>
+        /// The signed up tournament
+        /// </summary>
         private SignedUpTournamentViewModel signedUpTournament;
 
+        /// <summary>
+        /// The tournament scores
+        /// </summary>
+        private ObservableCollection<TournamentScoreViewModel> tournamentScores;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the signed up tournament.
+        /// </summary>
+        /// <value>
+        /// The signed up tournament.
+        /// </value>
         public SignedUpTournamentViewModel SignedUpTournament
         {
             get
@@ -26,6 +44,12 @@ namespace GolfHandicapMobile.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the tournament scores.
+        /// </summary>
+        /// <value>
+        /// The tournament scores.
+        /// </value>
         public ObservableCollection<TournamentScoreViewModel> TournamentScores
         {
             get
@@ -47,27 +71,7 @@ namespace GolfHandicapMobile.ViewModels
                 }
             }
         }
-    }
 
-    public class TournamentScoreViewModel
-    {
-        public String TournamentName { get; set; }
-
-        public DateTime TournamentDate { get; set; }
-
-        public String CourseName { get; set; }
-
-        public Int32 CSS { get; set; }
-
-        public Int32 GrossScore { get; set; }
-
-        public Int32 PlayingHandicap { get; set; }
-
-        public Int32 NetScore { get; set; }
-    }
-
-    public class SignedUpTournamentViewModel
-    {
-        public String TournamentName { get; set; }
+        #endregion
     }
 }

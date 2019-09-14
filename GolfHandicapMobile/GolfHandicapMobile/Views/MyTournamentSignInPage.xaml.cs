@@ -10,20 +10,19 @@
     /// 
     /// </summary>
     /// <seealso cref="Xamarin.Forms.ContentPage" />
-    /// <seealso cref="GolfHandicapMobile.Pages.IMyTournamentsPage" />
+    /// <seealso cref="GolfHandicapMobile.Pages.IMyTournamentSignInPage" />
     /// <seealso cref="GolfHandicapMobile.Pages.IPage" />
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MyTournamentsPage : ContentPage, IMyTournamentsPage, IPage
+    public partial class MyTournamentSignInPage : ContentPage, IMyTournamentSignInPage, IPage
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyTournamentsPage" /> class.
+        /// Initializes a new instance of the <see cref="MyTournamentSignInPage" /> class.
         /// </summary>
-        public MyTournamentsPage()
+        public MyTournamentSignInPage()
         {
             this.InitializeComponent();
-            Shell.Current.FlyoutIsPresented = false;
         }
 
         #endregion
@@ -31,17 +30,12 @@
         #region Events
 
         /// <summary>
-        /// Occurs when [enter tournament score button click].
-        /// </summary>
-        public event EventHandler EnterTournamentScoreButtonClick;
-
-        /// <summary>
         /// Occurs when [home button click].
         /// </summary>
         public event EventHandler HomeButtonClick;
 
         /// <summary>
-        /// Occurs when [tournament sign up button click].
+        /// Occurs when [tournament sign in button click].
         /// </summary>
         public event EventHandler TournamentSignInButtonClick;
 
@@ -53,23 +47,12 @@
         /// Initializes the specified view model.
         /// </summary>
         /// <param name="viewModel">The view model.</param>
-        public void Init(MyTournamentsViewModel viewModel)
+        public void Init(MyTournamentsSignInViewModel viewModel)
         {
             this.BindingContext = viewModel;
-            this.HomeButton.Clicked += this.HomeButton_Clicked;
-            this.TournamentSignInButton.Clicked += this.TournamentSignInButton_Clicked;
-            this.EnterScoreButton.Clicked += this.EnterScoreButton_Clicked;
-        }
 
-        /// <summary>
-        /// Handles the Clicked event of the EnterScoreButton control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        private void EnterScoreButton_Clicked(Object sender,
-                                              EventArgs e)
-        {
-            this.EnterTournamentScoreButtonClick(sender, e);
+            this.HomeButton.Clicked += this.HomeButton_Clicked;
+            this.SignInButton.Clicked += this.SignInButton_Clicked;
         }
 
         /// <summary>
@@ -84,12 +67,12 @@
         }
 
         /// <summary>
-        /// Handles the Clicked event of the TournamentSignInButton control.
+        /// Handles the Clicked event of the SignInButton control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        private void TournamentSignInButton_Clicked(Object sender,
-                                                       EventArgs e)
+        private void SignInButton_Clicked(Object sender,
+                                          EventArgs e)
         {
             this.TournamentSignInButtonClick(sender, e);
         }
