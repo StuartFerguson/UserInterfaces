@@ -37,4 +37,5 @@
 
     <MenuItem Text="My Details" Command="{Binding MyDetailsCommand}"/>
     <MenuItem Text="My Memberships" Command="{Binding MyMembershipsCommand}"/>
+    <MenuItem Text="My Tournaments" Command="{Binding MyTournamentsCommand}"/>
 </Shell>

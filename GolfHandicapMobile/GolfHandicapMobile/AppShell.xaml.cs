@@ -54,6 +54,14 @@
         /// </value>
         public ICommand MyMembershipsCommand => new Command(async () => await this.NavigateToMyMemberships());
 
+        /// <summary>
+        /// Gets my tournaments command.
+        /// </summary>
+        /// <value>
+        /// My tournaments command.
+        /// </value>
+        public ICommand MyTournamentsCommand => new Command(async () => await this.NavigateToMyTournaments());
+
         #endregion
 
         #region Methods
@@ -86,6 +94,12 @@
         {
             IMyMembershipsPresenter myMembershipsPresenter = App.Container.Resolve<IMyMembershipsPresenter>();
             await myMembershipsPresenter.Start();
+        }
+
+        private async Task NavigateToMyTournaments()
+        {
+            IMyTournamentsPresenter myTournamentsPresenter = App.Container.Resolve<IMyTournamentsPresenter>();
+            await myTournamentsPresenter.Start();
         }
 
         #endregion

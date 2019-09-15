@@ -54,6 +54,7 @@
             unityContainer.RegisterType<ISignInPresenter, SignInPresenter>(new TransientLifetimeManager());
             unityContainer.RegisterType<IMyDetailsPresenter, MyDetailsPresenter>(new TransientLifetimeManager());
             unityContainer.RegisterType<IMyMembershipsPresenter, MyMembershipsPresenter>(new TransientLifetimeManager());
+            unityContainer.RegisterType<IMyTournamentsPresenter, MyTournamentsPresenter>(new TransientLifetimeManager());
 
             // View registrations
             unityContainer.RegisterType<IRegistrationPage, RegistrationPage>(new TransientLifetimeManager());
@@ -61,6 +62,8 @@
             unityContainer.RegisterType<IMyDetailsPage, MyDetailsPage>(new TransientLifetimeManager());
             unityContainer.RegisterType<IMyMembershipsPage, MyMembershipsPage>(new TransientLifetimeManager());
             unityContainer.RegisterType<IMyMembershipRequestClubListPage, MyMembershipRequestClubListPage>(new TransientLifetimeManager());
+            unityContainer.RegisterType<IMyTournamentsPage, MyTournamentsPage>(new TransientLifetimeManager());
+            unityContainer.RegisterType<IMyTournamentSignInPage, MyTournamentSignInPage>(new TransientLifetimeManager());
 
             // View model registrations
             unityContainer.RegisterType<RegistrationViewModel>(new TransientLifetimeManager());
@@ -68,11 +71,14 @@
             unityContainer.RegisterType<MyDetailsViewModel>(new TransientLifetimeManager());
             unityContainer.RegisterType<MyMembershipsListViewModel>(new TransientLifetimeManager());
             unityContainer.RegisterType<MyMembershipRequestClubListViewModel>(new TransientLifetimeManager());
+            unityContainer.RegisterType<MyTournamentsViewModel>(new TransientLifetimeManager());
+            unityContainer.RegisterType<TournamentSignInViewModel>(new TransientLifetimeManager());
 
             // Other registrations
             unityContainer.RegisterType<IClient, ApiClient>(new SingletonLifetimeManager());
             unityContainer.RegisterType<IPlayerClient, PlayerClient>(new SingletonLifetimeManager());
             unityContainer.RegisterType<IGolfClubClient, GolfClubClient>(new SingletonLifetimeManager());
+            unityContainer.RegisterType<ITournamentClient, TournamentClient>(new SingletonLifetimeManager());
             unityContainer.RegisterType<ISecurityServiceClient, SecurityServiceClient>(new SingletonLifetimeManager());
 
             HttpClient httpClient = new HttpClient();

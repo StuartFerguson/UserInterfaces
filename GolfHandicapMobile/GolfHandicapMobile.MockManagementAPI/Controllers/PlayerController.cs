@@ -53,8 +53,8 @@ namespace GolfHandicapMobile.MockAPI.Controllers
             // Add to mock database
             using(MockDatabaseDbContext context = this.MockDatabaseDbContextResolver())
             {
-                context.RegisteredUsers.Add(user);
-                context.Players.Add(player);
+                await context.RegisteredUsers.AddAsync(user,cancellationToken);
+                await context.Players.AddAsync(player, cancellationToken);
 
                 await context.SaveChangesAsync(cancellationToken);
             }
@@ -227,7 +227,51 @@ namespace GolfHandicapMobile.MockAPI.Controllers
                     PlayerGender = player.Gender,
                 };
 
-                context.GolfClubMemberships.Add(membership);
+                await context.GolfClubMemberships.AddAsync(membership, cancellationToken);
+
+                await context.SaveChangesAsync(cancellationToken);
+            }
+
+            return this.NoContent();
+        }
+
+        [HttpPut]
+        [Route("{playerId}/Tournament/{tournamentId}/SignUp")]
+        public async Task<IActionResult> SignUpForTournament([FromRoute] Guid playerId,
+                                                             [FromRoute] Guid tournamentId,
+                                                             CancellationToken cancellationToken)
+        {
+            List<KeyValuePair<String, StringValues>> headers = this.Request.Headers.ToList();
+            String authHeader = headers.Where(x => x.Key == "Authorization").Select(x => x.Value).SingleOrDefault().SingleOrDefault();
+
+            if (authHeader == null)
+            {
+                return this.Unauthorized();
+            }
+
+            using (MockDatabaseDbContext context = this.MockDatabaseDbContextResolver())
+            {
+                Player player = context.Players.SingleOrDefault(p => p.PlayerId == playerId);
+
+                if (player == null)
+                {
+                    return this.BadRequest();
+                }
+
+                Tournament tournament = context.Tournaments.SingleOrDefault(t => t.TournamentId == tournamentId);
+
+                if (tournament == null)
+                {
+                    return this.BadRequest();
+                }
+
+                PlayerTournamentSignIn playerTournamentSignIn = new PlayerTournamentSignIn
+                                                                {
+                                                                    PlayerId = playerId,
+                                                                    TournamentId = tournamentId
+                                                                };
+
+                await context.PlayerTournamentSignIns.AddAsync(playerTournamentSignIn, cancellationToken);
 
                 await context.SaveChangesAsync(cancellationToken);
             }

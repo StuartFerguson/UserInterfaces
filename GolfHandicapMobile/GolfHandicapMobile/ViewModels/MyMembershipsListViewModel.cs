@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace GolfHandicapMobile.ViewModels
@@ -38,14 +37,5 @@ namespace GolfHandicapMobile.ViewModels
                 }
             }
         }
-    }
-
-    public class MembershipViewModel
-    {
-        public Guid MembershipId { get; set; }
-        public Guid GolfClubId { get; set; }
-        public String GolfClubName { get; set; }
-        public String MembershipNumber { get; set; }
-        public DateTime DateJoined { get; set; }
     }
 }

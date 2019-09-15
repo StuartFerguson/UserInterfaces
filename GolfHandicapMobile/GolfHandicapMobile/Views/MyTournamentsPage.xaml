@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+             xmlns:listView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             x:Class="GolfHandicapMobile.Views.MyTournamentsPage"
+             Title="My Tournaments">
+    <ContentPage.Content>
+        <StackLayout Style="{StaticResource StandardStackLayoutStyle}">
+            <StackLayout HeightRequest="250">
+                <Label Text="Last 10 Scores"></Label>
+                <listView:SfListView x:Name="ScoresListView" ItemsSource="{Binding TournamentScores}" ItemSize="90"
+                                     ItemSpacing="0,5,0,0" SelectionMode="Single">
+                    <listView:SfListView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame x:Name="FrameExtContainer" Padding="1,1,1,1" HasShadow="False"
+                                   HorizontalOptions="FillAndExpand" CornerRadius="5" OutlineColor="SkyBlue"
+                                   BackgroundColor="SkyBlue">
+                                <StackLayout Orientation="Vertical">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding TournamentName}"/>
+                                        <Label Text="{Binding TournamentDate, StringFormat='({0:dd/MM/yyyy})'}"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding CourseName}"/>
+                                        <Label Text="{Binding CSS, StringFormat='(CSS: {0})'}"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Gross: " WidthRequest="75"/>
+                                        <Label Text="{Binding GrossScore}"/>
+                                        <Label Text="Hcap: " WidthRequest="75"/>
+                                        <Label Text="{Binding PlayingHandicap}"/>
+                                        <Label Text="Net: " WidthRequest="75"/>
+                                        <Label Text="{Binding NetScore}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </listView:SfListView.ItemTemplate>
+                </listView:SfListView>
+            </StackLayout>
+            <StackLayout HeightRequest="80" VerticalOptions="Center">
+                <Label Text="Signed Up Tournaments"></Label>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding SignedUpTournament.TournamentName}"/>
+                    <buttons:SfButton x:Name="EnterScoreButton" Text="Enter Score"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout>
+                <buttons:SfButton x:Name="TournamentSignInButton" Text="Tournament Sign In"/>
+                <buttons:SfButton x:Name="HomeButton" Text="Home"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

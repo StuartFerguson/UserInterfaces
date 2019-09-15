@@ -67,6 +67,18 @@ namespace HandicapMobile.MockAPI.Database
 
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<PlayerTournamentSignIn>().HasKey(pt => new
+                                                                       {
+                                                                           pt.PlayerId,
+                                                                           pt.TournamentId
+                                                                       });
+        }
+
         #endregion
 
         #region Entities
@@ -78,6 +90,14 @@ namespace HandicapMobile.MockAPI.Database
         /// The registered users.
         /// </value>
         public DbSet<RegisteredUser> RegisteredUsers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tournaments.
+        /// </summary>
+        /// <value>
+        /// The tournaments.
+        /// </value>
+        public DbSet<Tournament> Tournaments { get; set; }
 
         /// <summary>
         /// Gets or sets the players.
@@ -102,6 +122,14 @@ namespace HandicapMobile.MockAPI.Database
         /// The golf club memberships.
         /// </value>
         public DbSet<GolfClubMembership> GolfClubMemberships { get; set; }
+
+        /// <summary>
+        /// Gets or sets the player tournament sign ins.
+        /// </summary>
+        /// <value>
+        /// The player tournament sign ins.
+        /// </value>
+        public DbSet<PlayerTournamentSignIn> PlayerTournamentSignIns { get; set; }
 
         #endregion
     }
