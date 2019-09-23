@@ -33,11 +33,11 @@
 
             // TODO: Setup configuration
             // Dev
-            managementAPIUri = "http://192.168.1.132:5000";
-            securityServiceAPIUri = "http://192.168.1.132:5001";
+            //managementAPIUri = "http://192.168.1.132:5000";
+            //securityServiceAPIUri = "http://192.168.1.132:5001";
             // Dev - Mock
-            //managementAPIUri = "http://192.168.1.132:9000";
-            //securityServiceAPIUri = "http://192.168.1.132:9000";
+            managementAPIUri = "http://192.168.1.132:9000";
+            securityServiceAPIUri = "http://192.168.1.132:9000";
 
             // Local
             //managementAPIUri = "http://192.168.1.67:9000";
