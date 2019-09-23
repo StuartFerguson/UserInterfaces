@@ -32,12 +32,13 @@
             String securityServiceAPIUri = string.Empty;
 
             // TODO: Setup configuration
-            //AWS
-            //managementAPIUri = "http://3.9.26.155:9000";
-            //securityServiceAPIUri = "http://3.9.26.155:9000";
             // Dev
+            //managementAPIUri = "http://192.168.1.132:5000";
+            //securityServiceAPIUri = "http://192.168.1.132:5001";
+            // Dev - Mock
             managementAPIUri = "http://192.168.1.132:9000";
             securityServiceAPIUri = "http://192.168.1.132:9000";
+
             // Local
             //managementAPIUri = "http://192.168.1.67:9000";
             //securityServiceAPIUri = "http://192.168.1.67:9000";
@@ -79,6 +80,7 @@
             unityContainer.RegisterType<IPlayerClient, PlayerClient>(new SingletonLifetimeManager());
             unityContainer.RegisterType<IGolfClubClient, GolfClubClient>(new SingletonLifetimeManager());
             unityContainer.RegisterType<ITournamentClient, TournamentClient>(new SingletonLifetimeManager());
+            unityContainer.RegisterType<IReportingClient, ReportingClient>(new SingletonLifetimeManager());
             unityContainer.RegisterType<ISecurityServiceClient, SecurityServiceClient>(new SingletonLifetimeManager());
 
             HttpClient httpClient = new HttpClient();
