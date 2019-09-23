@@ -31,7 +31,15 @@
         /// </summary>
         private readonly IPlayerClient PlayerClient;
 
+        /// <summary>
+        /// The tournament client
+        /// </summary>
         private readonly ITournamentClient TournamentClient;
+
+        /// <summary>
+        /// The reporting client
+        /// </summary>
+        private readonly IReportingClient ReportingClient;
 
         #endregion
 
@@ -42,13 +50,17 @@
         /// </summary>
         /// <param name="playerClient">The player client.</param>
         /// <param name="golfClubClient">The golf club client.</param>
+        /// <param name="tournamentClient">The tournament client.</param>
+        /// <param name="reportingClient">The reporting client.</param>
         public ApiClient(IPlayerClient playerClient,
                          IGolfClubClient golfClubClient,
-                         ITournamentClient tournamentClient)
+                         ITournamentClient tournamentClient,
+                         IReportingClient reportingClient)
         {
             this.PlayerClient = playerClient;
             this.GolfClubClient = golfClubClient;
             this.TournamentClient = tournamentClient;
+            this.ReportingClient = reportingClient;
         }
 
         #endregion
@@ -82,6 +94,13 @@
             }
         }
 
+        /// <summary>
+        /// Gets the next available tournaments for sign in.
+        /// </summary>
+        /// <param name="passwordToken">The password token.</param>
+        /// <param name="playerId">The player identifier.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         public async Task GetNextAvailableTournamentsForSignIn(String passwordToken,
                                                                Guid playerId,
                                                                MyTournamentsSignInViewModel viewModel,
@@ -196,36 +215,53 @@
             }
         }
 
+        /// <summary>
+        /// Gets the signed up tournament.
+        /// </summary>
+        /// <param name="passwordToken">The password token.</param>
+        /// <param name="playerId">The player identifier.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         public async Task GetSignedUpTournament(String passwordToken,
                                                 Guid playerId,
                                                 MyTournamentsViewModel viewModel,
                                                 CancellationToken cancellationToken)
         {
-            // TODO: Need a new API method so will hardcode for now
-            viewModel.SignedUpTournament = new SignedUpTournamentViewModel
-                                           {
-                                               TournamentName = "Thornton Open"
-                                           };
+            PlayerSignedUpTournamentsResponse response = await this.PlayerClient.GetTournamentsSignedUpFor(passwordToken, playerId, cancellationToken);
+
+            PlayerSignedUpTournament temp = response.PlayerSignedUpTournaments.Where(p => p.PlayerId == playerId).OrderByDescending(p=> p.TournamentDate).First();
+
+            viewModel.SignedUpTournament = new SignedUpTournamentViewModel();
+            viewModel.SignedUpTournament.TournamentName = temp.TournamentName;
         }
 
+        /// <summary>
+        /// Gets the top player scores.
+        /// </summary>
+        /// <param name="passwordToken">The password token.</param>
+        /// <param name="playerId">The player identifier.</param>
+        /// <param name="numberOfScores">The number of scores.</param>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         public async Task GetTopPlayerScores(String passwordToken,
                                              Guid playerId,
                                              Int32 numberOfScores,
                                              MyTournamentsViewModel viewModel,
                                              CancellationToken cancellationToken)
         {
-            // TODO: No API method yet for this so we will hardcode
-            for (Int32 i = 0; i < numberOfScores; i++)
+            GetPlayerScoresResponse playerScoresResponse = await this.ReportingClient.GetPlayerScores(passwordToken, playerId, numberOfScores, cancellationToken);
+
+            foreach (PlayerScoreResponse playerScore in playerScoresResponse.Scores)
             {
                 viewModel.TournamentScores.Add(new TournamentScoreViewModel
                                                {
-                                                   CSS = 72,
-                                                   CourseName = "Crieff Golf Club",
-                                                   GrossScore = 82,
-                                                   NetScore = 75,
-                                                   PlayingHandicap = 7,
-                                                   TournamentDate = new DateTime(2019, 7, 28),
-                                                   TournamentName = "Morton Burnett Open"
+                                                   CourseName = playerScore.MeasuredCourseName,
+                                                   TournamentName = playerScore.TournamentName,
+                                                   TournamentDate = playerScore.TournamentDate,
+                                                   GrossScore = playerScore.GrossScore,
+                                                   PlayingHandicap = 0,
+                                                   NetScore = playerScore.NetScore,
+                                                   CSS = playerScore.CSS
                                                });
             }
         }
